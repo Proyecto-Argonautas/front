@@ -1,0 +1,24 @@
+---
+interface Props {
+  flag: string;
+  country: string;
+}
+
+const { flag, country } = Astro.props;
+---
+
+<div class="container">
+  <img src=`https://flagsapi.com/${flag}/shiny/64.png` />
+  <h1 class="country-text font-bold">{country}</h1>
+</div>
+
+<style>
+  @import "../styles/global.css";
+
+  .container {
+    @apply flex flex-row w-40 h-15 p-4 text-center justify-center items-center gap-2 bg-yellow-100 rounded-lg shadow-lg;
+  }
+  img {
+    @apply w-15 h-15;
+  }
+</style>

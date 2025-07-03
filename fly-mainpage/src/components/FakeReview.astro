@@ -1,0 +1,42 @@
+---
+interface Props {
+  name: string;
+  rating: string;
+  content: string;
+}
+
+const { name, rating, content } = Astro.props;
+---
+
+<div class="Review-Container">
+  <h2>{name} - {rating}/10</h2>
+  <p>
+    {content}
+  </p>
+</div>
+
+<!-- <div class="Review-Container">
+  <h2>Jose Mauro - 10/10</h2>
+  <p>
+    ✈ Vuelo a Japón — Excelente experiencia El vuelo fue muy cómodo y puntual.
+    El servicio a bordo fue atento y amable, y la comida, especialmente las
+    opciones japonesas, estaba deliciosa. El sistema de entretenimiento tenía
+    buena variedad y ayudó a que el largo trayecto fuera más llevadero. Sin duda
+    volvería a elegir esta aerolínea para viajar a Japón.
+  </p>
+</div> -->
+
+<style>
+  @import "../styles/global.css";
+
+  .Review-Container {
+    @apply flex flex-col  bg-gray-300 h-50 w-150 m-2 border-1 rounded-lg shadow-lg p-4;
+  }
+  p {
+    overflow: auto;
+  }
+  h2 {
+    @apply text-2xl font-bold mb-2;
+    border-bottom: 1px solid black;
+  }
+</style>

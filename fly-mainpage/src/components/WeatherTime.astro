@@ -1,0 +1,50 @@
+---
+interface Props {
+  time: string;
+  condition: string;
+  temperature: string;
+}
+const { time, condition, temperature } = Astro.props;
+---
+
+<div class="container">
+  <div class="weather-container">
+    <div class="weather-icon">
+      <img
+        src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
+        alt="Icono del clima"
+      />
+    </div>
+    <div class="weather-data">
+      <h2>{condition}</h2>
+      <p>{temperature}</p>
+    </div>
+  </div>
+  <div class="time-container">
+    <div class="time-data">
+      <h2>Tiempo (JST)</h2>
+      <p>{time}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import "../styles/global.css";
+
+  .container {
+    @apply flex justify-around items-center gap-8 p-8 bg-gray-300 h-40 w-screen;
+  }
+
+  .weather-container {
+    @apply flex flex-col items-center gap-2 text-center /* bg-yellow-100 p-4 rounded-lg shadow-lg; */;
+  }
+  .weather-data {
+    @apply flex flex-row gap-2 font-bold text-2xl;
+  }
+  .weather-icon img {
+    @apply w-15 h-15;
+  }
+  .time-container {
+    @apply flex flex-col items-center gap-2 text-2xl font-bold;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FakeReview from "../components/FakeReview.astro";
+---
+
+<Layout>
+  <div class="reviews-box lg:grid lg:grid-cols-2 gap-4">
+    <FakeReview
+      name="Jose Mauro"
+      rating="10"
+      content="El vuelo fue muy cómodo y puntual. El servicio a bordo fue atento y amable, y la comida, especialmente las opciones japonesas, estaba deliciosa. El sistema de entretenimiento tenía buena variedad y ayudó a que el largo trayecto fuera más llevadero. Sin duda volvería a elegir esta aerolínea para viajar a Japón."
+    />
+    <FakeReview
+      name="Tania Bethania"
+      rating="6"
+      content="El vuelo fue puntual, pero el asiento resultó algo incómodo para tantas horas. La comida estaba bien, aunque nada destacable. El entretenimiento era limitado y el personal fue correcto, aunque algo distante. En general, un vuelo cumplidor, pero esperaba algo más para un trayecto tan largo."
+    />
+    <FakeReview
+      name="Miguel Ángel Hernando"
+      rating="3"
+      content="El vuelo fue incómodo desde el inicio: poco espacio, asientos duros y un sistema de entretenimiento muy limitado. La comida no estaba bien y el servicio fue poco atento. Para un trayecto tan largo, esperaba mucho más."
+    />
+  </div>
+</Layout>

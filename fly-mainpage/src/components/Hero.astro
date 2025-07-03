@@ -1,0 +1,35 @@
+---
+import "../styles/global.css";
+---
+
+<div class="hero">
+  <img
+    src="https://cdn.pixabay.com/photo/2023/01/14/05/34/street-7717463_640.jpg"
+    alt="Imagen de Japón"
+    class="hero-image"
+  />
+  <h1 class="destination-text">Japón</h1>
+</div>
+
+<style>
+  @import "../styles/global.css";
+
+  .hero {
+    position: relative;
+  }
+
+  .destination-text {
+    img {
+      @apply w-screen;
+    }
+    @apply absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white text-7xl text-shadow-lg text-center font-bold;
+    /* position: absolute;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-align: center; */
+  }
+</style>
