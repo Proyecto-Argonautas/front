@@ -7,30 +7,32 @@
 		"dev": "react-router dev",
 		"start": "react-router-serve ./build/server/index.js",
 		"typecheck": "react-router typegen && tsc",
-		"biome:format": "biome format --write ./app",
-		"biome:lint": "bunx biome lint --write ./app",
-		"biome:check": "bunx biome check --write ./app",
-		"oxc:lint": "oxlint"
+		"format": "biome format --write ./app",
+		"check": "biome check --write ./app",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
+		"lint:fix-suggestions": "oxlint --fix --fix-suggestions",
+		"lint:fix-all": "oxlint --fix --fix-suggestions"
 	},
 	"dependencies": {
-		"@react-router/node": "^7.5.3",
-		"@react-router/serve": "^7.5.3",
-		"isbot": "^5.1.27",
+		"@react-router/node": "^7.6.3",
+		"@react-router/serve": "^7.6.3",
+		"isbot": "^5.1.28",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
-		"react-router": "^7.5.3"
+		"react-router": "^7.6.3"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.1",
-		"@react-router/dev": "^7.5.3",
-		"@tailwindcss/vite": "^4.1.4",
-		"@types/node": "^20",
-		"@types/react": "^19.1.2",
-		"@types/react-dom": "^19.1.2",
+		"@react-router/dev": "^7.6.3",
+		"@tailwindcss/vite": "^4.1.11",
+		"@types/node": "^24.0.12",
+		"@types/react": "^19.1.8",
+		"@types/react-dom": "^19.1.6",
 		"oxlint": "^1.6.0",
-		"tailwindcss": "^4.1.4",
+		"tailwindcss": "^4.1.11",
 		"typescript": "^5.8.3",
-		"vite": "^6.3.3",
+		"vite": "^7.0.3",
 		"vite-plugin-devtools-json": "^0.2.1",
 		"vite-tsconfig-paths": "^5.1.4"
 	}
