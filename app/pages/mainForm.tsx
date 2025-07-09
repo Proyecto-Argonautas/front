@@ -1,0 +1,30 @@
+import React from "react";
+import { DateForm } from "../components/forms/DateForm"; // Ajusta la ruta si tu estructura de carpetas es diferente
+import StartPlanning from "~/components/buttons/StartPlanningButton";
+import { DestinationForm } from "~/components/forms/DestinationForm";
+
+
+export default function MainForm() {
+  return (
+    <div className="flex flex-col gap-5 min-h-screen bg-gray-50 p-6">
+      
+      <div className="flex flex-col gap-5 max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+        
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Formulario de destino</h1>
+
+        {/* lugar de destino */}
+        <DestinationForm />
+
+        {/* fechas */}
+        <DateForm />
+
+
+        
+      
+      </div>
+
+        <StartPlanning/>   
+
+    </div>    
+  );
+}
