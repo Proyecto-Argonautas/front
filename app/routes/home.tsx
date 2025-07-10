@@ -6,7 +6,8 @@ import PackList from "~/pages/packList";
 
 
 
-export function meta({}: Route.MetaArgs) {
+// Ejemplo error "{}: Route.MetaArgs"
+export function meta() {
   return [
     { title: "Travels" },
     { name: "description", content: "Travels" },
