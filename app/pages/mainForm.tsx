@@ -2,6 +2,7 @@ import React from "react";
 import { DateForm } from "../components/forms/DateForm"; // Ajusta la ruta si tu estructura de carpetas es diferente
 import StartPlanning from "~/components/buttons/StartPlanningButton";
 import { DestinationForm } from "~/components/forms/DestinationForm";
+import FormButtons from "~/components/buttons/FormButtons";
 
 
 export default function MainForm() {
@@ -20,10 +21,10 @@ export default function MainForm() {
 
 
         
-      
       </div>
 
-        <StartPlanning/>   
+        <StartPlanning/> 
+        <FormButtons/>  
 
     </div>    
   );

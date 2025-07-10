@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
+import HomeProfileButtons from '../buttons/HomeProfileButtons';
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
@@ -47,7 +48,6 @@ const PackList: React.FC = () => {
         `https://api.openweathermap.org/data/2.5/weather?q=${destination.trim()}&units=metric&appid=${API_KEY}&lang=es`
       );
       const data = await res.json();
-      console.log(data); // para ver la respuesta de la API
       if (data.cod === 200) {
         const weatherInfo: WeatherData = {
           temp: data.main.temp,
@@ -111,86 +111,92 @@ const PackList: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4  font-sans">
-      <h1 className="text-2xl font-bold mb-4 text-center">🌍 Planificador de Equipaje</h1>
+    <div className="w-full min-h-screen bg-gray-50 flex items-start justify-center py-6 px-2 sm:px-0">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-4 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">🌍 Planificador de Equipaje</h1>
 
-      <div className="flex gap-2 mb-4">
-        <input
-          type="text"
-          placeholder="Destino (ej. Madrid)"
-          className="flex-1 px-4 py-2 border rounded"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-        />
-        <button
-          onClick={fetchWeather}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          disabled={loading}
-        >
-          {loading ? 'Buscando...' : 'Buscar clima'}
-        </button>
-      </div>
-
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-      {weather && (
-        <div className="bg-blue-100 rounded p-4 mb-4 text-center">
-          <h2 className="text-lg font-semibold mb-2">Clima en {destination}</h2>
-          <img
-            src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-            alt="icono clima"
-            className="mx-auto"
-          />
-          <p className="capitalize">{weather.description} - {weather.temp}°C</p>
-        </div>
-      )}
-
-      <div>
-        <h3 className="text-xl font-semibold mb-2">🧳 Lista de Equipaje</h3>
-
-        <div className="flex gap-2 mb-4">
+        {/* Destino y clima */}
+        <div className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             type="text"
-            className="flex-1 px-4 py-2 border rounded"
-            placeholder="Añadir ítem..."
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') addItem(); }}
+            placeholder="Destino (ej. Madrid)"
+            className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
           />
           <button
-            onClick={addItem}
-            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            onClick={fetchWeather}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition min-w-[120px]"
+            disabled={loading}
           >
-            Añadir
+            {loading ? 'Buscando...' : 'Buscar clima'}
           </button>
         </div>
 
-        <ul className="space-y-2">
-          {packingList.map((item) => (
-            <li
-              key={item.id}
-              className="flex items-center justify-between p-2 border rounded"
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+
+        {weather && (
+          <div className="bg-blue-100 rounded p-4 mb-4 text-center flex flex-col items-center">
+            <h2 className="text-lg font-semibold mb-2">Clima en {destination}</h2>
+            <img
+              src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+              alt="icono clima"
+              className="mx-auto"
+            />
+            <p className="capitalize">{weather.description} - {weather.temp}°C</p>
+          </div>
+        )}
+
+        {/* Lista de equipaje */}
+        <div>
+          <h3 className="text-xl font-semibold mb-2">🧳 Lista de Equipaje</h3>
+
+          <div className="flex flex-col sm:flex-row gap-2 mb-4">
+            <input
+              type="text"
+              className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-300"
+              placeholder="Añadir ítem..."
+              value={newItem}
+              onChange={(e) => setNewItem(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') addItem(); }}
+            />
+            <button
+              onClick={addItem}
+              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition min-w-[80px]"
             >
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={item.packed}
-                  onChange={() => togglePacked(item.id)}
-                />
-                <span className={item.packed ? 'line-through text-gray-500' : ''}>
-                  {item.text}
-                </span>
-              </div>
-              <button
-                onClick={() => removeItem(item.id)}
-                className="text-red-500 hover:text-red-700"
+              Añadir
+            </button>
+          </div>
+
+          <ul className="space-y-2">
+            {packingList.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-center justify-between p-2 border rounded bg-gray-100"
               >
-                ❌
-              </button>
-            </li>
-          ))}
-        </ul>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={item.packed}
+                    onChange={() => togglePacked(item.id)}
+                  />
+                  <span className={item.packed ? 'line-through text-gray-500' : ''}>
+                    {item.text}
+                  </span>
+                </div>
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="text-red-500 hover:text-red-700 text-lg px-2 py-1 rounded transition"
+                  aria-label="Eliminar"
+                >
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+      <HomeProfileButtons></HomeProfileButtons>
     </div>
   );
 };

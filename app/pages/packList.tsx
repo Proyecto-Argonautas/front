@@ -1,7 +1,10 @@
+import HomeProfileButtons from "~/components/buttons/HomeProfileButtons";
 import PackList from "~/components/packingCRUD/PackList";
 
 function App() {
-  return <PackList />;
+  return  <PackList />;
+  
+
 }
 
 export default App;

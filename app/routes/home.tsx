@@ -14,8 +14,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <PackList />;
-  return <Travel />;
-  return <MainForm />;
   return <Landing />;
+  return <MainForm />;
+  return <Travel />;
+  return <PackList />;
 }

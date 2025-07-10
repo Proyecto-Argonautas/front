@@ -1,5 +1,5 @@
 import YourTravelNavBar from '~/components/bars/YourTravelNavBar';
-import MainButtons from '~/components/generic/MainButtons';
+import TravelButtons from '~/components/buttons/TravelButtons';
 import YourTravelCardWithBackground from '~/components/cards/YourTravelCardWithBackground';
 
 
@@ -21,7 +21,7 @@ export function Travel() {
 
       {/* CONTENIDOOOOOOOOOOOOOOOOOOOOOOOOOO */}
 
-      <MainButtons></MainButtons>
+      <TravelButtons></TravelButtons>
       
       </div>
       </div>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import DestinationCard from "../components/cards/DestinationCard";
-import MainMenuBar from "../components/generic/MainMenuBar";
+import LandingButtons from "../components/buttons/LandingButtons";
 
 export function Landing() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export function Landing() {
           title="Austria"
         />
       </div>
-      <MainMenuBar/>
+      <LandingButtons/>
     </main>
   );
 }
