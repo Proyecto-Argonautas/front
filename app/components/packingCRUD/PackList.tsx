@@ -130,6 +130,7 @@ const PackList: React.FC = () => {
 						onChange={(e) => setDestination(e.target.value)}
 					/>
 					<button
+						type="button"
 						onClick={fetchWeather}
 						className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition min-w-[120px]"
 						disabled={loading}
@@ -151,7 +152,7 @@ const PackList: React.FC = () => {
 							className="mx-auto"
 						/>
 						<p className="capitalize">
-							{weather.description} - {weather.temp}°C
+							{weather.description} : {weather.temp}°C
 						</p>
 					</div>
 				)}
@@ -172,6 +173,7 @@ const PackList: React.FC = () => {
 							}}
 						/>
 						<button
+							type="button"
 							onClick={addItem}
 							className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition min-w-[80px]"
 						>
@@ -198,6 +200,7 @@ const PackList: React.FC = () => {
 									</span>
 								</div>
 								<button
+									type="button"
 									onClick={() => removeItem(item.id)}
 									className="text-red-500 hover:text-red-700 text-lg px-2 py-1 rounded transition"
 									aria-label="Eliminar"
