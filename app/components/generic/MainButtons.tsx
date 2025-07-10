@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, House } from "lucide-react";
+import { Plus, House, Bed, UserRound } from "lucide-react";
 
 
 const ButtonCreate = () => {
@@ -9,11 +9,18 @@ const ButtonCreate = () => {
       <button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
         <House className="w-6 h-6" />
       </button>
+
+      <button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+        <Bed className="w-6 h-6" />
+      </button>
       
       <button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
         <Plus className="w-6 h-6" />
       </button>
 
+      <button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+        <UserRound className="w-6 h-6" />
+      </button>  
 
       
       
