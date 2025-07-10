@@ -32,7 +32,7 @@
 		"oxlint": "^1.6.0",
 		"tailwindcss": "^4.1.11",
 		"typescript": "^5.8.3",
-		"vite": "^7.0.3",
+		"vite": "^7.0.4",
 		"vite-plugin-devtools-json": "^0.2.1",
 		"vite-tsconfig-paths": "^5.1.4"
 	}
