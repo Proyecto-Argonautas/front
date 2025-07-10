@@ -18,7 +18,7 @@ export default function Travel() {
 
 				{/* CONTENIDOOOOOOOOOOOOOOOOOOOOOOOOOO */}
 
-				<TravelButtons></TravelButtons>
+				<TravelButtons />
 			</div>
 		</div>
 	);

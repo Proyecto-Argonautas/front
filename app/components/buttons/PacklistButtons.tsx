@@ -2,7 +2,7 @@ import { House, UserRound } from "lucide-react";
 import React from "react";
 import { Link } from "react-router";
 
-const FormButtons = () => {
+const PacklistButtons = () => {
 	return (
 		<div className="fixed bottom-0 left-0 w-full flex justify-around items-center bg-white shadow-md py-3 z-50">
 			<Link to="/">
@@ -20,4 +20,4 @@ const FormButtons = () => {
 	);
 };
 
-export default FormButtons;
+export default PacklistButtons;

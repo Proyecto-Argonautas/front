@@ -14,10 +14,13 @@ export default [
 	route("travel/create", "routes/main-form.tsx"),
 
 	// "/travel/{id}"
-  // prefixPath: "travel/:travelID"
+	// prefixPath: "travel/:travelID"
 	...prefix("travel/1", [
 		index("routes/travel.tsx"),
 		// "/travel/{id}/pack-list"
 		route("pack-list", "routes/pack-list.tsx"),
 	]),
+
+	// "/profile"
+	route("profile", "routes/profile.tsx"),
 ] satisfies RouteConfig;

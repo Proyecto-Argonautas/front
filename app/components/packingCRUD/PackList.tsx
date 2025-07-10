@@ -1,7 +1,8 @@
 import { nanoid } from "nanoid";
 import type React from "react";
 import { useEffect, useState } from "react";
-import HomeProfileButtons from "../buttons/HomeProfileButtons";
+
+import PacklistButtons from "../buttons/PacklistButtons";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
@@ -208,7 +209,7 @@ const PackList: React.FC = () => {
 					</ul>
 				</div>
 			</div>
-			<HomeProfileButtons></HomeProfileButtons>
+			<PacklistButtons></PacklistButtons>
 		</div>
 	);
 };

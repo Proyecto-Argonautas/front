@@ -1,5 +1,5 @@
 // import React from "react";
-import { CalendarDays } from 'lucide-react';
+import { CalendarDays } from "lucide-react";
 
 type YourTravelCardWithBackgroundProps = {
 	title: string;
@@ -34,7 +34,7 @@ const YourTravelCardWithBackground = ({
 					<div>
 						<h2 className="text-xl font-bold text-gray-900">{title}</h2>
 						<div className="flex items-center text-gray-600 mt-1 text-sm">
-							<CalendarDays className="mr-2"/>
+							<CalendarDays className="mr-2" />
 							<span>
 								{startDate} - {endDate}
 							</span>

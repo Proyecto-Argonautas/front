@@ -1,5 +1,5 @@
 import { Plus, Search, UserRound } from "lucide-react";
-import React from "react";
+import { Link } from "react-router";
 
 const MainMenuBar = () => {
 	return (
@@ -8,13 +8,17 @@ const MainMenuBar = () => {
 				<Search className="w-6 h-6" />
 			</button>
 
-			<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
-				<Plus className="w-6 h-6" />
-			</button>
+			<Link to="/travel/create">
+				<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+					<Plus className="w-6 h-6" />
+				</button>
+			</Link>
 
-			<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
-				<UserRound className="w-6 h-6" />
-			</button>
+			<Link to="/profile">
+				<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+					<UserRound className="w-6 h-6" />
+				</button>
+			</Link>
 		</div>
 	);
 };
