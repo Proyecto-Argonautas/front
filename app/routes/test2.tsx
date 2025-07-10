@@ -1,13 +1,12 @@
-import { Welcome } from "~/pages/welcome";
+import { Test } from "~/pages/test";
 
-// Ejemplo error "{}: Route.MetaArgs"
 export function meta() {
   return [
-    { title: "New React Router App" },
+    { title: "Esto es una prueba2" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <Test />;
 }
