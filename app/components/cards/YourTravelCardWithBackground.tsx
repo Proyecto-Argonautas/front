@@ -1,5 +1,13 @@
-import React from "react";
-import { FaCalendarAlt } from "react-icons/fa";
+// import React from "react";
+import { CalendarDays } from 'lucide-react';
+
+type YourTravelCardWithBackgroundProps = {
+	title: string;
+	startDate: string;
+	endDate: string;
+	avatarUrl?: string;
+	backgroundImage: string;
+};
 
 const YourTravelCardWithBackground = ({
 	title,
@@ -7,7 +15,7 @@ const YourTravelCardWithBackground = ({
 	endDate,
 	avatarUrl,
 	backgroundImage,
-}) => {
+}: YourTravelCardWithBackgroundProps) => {
 	return (
 		<div className="relative w-full h-64 md:h-72 lg:h-80 rounded-xl overflow-hidden">
 			{/* Imagen de fondo */}
@@ -26,7 +34,7 @@ const YourTravelCardWithBackground = ({
 					<div>
 						<h2 className="text-xl font-bold text-gray-900">{title}</h2>
 						<div className="flex items-center text-gray-600 mt-1 text-sm">
-							<FaCalendarAlt className="mr-2" />
+							<CalendarDays className="mr-2"/>
 							<span>
 								{startDate} - {endDate}
 							</span>

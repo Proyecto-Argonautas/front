@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu } from 'lucide-react';
+import { Menu } from "lucide-react";
 
 const tabs = ["Descripción", "Itinerario", "Explorar"];
 

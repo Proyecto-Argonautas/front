@@ -1,4 +1,4 @@
-import { Bed, House, Plane, UserRound } from "lucide-react";
+import { BaggageClaim, Bed, House, Plane, UserRound } from "lucide-react";
 import React from "react";
 
 const TravelButtons = () => {
@@ -14,6 +14,10 @@ const TravelButtons = () => {
 
 			<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
 				<Plane className="w-6 h-6" />
+			</button>
+
+			<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+				<BaggageClaim  className="w-6 h-6" />
 			</button>
 
 			<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
