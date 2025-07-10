@@ -1,7 +1,7 @@
 import PackList from "~/components/packingCRUD/PackList";
 
-function App() {
+function PackListPage() {
 	return <PackList />;
 }
 
-export default App;
+export default PackListPage;

@@ -1,4 +1,4 @@
-import PackList from "~/pages/packList";
+import PackListPage from "~/pages/packList";
 
 // {}: Route.MetaArgs
 export function meta() {
@@ -8,6 +8,6 @@ export function meta() {
 	];
 }
 
-export default function Home() {
-	return <PackList />;
+export default function PackListRoute() {
+	return <PackListPage />;
 }

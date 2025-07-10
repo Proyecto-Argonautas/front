@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import LandingButtons from "../components/buttons/LandingButtons";
 import DestinationCard from "../components/cards/DestinationCard";
 
-export function Landing() {
+export function LandingPage() {
 	return (
 		<main className="flex flex-col gap-5 items-center justify-center pt-16 pb-4 ">
 			<h1 className="font-bold">SEGUIR PLANIFICANDO</h1>

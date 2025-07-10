@@ -1,4 +1,4 @@
-import { Landing } from "~/pages/landing";
+import { LandingPage } from "~/pages/landing";
 
 // {}: Route.MetaArgs
 export function meta() {
@@ -6,5 +6,5 @@ export function meta() {
 }
 
 export default function Home() {
-	return <Landing />;
+	return <LandingPage />;
 }

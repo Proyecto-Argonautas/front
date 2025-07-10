@@ -1,4 +1,4 @@
-import MainForm from "~/pages/mainForm";
+import MainFormPage from "~/pages/mainForm";
 
 // {}: Route.MetaArgs
 export function meta() {
@@ -8,6 +8,6 @@ export function meta() {
 	];
 }
 
-export default function Home() {
-	return <MainForm />;
+export default function MainFormRoute() {
+	return <MainFormPage />;
 }

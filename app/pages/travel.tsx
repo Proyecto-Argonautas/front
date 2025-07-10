@@ -2,7 +2,7 @@ import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import TravelButtons from "~/components/buttons/TravelButtons";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 
-export default function Travel() {
+export default function TravelPage() {
 	return (
 		<div className="flex flex-col bg-gray-100 min-h-screen gap-5 p-4">
 			<div className="bg-gray-100 min-h-screen">

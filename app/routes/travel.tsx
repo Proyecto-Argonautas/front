@@ -1,4 +1,4 @@
-import Travel from "~/pages/travel";
+import TravelPage from "~/pages/travel";
 
 // {}: Route.MetaArgs
 export function meta() {
@@ -8,6 +8,6 @@ export function meta() {
 	];
 }
 
-export default function Home() {
-	return <Travel />;
+export default function TravelPageRoutes() {
+	return <TravelPage />;
 }

@@ -1,13 +1,13 @@
 import Profile from "~/components/profile/profile";
 import ProfileButtons from "~/components/buttons/ProfileButtons";
 
-function App() {
+function ProfilePage() {
 	return (
 		<>
 			<Profile
-				name="John Doe"
-				email="john.doe@example.com"
-				avatarUrl="https://example.com/avatar.jpg"
+				name="Albert Gonzalez"
+				email="ureña@chuleta@gmail.com"
+				avatarUrl="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 			/>
 			;
 			<ProfileButtons />
@@ -15,4 +15,4 @@ function App() {
 	);
 }
 
-export default App;
+export default ProfilePage;

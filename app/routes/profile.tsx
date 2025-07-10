@@ -1,4 +1,4 @@
-import Profile from "~/pages/profile";
+import ProfilePage from "~/pages/profile";
 
 // {}: Route.MetaArgs
 export function meta() {
@@ -8,6 +8,6 @@ export function meta() {
 	];
 }
 
-export default function Home() {
-	return <Profile />;
+export default function ProfileRoute() {
+	return <ProfilePage />;
 }
