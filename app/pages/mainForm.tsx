@@ -1,26 +1,69 @@
-import React from "react";
+import { useState } from "react";
 import FormButtons from "~/components/buttons/FormButtons";
 import StartPlanning from "~/components/buttons/StartPlanningButton";
 import { DestinationForm } from "~/components/forms/DestinationForm";
-import { DateForm } from "../components/forms/DateForm"; // Ajusta la ruta si tu estructura de carpetas es diferente
+import MembersForm from "~/components/forms/MembersForm";
+
+import { DateForm } from "../components/forms/DateForm";
 
 export default function MainFormPage() {
+	const [numberOfMembers, setNumberOfMembers] = useState(1);
+	const [memberNames, setMemberNames] = useState<string[]>([""]);
+
+	const handleNumberChange = (num: number) => {
+		setNumberOfMembers(num);
+		if (num > memberNames.length) {
+			setMemberNames([
+				...memberNames,
+				...Array(num - memberNames.length).fill(""),
+			]);
+		} else {
+			setMemberNames(memberNames.slice(0, num));
+		}
+	};
+
+	const handleMemberNameChange = (index: number, name: string) => {
+		const updatedNames = [...memberNames];
+		updatedNames[index] = name;
+		setMemberNames(updatedNames);
+	};
+
 	return (
-		<div className="flex flex-col gap-5 min-h-screen bg-gray-50 p-6">
-			<div className="flex flex-col gap-5 max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-				<h1 className="text-2xl font-bold text-gray-800 mb-4">
-					ELIGE TU DESTINO
-				</h1>
-
-				{/* lugar de destino */}
-				<DestinationForm />
-
-				{/* fechas */}
-				<DateForm />
+		<div className="flex flex-col gap-3 min-h-screen bg-gray-100 p-6 pb-18">
+			
+			<div className="text-center">
+				<h1 className="text-xl font-bold text-gray-800">ELIGE TU DESTINO</h1>
 			</div>
 
-			<StartPlanning />
-			<FormButtons />
+			<div className="flex  gap-5 max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+				
+				<div className="border border-gray-400 rounded ">
+					<DestinationForm />
+					<DateForm />
+				</div>
+			
+			</div>
+
+			
+				<div className="flex gap-5 flex-col  max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+					<div className="border border-gray-400 rounded p-4">
+					<MembersForm
+						numberOfMembers={numberOfMembers}
+						onNumberChange={handleNumberChange}
+						memberNames={memberNames}
+						onMemberNameChange={handleMemberNameChange}
+					/>
+					</div>
+				</div>
+			
+
+			<div className="">
+				<StartPlanning />
+			</div>
+
+			<div>
+				<FormButtons />
+			</div>
 		</div>
 	);
 }
