@@ -1,5 +1,5 @@
-import Profile from "~/components/profile/profile";
 import ProfileButtons from "~/components/buttons/ProfileButtons";
+import Profile from "~/components/profile/profile";
 
 function ProfilePage() {
 	return (
