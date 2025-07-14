@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Menu } from "lucide-react";
+import { useState } from "react";
 
 const tabs = ["Descripción", "Itinerario", "Explorar"];
 
@@ -11,6 +11,7 @@ const YourTravelNavBar = () => {
 			<div className="flex space-x-6">
 				{tabs.map((tab) => (
 					<button
+						type="button"
 						key={tab}
 						onClick={() => setActiveTab(tab)}
 						className={`py-4 font-semibold text-sm transition-all duration-200 ${

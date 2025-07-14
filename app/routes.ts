@@ -19,8 +19,9 @@ export default [
 		index("routes/travel.tsx"),
 		// "/travel/{id}/pack-list"
 		route("pack-list", "routes/pack-list.tsx"),
+		
 		// "/travel/{id}/tricount"
-		route("tricount", "routes/tricount.tsx")
+		// route("tricount", "routes/tricount.tsx")
 	]),
 
 	// "/profile"

@@ -49,7 +49,10 @@ const YourTravelCardWithBackground = ({
 								className="w-8 h-8 rounded-full object-cover"
 							/>
 						)}
-						<button className="bg-gray-900 text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-gray-800 mr-3">
+						<button
+							type="button"
+							className="bg-gray-900 text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-gray-800 mr-3"
+						>
 							Compartir
 						</button>
 					</div>
