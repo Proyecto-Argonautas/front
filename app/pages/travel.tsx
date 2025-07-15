@@ -3,9 +3,9 @@ import NewArticleButton from "~/components/buttons/NewArticleButton";
 import TravelButtons from "~/components/buttons/TravelButtons";
 
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
-import FlightArticle from "~/components/mainPage/FlightsArticle";
-import HotelArticle from "~/components/mainPage/HotelArticle";
-import NotesArticle from "~/components/mainPage/notesArticle";
+// import FlightArticle from "~/components/mainPage/FlightsArticle";
+// import HotelArticle from "~/components/mainPage/HotelArticle";
+// import NotesArticle from "~/components/mainPage/notesArticle";
 
 export default function TravelPage() {
 	return (
