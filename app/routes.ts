@@ -7,31 +7,23 @@ import {
 
 // por defecto esta root "/"
 export default [
-	// * "/" Load index file in root route
+	// "/" Load index file in root route
 	index("routes/home.tsx"),
 
-	// * USER "user"
-	...prefix("user", [
-		// "/profile"
-		route("profile", "routes/profile.tsx"),
+	// "/travel/create"
+	route("travel/create", "routes/main-form.tsx"),
 
-		// "/
+	// "/travel/{id}"
+	// prefixPath: "travel/:travelID"
+	...prefix("travel/1", [
+		index("routes/travel.tsx"),
+		// "/travel/{id}/pack-list"
+		route("pack-list", "routes/pack-list.tsx"),
+
+		// "/travel/{id}/tricount"
+		// route("tricount", "routes/tricount.tsx")
 	]),
 
-	// * Travel "/travel"
-	...prefix("travel", [
-		// "/travel/create"
-		route("create", "routes/main-form.tsx"),
-
-		// "/travel/:travelID" -> ...prefix(':travelID')"
-		...prefix("1", [
-			index("routes/travel.tsx"),
-			// "/travel/{id}/pack-list"
-			route("pack-list", "routes/pack-list.tsx"),
-
-			// "/travel/{id}/tricount"
-			// route("tricount", "routes/tricount.tsx")
-		]),
-
-	]),
+	// "/profile"
+	route("profile", "routes/profile.tsx"),
 ] satisfies RouteConfig;
