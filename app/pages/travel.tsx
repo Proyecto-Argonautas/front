@@ -2,16 +2,14 @@ import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import NewArticleButton from "~/components/buttons/NewArticleButton";
 import TravelButtons from "~/components/buttons/TravelButtons";
 
-
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
-import FlightArticle from "~/components/mainPage/Flightsarticle";
+import FlightArticle from "~/components/mainPage/FlightsArticle";
 import HotelArticle from "~/components/mainPage/HotelArticle";
 import NotesArticle from "~/components/mainPage/notesArticle";
 
-
 export default function TravelPage() {
 	return (
-		<div className="flex flex-col bg-gray-100 min-h-screen gap-5 p-4">
+		<div className="flex flex-col bg-gray-100 min-h-screen gap-5 p-4 pb-25">
 			<div className="bg-gray-100 min-h-screen">
 				<YourTravelCardWithBackground
 					title="Viaje a Islandia"
@@ -26,13 +24,16 @@ export default function TravelPage() {
 				{/* CONTENIDOOOOOOOOOOOOOOOOOOOOOOOOOO AQUI DEBAJO*/}
 
 				{/* <NotesArticle/>
-				
-				<HotelArticle/>
-				<FlightArticle/> */}
+				 <HotelArticle/>
+				 <FlightArticle/> 
+				<NotesArticle/>
+				 <HotelArticle/>
+				 <FlightArticle/> 
+				<NotesArticle/>
+				 <HotelArticle/>
+				 <FlightArticle/>  */}
 
-				<NewArticleButton/>
-				
-				
+				<NewArticleButton />
 
 				<TravelButtons />
 			</div>
