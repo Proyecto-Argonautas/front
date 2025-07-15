@@ -1,7 +1,7 @@
 // components/NewArticleButton.tsx
 import { BedDouble, NotebookPen, PlaneTakeoff } from "lucide-react";
 import { useState } from "react";
-import FlightArticle from "~/components/mainPage/Flightsarticle";
+import FlightArticle from "~/components/mainPage/FlightsArticle";
 import HotelArticle from "~/components/mainPage/HotelArticle";
 import NotesArticle from "~/components/mainPage/notesArticle";
 

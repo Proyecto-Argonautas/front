@@ -17,7 +17,7 @@ const PacklistButtons = () => {
 				</button>
 			</Link>
 
-			<Link to="/profile">
+			<Link to="/user/profile">
 				<button type="button" className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
 					<UserRound className="w-6 h-6" />
 				</button>
