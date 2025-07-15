@@ -25,5 +25,6 @@ export default [
 	]),
 
 	// "/profile"
-	route("profile", "routes/profile.tsx"),
+	route("/user/profile", "routes/profile.tsx"),
+
 ] satisfies RouteConfig;
