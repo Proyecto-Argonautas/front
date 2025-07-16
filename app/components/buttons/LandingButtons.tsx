@@ -1,4 +1,4 @@
-import { Plus, Search, UserRound } from "lucide-react";
+import {  LogOut, Plus, Search, UserRound } from "lucide-react";
 import { Link } from "react-router";
 
 const MainMenuBar = () => {
@@ -17,10 +17,13 @@ const MainMenuBar = () => {
 			</Link>
 
 			<Link to="/user/profile">
-				<button className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8">
+				<button className="bg-gray-50 text-black outline-emerald-400 outline-2 rounded-full -outline-offset-2
+				 p-4 shadow-lg -mt-8">
 					<UserRound className="w-6 h-6" />
 				</button>
 			</Link>
+
+			
 		</div>
 	);
 };

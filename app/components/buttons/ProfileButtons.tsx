@@ -1,4 +1,4 @@
-import { House } from "lucide-react";
+import { House, LogOut } from "lucide-react";
 import { Link } from "react-router";
 
 const ProfileButtons = () => {
@@ -9,6 +9,12 @@ const ProfileButtons = () => {
 					<House className="w-6 h-6" />
 				</button>
 			</Link>
+
+			<Link to="/user/login">
+				<button className="	bg-rose-400 text-white rounded-full p-4 shadow-lg -mt-8">
+					<LogOut  className="w-6 h-6" />
+				</button>
+			 </Link>
 		</div>
 	);
 };
