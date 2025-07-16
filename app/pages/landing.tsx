@@ -1,5 +1,7 @@
 import { Link } from "react-router";
+
 import LandingButtons from "../components/buttons/LandingButtons";
+
 import DestinationCard from "../components/cards/DestinationCard";
 
 export function LandingPage() {
@@ -95,7 +97,9 @@ export function LandingPage() {
 
 
 			
-			<LandingButtons />
+			
+			<LandingButtons isAuthenticated={false} />
+
 		</main>
 	);
 }
