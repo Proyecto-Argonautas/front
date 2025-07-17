@@ -1,14 +1,33 @@
-// components/notesArticle.tsx
-
-import { ChevronDown, ChevronUp, Ellipsis, NotebookPen } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown, ChevronUp, Ellipsis, NotebookPen, Trash2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export default function NotesArticle() {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
+  const [showOptions, setShowOptions] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Cierra el menú si se hace clic fuera de él
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  if (!visible) return null; // No renderizar si está "eliminado"
 
   return (
-    <article className="w-full max-w-md mx-auto mt-5 bg-white rounded-2xl shadow-md">
+    <article className="relative w-full max-w-md mx-auto mt-5 bg-white rounded-2xl shadow-md">
       <button
         type="button"
         className="flex items-center w-full p-4 cursor-pointer bg-transparent border-0 outline-none"
@@ -21,10 +40,30 @@ export default function NotesArticle() {
           <h2 className="flex gap-2 text-lg font-semibold min-w-10">Notes </h2>
           {open ? <ChevronUp /> : <ChevronDown />}
         </div>
-
-        <Ellipsis />
-
       </button>
+
+      <div className="absolute top-4 right-4" ref={optionsRef}>
+        <button
+          type="button"
+          onClick={() => setShowOptions((prev) => !prev)}
+          className="p-1"
+        >
+          <Ellipsis />
+        </button>
+        {showOptions && (
+          <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+            <button
+              type="button"
+              onClick={() => setVisible(false)}
+              className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+            >
+              <Trash2 size={16} />
+              Eliminar
+            </button>
+          </div>
+        )}
+      </div>
+
       {open && (
         <div id="notes-article-content" className="border-t px-4 py-4">
           <textarea

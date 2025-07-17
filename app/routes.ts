@@ -7,6 +7,7 @@ import {
 
 // por defecto esta root "/"
 export default [
+	
 	// "/" Load index file in root route
 	index("routes/home.tsx"),
 
@@ -17,6 +18,7 @@ export default [
 	// prefixPath: "travel/:travelID"
 	...prefix("travel/1", [
 		index("routes/travel.tsx"),
+		
 		// "/travel/{id}/pack-list"
 		route("pack-list", "routes/pack-list.tsx"),
 

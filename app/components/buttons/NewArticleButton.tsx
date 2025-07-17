@@ -1,9 +1,10 @@
 // components/NewArticleButton.tsx
 import { BedDouble, NotebookPen, PlaneTakeoff } from "lucide-react";
 import { useState } from "react";
-import FlightArticle from "~/components/mainPage/FlightsArticle";
-import HotelArticle from "~/components/mainPage/HotelArticle";
-import NotesArticle from "~/components/mainPage/notesArticle";
+import FlightArticle from "../mainPage/FlightsArticle";
+import HotelArticleTest from "../mainPage/HotelArticle";
+import NotesArticle from "../mainPage/notesArticle";
+
 
 type SectionType = "note" | "flight" | "hotel";
 
@@ -27,7 +28,7 @@ export default function NewArticleButton() {
 				<div key={section.id}>
 					{section.type === "note" && <NotesArticle />}
 					{section.type === "flight" && <FlightArticle />}
-					{section.type === "hotel" && <HotelArticle />}
+					{section.type === "hotel" && <HotelArticleTest />}
 				</div>
 			))}
 
