@@ -8,31 +8,43 @@ import {
 
 // por defecto esta root "/"
 export default [
-	// "/" Load index file in root route
+	// Ruta principal: carga el componente de inicio en "/"
 	index("routes/home.tsx"),
 
-	// "/travel/create"
-	route("travel/create", "routes/main-form.tsx"),
+	// Agrupa rutas bajo el prefijo "/travel"
+	...prefix("travel", [
 
-	// "/travel/{id}"
-	// prefixPath: "travel/:travelID"
-	...prefix("travel/1", [
-		layout("layouts/travelLayout.tsx", [
-			index("routes/travelDescription.tsx", { id: "travel-description-index" }),
-			route("description", "routes/travelDescription.tsx", { id: "travel-description-route" }),
-			route("itinerary", "routes/travelItinerary.tsx"),
-			route("tools", "routes/travelTools.tsx"),
+		// Agrupa rutas bajo "/travel/1"
+		...prefix("1", [
+			// Define un layout para todas las rutas hijas bajo "/travel/1"
+			layout("layouts/travelLayout.tsx", [
+				// Ruta "/travel/1" muestra la descripción del viaje
+				index("routes/travelDescription.tsx", { id: "travel-description-index" }),
+
+				// Ruta "/travel/1/description": muestra la descripción del viaje
+				route("description", "routes/travelDescription.tsx", { id: "travel-description-route" }),
+
+				// Ruta "/travel/1/itinerary": muestra el itinerario del viaje
+				route("itinerary", "routes/travelItinerary.tsx"),
+
+				// Ruta "/travel/1/tools": muestra las herramientas del viaje
+				route("tools", "routes/travelTools.tsx"),
+			]),
+
+			// Ruta "/travel/1/pack-list": muestra la lista de equipaje
+			route("pack-list", "routes/pack-list.tsx"),
 		]),
 
-		// "/travel/{id}/pack-list"
-		route("pack-list", "routes/pack-list.tsx"),
-
-		// "/travel/{id}/tricount"
-		// route("tricount", "routes/tricount.tsx")
+		// Ruta "/travel/create": formulario para crear un nuevo viaje
+		route("create", "routes/main-form.tsx"),
 	]),
 
-	// "/profile"
-	route("/user/profile", "routes/profile.tsx"),
-	// "/user/login"
-	route("/user/login", "routes/login.tsx"),
+
+	// Agrupa rutas bajo "/user"
+	...prefix("user", [
+		// Ruta "/user/profile": perfil de usuario
+		route("/profile", "routes/profile.tsx"),
+		// Ruta "/user/login": inicio de sesión de usuario
+		route("login", "routes/login.tsx"),
+	])
 ] satisfies RouteConfig;
