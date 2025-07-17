@@ -12,9 +12,9 @@ const ProfileButtons = () => {
 
 			<Link to="/user/login">
 				<button className="	bg-rose-400 text-white rounded-full p-4 shadow-lg -mt-8">
-					<LogOut  className="w-6 h-6" />
+					<LogOut className="w-6 h-6" />
 				</button>
-			 </Link>
+			</Link>
 		</div>
 	);
 };

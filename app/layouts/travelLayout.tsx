@@ -1,10 +1,12 @@
+import type React from "react";
+import { Outlet } from "react-router";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
-import NewArticleButton from "~/components/buttons/NewArticleButton";
 import TravelButtons from "~/components/buttons/TravelButtons";
 
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 
-export default function TravelPage() {
+
+export default function TravelPage({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex flex-col bg-gray-100 min-h-screen gap-5 p-4 pb-25">
 			<div className="bg-gray-100 min-h-screen">
@@ -16,7 +18,9 @@ export default function TravelPage() {
 					backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 				/>
 
-				<YourTravelNavBar />
+				<YourTravelNavBar />	
+				
+        <Outlet />
 
 				{/* <NewArticleButton /> */}
 

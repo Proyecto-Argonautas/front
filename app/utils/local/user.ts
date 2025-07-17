@@ -1,3 +1,4 @@
 const user = {
-  id: "1",
-  name: "John Doe",  }
+	id: "1",
+	name: "John Doe",
+};

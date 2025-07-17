@@ -1,5 +1,6 @@
 import {
 	index,
+	layout,
 	prefix,
 	type RouteConfig,
 	route,
@@ -7,7 +8,6 @@ import {
 
 // por defecto esta root "/"
 export default [
-	
 	// "/" Load index file in root route
 	index("routes/home.tsx"),
 
@@ -17,8 +17,13 @@ export default [
 	// "/travel/{id}"
 	// prefixPath: "travel/:travelID"
 	...prefix("travel/1", [
-		index("routes/travel.tsx"),
-		
+		layout("layouts/travelLayout.tsx", [
+			index("routes/travelDescription.tsx", { id: "travel-description-index" }),
+			route("description", "routes/travelDescription.tsx", { id: "travel-description-route" }),
+			route("itinerary", "routes/travelItinerary.tsx"),
+			route("tools", "routes/travelTools.tsx"),
+		]),
+
 		// "/travel/{id}/pack-list"
 		route("pack-list", "routes/pack-list.tsx"),
 
@@ -30,5 +35,4 @@ export default [
 	route("/user/profile", "routes/profile.tsx"),
 	// "/user/login"
 	route("/user/login", "routes/login.tsx"),
-
 ] satisfies RouteConfig;

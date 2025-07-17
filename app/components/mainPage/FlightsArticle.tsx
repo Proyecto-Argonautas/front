@@ -1,4 +1,10 @@
-import { ChevronDown, ChevronUp, Ellipsis, PlaneTakeoff, Trash2 } from "lucide-react";
+import {
+	ChevronDown,
+	ChevronUp,
+	Ellipsis,
+	PlaneTakeoff,
+	Trash2,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export default function FlightArticle() {
@@ -73,7 +79,9 @@ export default function FlightArticle() {
 							<div className="text-xs text-gray-500">SFO</div>
 							<div className="font-semibold">San Francisco</div>
 						</div>
-						<div className="text-center self-center text-gray-400 text-sm">→</div>
+						<div className="text-center self-center text-gray-400 text-sm">
+							→
+						</div>
 						<div className="text-right">
 							<div className="text-xs text-gray-500">EWR</div>
 							<div className="font-semibold">Newark</div>
@@ -91,7 +99,9 @@ export default function FlightArticle() {
 
 					<div className="flex justify-between items-center pt-2">
 						<div>
-							<div className="text-xs text-gray-400 uppercase">Número de reserva</div>
+							<div className="text-xs text-gray-400 uppercase">
+								Número de reserva
+							</div>
 							<div className="font-mono text-sm">4131314</div>
 						</div>
 						<div className="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-800">

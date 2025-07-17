@@ -1,4 +1,10 @@
-import { BedDouble, ChevronDown, ChevronUp, Ellipsis, Trash2 } from "lucide-react";
+import {
+	BedDouble,
+	ChevronDown,
+	ChevronUp,
+	Ellipsis,
+	Trash2,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export default function HotelArticleTest() {
@@ -45,8 +51,9 @@ export default function HotelArticleTest() {
 						type="button"
 						onClick={(e) => {
 							e.stopPropagation(); // Evita abrir/cerrar el acordeón
-							setShowOptions(prev => !prev);
-						}}>
+							setShowOptions((prev) => !prev);
+						}}
+					>
 						<Ellipsis />
 					</button>
 					{showOptions && (

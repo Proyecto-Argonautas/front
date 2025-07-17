@@ -95,11 +95,7 @@ export function LandingPage() {
 				</Link>
 			</div>
 
-
-			
-			
 			<LandingButtons isAuthenticated={true} />
-
 		</main>
 	);
 }

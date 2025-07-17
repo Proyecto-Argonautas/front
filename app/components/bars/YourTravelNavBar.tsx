@@ -1,17 +1,18 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { NavLink } from "react-router";
 
-const tabs = ["Descripción", "Itinerario", "Explorar"];
+const tabs = ["Description", "Itinerary", "Tools"];
 
 const YourTravelNavBar = () => {
-	const [activeTab, setActiveTab] = useState("Descripción");
+	const [activeTab, setActiveTab] = useState("Description");
 
 	return (
 		<div className="flex items-center justify-between bg-white shadow-sm px-4">
 			<div className="flex space-x-6">
 				{tabs.map((tab) => (
-					<button
-						type="button"
+					<NavLink
+						to={`/travel/1/${tab.toLowerCase()}`}
 						key={tab}
 						onClick={() => setActiveTab(tab)}
 						className={`py-4 font-semibold text-sm transition-all duration-200 ${
@@ -21,7 +22,7 @@ const YourTravelNavBar = () => {
 						}`}
 					>
 						{tab}
-					</button>
+					</NavLink>
 				))}
 			</div>
 

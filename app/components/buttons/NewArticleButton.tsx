@@ -5,7 +5,6 @@ import FlightArticle from "../mainPage/FlightsArticle";
 import HotelArticleTest from "../mainPage/HotelArticle";
 import NotesArticle from "../mainPage/notesArticle";
 
-
 type SectionType = "note" | "flight" | "hotel";
 
 interface Section {

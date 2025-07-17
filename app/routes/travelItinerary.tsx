@@ -9,5 +9,5 @@ export function meta() {
 }
 
 export default function TravelPageRoutes() {
-	return <TravelPage />;
+	return <h1>Itinerary</h1>;
 }
