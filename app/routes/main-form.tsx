@@ -1,4 +1,4 @@
-import MainFormPage from "~/pages/mainForm";
+import MainFormPage from "~/pages/mainFormPage";
 
 // {}: Route.MetaArgs
 export function meta() {

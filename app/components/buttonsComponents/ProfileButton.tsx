@@ -3,19 +3,21 @@ import { UserRound } from "lucide-react";
 import { Link } from "react-router";
 
 const ProfileButton = () => {
-	return (
-		 
-      
-			<Link to="/user/profile">
-					<button
-						type="button"
-						className="bg-emerald-400 text-white rounded-full p-4 shadow-lg"
-					>
-						<UserRound className="w-6 h-6" />
-					</button>
-				</Link>
-		
+	const isAuthenticated = true;
+	let linkUrl = "/user/login";
+	let buttonClass =
+		"bg-gray-50 text-black outline-emerald-400 outline-2 rounded-full -outline-offset-2 p-4 shadow-lg -mt-8";
 
+	if (isAuthenticated) {
+		linkUrl = "/user/profile";
+		buttonClass = "bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8";
+	}
+	return (
+		<Link to={linkUrl}>
+			<button type="button" className={buttonClass}>
+				<UserRound className="w-6 h-6" />
+			</button>
+		</Link>
 	);
 };
 

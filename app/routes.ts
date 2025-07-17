@@ -13,22 +13,25 @@ export default [
 
 	// Agrupa rutas bajo el prefijo "/travel"
 	...prefix("travel", [
-
 		// Agrupa rutas bajo "/travel/1"
 		...prefix("1", [
 			// Define un layout para todas las rutas hijas bajo "/travel/1"
 			layout("layouts/travelLayout.tsx", [
 				// Ruta "/travel/1" muestra la descripción del viaje
-				index("routes/travelDescription.tsx", { id: "travel-description-index" }),
+				index("routes/travel-description.tsx", {
+					id: "travel-description-index",
+				}),
 
 				// Ruta "/travel/1/description": muestra la descripción del viaje
-				route("description", "routes/travelDescription.tsx", { id: "travel-description-route" }),
+				route("description", "routes/travel-description.tsx", {
+					id: "travel-description-route",
+				}),
 
 				// Ruta "/travel/1/itinerary": muestra el itinerario del viaje
-				route("itinerary", "routes/travelItinerary.tsx"),
+				route("itinerary", "routes/travel-itinerary.tsx"),
 
 				// Ruta "/travel/1/tools": muestra las herramientas del viaje
-				route("tools", "routes/travelTools.tsx"),
+				route("tools", "routes/travel-tools.tsx"),
 			]),
 
 			// Ruta "/travel/1/pack-list": muestra la lista de equipaje
@@ -39,12 +42,11 @@ export default [
 		route("create", "routes/main-form.tsx"),
 	]),
 
-
 	// Agrupa rutas bajo "/user"
 	...prefix("user", [
 		// Ruta "/user/profile": perfil de usuario
 		route("profile", "routes/profile.tsx"),
 		// Ruta "/user/login": inicio de sesión de usuario
 		route("login", "routes/login.tsx"),
-	])
+	]),
 ] satisfies RouteConfig;
