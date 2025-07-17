@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 const TravelButtons = () => {
 	return (
-		<div className="fixed bottom-0 left-0 w-full flex justify-around items-center bg-white shadow-md py-3 z-50">
+		<div className="fixed w-full flex justify-around items-center bg-white shadow-md py-3 ">
 			<Link to="/">
 				<button
 					type="button"

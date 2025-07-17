@@ -43,7 +43,7 @@ export default [
 	// Agrupa rutas bajo "/user"
 	...prefix("user", [
 		// Ruta "/user/profile": perfil de usuario
-		route("/profile", "routes/profile.tsx"),
+		route("profile", "routes/profile.tsx"),
 		// Ruta "/user/login": inicio de sesión de usuario
 		route("login", "routes/login.tsx"),
 	])
