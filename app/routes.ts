@@ -17,15 +17,8 @@ export default [
 		...prefix("1", [
 			// Define un layout para todas las rutas hijas bajo "/travel/1"
 			layout("layouts/travelLayout.tsx", [
-				// Ruta "/travel/1" muestra la descripción del viaje
-				index("routes/travel-description.tsx", {
-					id: "travel-description-index",
-				}),
-
 				// Ruta "/travel/1/description": muestra la descripción del viaje
-				route("description", "routes/travel-description.tsx", {
-					id: "travel-description-route",
-				}),
+				route("description", "routes/travel-description.tsx"),
 
 				// Ruta "/travel/1/itinerary": muestra el itinerario del viaje
 				route("itinerary", "routes/travel-itinerary.tsx"),
