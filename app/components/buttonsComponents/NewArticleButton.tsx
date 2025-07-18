@@ -3,7 +3,7 @@ import { BedDouble, NotebookPen, PlaneTakeoff } from "lucide-react";
 import { useState } from "react";
 import FlightArticle from "../mainPage/FlightsArticle";
 import HotelArticleTest from "../mainPage/HotelArticle";
-import NotesArticle from "../mainPage/notesArticle";
+import NotesArticle from "../mainPage/NotesArticle";
 
 type SectionType = "note" | "flight" | "hotel";
 

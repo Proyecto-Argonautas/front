@@ -3,10 +3,10 @@ import MenuBar from "~/components/bars/MenuBar";
 
 import HomeButton from "~/components/buttonsComponents/HomeButton";
 import ProfileButton from "~/components/buttonsComponents/ProfileButton";
+import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
 import { DestinationForm } from "~/components/forms/DestinationForm";
 import MembersForm from "~/components/forms/MembersForm";
 import { DateForm } from "../components/forms/DateForm";
-import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
 
 export default function MainFormPage() {
 	const [numberOfMembers, setNumberOfMembers] = useState(1);
@@ -31,20 +31,16 @@ export default function MainFormPage() {
 	};
 
 	return (
-		<div className="flex flex-col gap-3 min-h-screen bg-gray-100 p-6 pb-18">
-			<div className="text-center">
-				<h1 className="text-xl font-bold text-gray-800">ELIGE TU DESTINO</h1>
-			</div>
+		<div className="flex flex-col gap-2 min-h-screen bg-gray-100 p-3 sm:p-4 pb-16">
+			
 
-			<div className="flex  gap-5 max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-				<div className="border border-gray-400 rounded ">
+			<div className="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-3 sm:p-4 w-full">
+				<div className="border border-gray-300 rounded-lg p-3 mb-4">
 					<DestinationForm />
 					<DateForm />
 				</div>
-			</div>
-
-			<div className="flex gap-5 flex-col  max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
-				<div className="border border-gray-400 rounded p-4">
+				
+				<div className="border border-gray-300 rounded-lg p-3">
 					<MembersForm
 						numberOfMembers={numberOfMembers}
 						onNumberChange={handleNumberChange}
@@ -54,7 +50,7 @@ export default function MainFormPage() {
 				</div>
 			</div>
 
-			<div className="">
+			<div className="max-w-3xl mx-auto w-full mb-16 mt-3 sm:mt-0">
 				<StartPlanning />
 			</div>
 

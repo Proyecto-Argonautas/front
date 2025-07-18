@@ -113,14 +113,14 @@ const PackList: React.FC = () => {
 	};
 
 	return (
-		<div className="w-full min-h-screen bg-gray-50 flex items-start justify-center py-6 px-2 sm:px-0">
-			<div className="w-full max-w-md bg-white rounded-xl shadow-lg p-4 sm:p-8">
-				<h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+		<div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
+			<div className="w-full max-w-md bg-white rounded-xl shadow-lg p-4 sm:p-8 md:p-6">
+				<h1 className="text-2xl sm:text-3xl md:text-2xl font-bold mb-6 md:mb-4 text-center">
 					🌍 Planificador de Equipaje
 				</h1>
 
 				{/* Destino y clima */}
-				<div className="flex flex-col sm:flex-row gap-2 mb-4">
+				<div className="flex flex-col sm:flex-row gap-2 mb-4 md:mb-3">
 					<input
 						type="text"
 						placeholder="Destino (ej. Madrid)"
@@ -138,19 +138,19 @@ const PackList: React.FC = () => {
 					</button>
 				</div>
 
-				{error && <p className="text-red-500 text-center mb-4">{error}</p>}
+				{error && <p className="text-red-500 text-center mb-4 md:mb-3">{error}</p>}
 
 				{weather && (
-					<div className="bg-blue-100 rounded p-4 mb-4 text-center flex flex-col items-center">
-						<h2 className="text-lg font-semibold mb-2">
+					<div className="bg-blue-100 rounded p-4 md:p-3 mb-4 md:mb-3 text-center flex flex-col items-center">
+						<h2 className="text-lg md:text-base font-semibold mb-2 md:mb-1">
 							Clima en {destination}
 						</h2>
 						<img
 							src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
 							alt="icono clima"
-							className="mx-auto"
+							className="mx-auto w-16 h-16 md:w-12 md:h-12"
 						/>
-						<p className="capitalize">
+						<p className="capitalize -mt-2 md:-mt-1">
 							{weather.resume} : {weather.temp}°C
 						</p>
 					</div>

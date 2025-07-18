@@ -10,12 +10,12 @@ const LoginCard: React.FC = () => {
 	};
 
 	return (
-		<div className="flex flex-col items-center bg-grey-100 px-6 pt-6">
-			<h2 className="bg-emerald-400 rounded-lg text-xl font-semibold my-10 p-3">
+		<div className="flex flex-col items-center bg-gray-100 min-h-screen px-6 pt-6 md:pt-2">
+			<h2 className="bg-emerald-400 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
 				Iniciar Sesión
 			</h2>
 			<div className="bg-emerald-400 text-black p-8 rounded-lg w-full max-w-sm shadow-lg">
-				<p className="text-sm text-grey-100 mb-6">
+				<p className="text-sm mb-6">
 					Ingresa tu correo electrónico a continuación para iniciar sesión en tu
 					cuenta
 				</p>

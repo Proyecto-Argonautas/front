@@ -1,4 +1,4 @@
-import LoginPage from "~/pages/login";
+import LoginPage from "~/pages/loginPage";
 
 // {}: Route.MetaArgs
 export function meta() {

@@ -1,8 +1,6 @@
-import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
-// import NewArticleButton from "~/components/buttons/NewArticleButton";
-import TravelButtons from "~/components/buttons/TravelButtons";
-
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
+
+
 
 export default function TravelPage() {
 	return (
@@ -16,9 +14,7 @@ export default function TravelPage() {
 					backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
 				/>
 
-				{/* <YourTravelNavBar /> */}
-
-				{/* <TravelButtons /> */}
+				
 			</div>
 		</div>
 	);

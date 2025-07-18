@@ -1,4 +1,5 @@
-const user = {
-	id: "1",
-	name: "John Doe",
-};
+export default function getUserAuthenticationStatus() {
+	return false;
+	// return true;
+}
+
