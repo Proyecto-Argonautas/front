@@ -4,7 +4,7 @@ import ProfilePage from "~/pages/profile";
 export function meta() {
 	return [
 		{ title: "User Profile" },
-		{ name: "description", content: "User profile" },
+		{ name: "resume", content: "User profile" },
 	];
 }
 

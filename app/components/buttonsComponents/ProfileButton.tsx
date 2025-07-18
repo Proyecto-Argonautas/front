@@ -3,7 +3,7 @@ import { UserRound } from "lucide-react";
 import { Link } from "react-router";
 
 const ProfileButton = () => {
-	const isAuthenticated = true;
+	const isAuthenticated = false;
 	let linkUrl = "/user/login";
 	let buttonClass =
 		"bg-gray-50 text-black outline-emerald-400 outline-2 rounded-full -outline-offset-2 p-4 shadow-lg -mt-8";

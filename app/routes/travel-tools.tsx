@@ -1,11 +1,10 @@
 import ToolPage from "~/pages/travel/toolsPage";
 
-
 // {}: Route.MetaArgs
 export function meta() {
 	return [
 		{ title: "Travels - nombre viaje" },
-		{ name: "description", content: "Nombre viaje" },
+		{ name: "resume", content: "Nombre viaje" },
 	];
 }
 

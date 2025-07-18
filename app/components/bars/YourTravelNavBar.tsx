@@ -2,10 +2,10 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 
-const tabs = ["Description", "Itinerary", "Tools"];
+const tabs = ["Resume", "Itinerary", "Tools"];
 
 const YourTravelNavBar = () => {
-	const [activeTab, setActiveTab] = useState("Description");
+	const [activeTab, setActiveTab] = useState("Resume");
 
 	return (
 		<div className="flex items-center justify-between bg-white shadow-sm px-4">

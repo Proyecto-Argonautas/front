@@ -1,14 +1,13 @@
 import { nanoid } from "nanoid";
 import type React from "react";
 import { useEffect, useState } from "react";
-
-import PacklistButtons from "../buttons/PacklistButtons";
+import HomeButton from "../buttonsComponents/HomeButton";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
 type WeatherData = {
 	temp: number;
-	description: string;
+	resume: string;
 	icon: string;
 	main: string;
 };
@@ -53,7 +52,7 @@ const PackList: React.FC = () => {
 			if (data.cod === 200) {
 				const weatherInfo: WeatherData = {
 					temp: data.main.temp,
-					description: data.weather[0].description,
+					resume: data.weather[0].resume,
 					icon: data.weather[0].icon,
 					main: data.weather[0].main,
 				};
@@ -152,7 +151,7 @@ const PackList: React.FC = () => {
 							className="mx-auto"
 						/>
 						<p className="capitalize">
-							{weather.description} : {weather.temp}°C
+							{weather.resume} : {weather.temp}°C
 						</p>
 					</div>
 				)}
@@ -212,7 +211,6 @@ const PackList: React.FC = () => {
 					</ul>
 				</div>
 			</div>
-			<PacklistButtons></PacklistButtons>
 		</div>
 	);
 };

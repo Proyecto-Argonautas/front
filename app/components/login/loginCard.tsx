@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 
 const LoginCard: React.FC = () => {
 	const [email, setEmail] = useState("");
@@ -36,9 +37,12 @@ const LoginCard: React.FC = () => {
 				>
 					Sign-in with Magic Link
 				</button>
-
-				<div />
 			</div>
+			<div className="flex justify-center text-gray-600 mt-5">
+				<p>¿No tienes una cuenta? <Link className="text-amber-500 underline" to="/user/register">Regístrate aquí.</Link></p>
+			</div>
+				
+
 		</div>
 	);
 };

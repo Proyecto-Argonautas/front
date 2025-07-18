@@ -4,7 +4,7 @@ import MainFormPage from "~/pages/mainFormPage";
 export function meta() {
 	return [
 		{ title: "Travels - Main Form" },
-		{ name: "description", content: "Form create travels" },
+		{ name: "resume", content: "Form create travels" },
 	];
 }
 

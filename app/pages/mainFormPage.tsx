@@ -1,12 +1,12 @@
 import { useState } from "react";
 import MenuBar from "~/components/bars/MenuBar";
-import FormButtons from "~/components/buttons/FormButtons";
-import StartPlanning from "~/components/buttons/StartPlanningButton";
+
 import HomeButton from "~/components/buttonsComponents/HomeButton";
 import ProfileButton from "~/components/buttonsComponents/ProfileButton";
 import { DestinationForm } from "~/components/forms/DestinationForm";
 import MembersForm from "~/components/forms/MembersForm";
 import { DateForm } from "../components/forms/DateForm";
+import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
 
 export default function MainFormPage() {
 	const [numberOfMembers, setNumberOfMembers] = useState(1);

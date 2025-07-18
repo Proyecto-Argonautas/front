@@ -18,8 +18,6 @@ export default function TravelPage() {
 
 				{/* <YourTravelNavBar /> */}
 
-				
-
 				{/* <TravelButtons /> */}
 			</div>
 		</div>

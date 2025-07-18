@@ -4,7 +4,7 @@ import PackListPage from "~/pages/packList";
 export function meta() {
 	return [
 		{ title: "Travels - nombre viaje" },
-		{ name: "description", content: "pack list viaje" },
+		{ name: "resume", content: "pack list viaje" },
 	];
 }
 

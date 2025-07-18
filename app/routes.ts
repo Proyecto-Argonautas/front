@@ -18,13 +18,13 @@ export default [
 			// Define un layout para todas las rutas hijas bajo "/travel/1"
 			layout("layouts/travelLayout.tsx", [
 				// Ruta "/travel/1" muestra la descripción del viaje
-				index("routes/travel-description.tsx", {
-					id: "travel-description-index",
+				index("routes/travel-resume.tsx", {
+					id: "travel-resume-index",
 				}),
 
-				// Ruta "/travel/1/description": muestra la descripción del viaje
-				route("description", "routes/travel-description.tsx", {
-					id: "travel-description-route",
+				// Ruta "/travel/1/resume": muestra la descripción del viaje
+				route("resume", "routes/travel-resume.tsx", {
+					id: "travel-resume-route",
 				}),
 
 				// Ruta "/travel/1/itinerary": muestra el itinerario del viaje
@@ -48,5 +48,8 @@ export default [
 		route("profile", "routes/profile.tsx"),
 		// Ruta "/user/login": inicio de sesión de usuario
 		route("login", "routes/login.tsx"),
+
+		// Ruta "/user/register": registro de usuario
+		route("register", "routes/register.tsx"),
 	]),
 ] satisfies RouteConfig;

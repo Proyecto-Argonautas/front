@@ -1,12 +1,19 @@
-import SigninButtons from "~/components/buttons/SigninButtons";
+import MenuBar from "~/components/bars/MenuBar";
 import LoginCard from "../components/login/LoginCard";
+import HomeButton from "~/components/buttonsComponents/HomeButton";
+import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 
 function LoginPage() {
 	return (
 		<>
 			<LoginCard />
 
-			<SigninButtons />
+			{/* RegisterMessage */}
+
+			<MenuBar>
+				<HomeButton />
+				<ReturnButton />
+			</MenuBar>
 		</>
 	);
 }
