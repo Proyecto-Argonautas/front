@@ -1,22 +1,10 @@
-import MainForm from "~/pages/mainForm";
-import type { Route } from "./+types/home";
-import { Landing } from "~/pages/landing";
-import { Travel } from "~/pages/travel";
-import PackList from "~/pages/packList";
+import { LandingPage } from "~/pages/landingPage";
 
-
-
-// Ejemplo error "{}: Route.MetaArgs"
+// {}: Route.MetaArgs
 export function meta() {
-  return [
-    { title: "Travels" },
-    { name: "description", content: "Travels" },
-  ];
+	return [{ title: "Travels" }, { name: "resume", content: "Travels" }];
 }
 
 export default function Home() {
-  return <Landing />;
-  return <MainForm />;
-  return <Travel />;
-  return <PackList />;
+	return <LandingPage />;
 }
