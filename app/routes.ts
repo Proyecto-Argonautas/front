@@ -32,6 +32,9 @@ export default [
 
 				// Ruta "/travel/1/tools": muestra las herramientas del viaje
 				route("tools", "routes/travel-tools.tsx"),
+
+				// Ruta "/travel/1/budget": muestra el presupuesto del viaje
+				route("budget", "routes/travel-budget.tsx"),
 			]),
 
 			// Ruta "/travel/1/pack-list": muestra la lista de equipaje

@@ -2,7 +2,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router";
 
-const tabs = ["Resume", "Itinerary", "Tools"];
+const tabs = ["Resume", "Itinerary", "Tools", "Budget"];
 
 const YourTravelNavBar = () => {
 	const [activeTab, setActiveTab] = useState("Resume");

@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import type React from "react";
 import { useEffect, useState } from "react";
-import HomeButton from "../buttonsComponents/HomeButton";
+
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
