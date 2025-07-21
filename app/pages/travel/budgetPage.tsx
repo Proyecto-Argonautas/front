@@ -1,7 +1,17 @@
+
 import Budget from "../../components/budget/Budget";
 
+
+
 const BudgetPage: React.FC = () => {
-  return <Budget />;
+ 
+    return (
+      <div>
+        <Budget />
+        
+
+    </div>
+  );
 };
 
 export default BudgetPage;
