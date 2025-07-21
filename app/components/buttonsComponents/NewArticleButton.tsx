@@ -1,4 +1,4 @@
-// ctypoomponents/NewArticleButton.tsx
+
 import { BedDouble, NotebookPen, PlaneTakeoff } from "lucide-react";
 import { useState } from "react";
 import FlightArticle from "../mainPage/FlightsArticle";
