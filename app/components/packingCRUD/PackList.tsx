@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import type React from "react";
 import { useEffect, useState } from "react";
 
+// import HomeButton from "../buttonsComponents/HomeButton";
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
@@ -138,7 +139,9 @@ const PackList: React.FC = () => {
 					</button>
 				</div>
 
-				{error && <p className="text-red-500 text-center mb-4 md:mb-3">{error}</p>}
+				{error && (
+					<p className="text-red-500 text-center mb-4 md:mb-3">{error}</p>
+				)}
 
 				{weather && (
 					<div className="bg-blue-100 rounded p-4 md:p-3 mb-4 md:mb-3 text-center flex flex-col items-center">
