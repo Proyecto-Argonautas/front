@@ -7,12 +7,29 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-export default function NotesArticle() {
-	const [open, setOpen] = useState(false);
+interface NotesArticleProps {
+	defaultOpen?: boolean;
+	alignment?: "left" | "center" | "right";
+}
+
+export default function NotesArticle({ defaultOpen = false, alignment = "center" }: NotesArticleProps) {
+	const [open, setOpen] = useState(defaultOpen);
 	const [note, setNote] = useState("");
 	const [showOptions, setShowOptions] = useState(false);
 	const [visible, setVisible] = useState(true);
 	const optionsRef = useRef<HTMLDivElement>(null);
+
+	const getAlignmentClass = () => {
+		switch (alignment) {
+			case "left":
+				return "mr-auto";
+			case "right":
+				return "ml-auto";
+			case "center":
+			default:
+				return "mx-auto";
+		}
+	};
 
 	// Cierra el menú si se hace clic fuera de él
 	useEffect(() => {
@@ -33,7 +50,7 @@ export default function NotesArticle() {
 	if (!visible) return null; // No renderizar si está "eliminado"
 
 	return (
-		<article className="relative w-full max-w-md mx-auto mt-5 bg-white rounded-2xl shadow-md">
+		<article className={`relative w-full ${getAlignmentClass()} mt-5 bg-white rounded-2xl shadow-md`}>
 			<button
 				type="button"
 				className="flex items-center w-full p-4 cursor-pointer bg-transparent border-0 outline-none"

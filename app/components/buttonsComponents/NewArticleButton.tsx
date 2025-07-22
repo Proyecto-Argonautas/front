@@ -12,8 +12,15 @@ interface Section {
 	type: SectionType;
 }
 
-export default function NewArticleButton() {
-	const [sections, setSections] = useState<Section[]>([]);
+interface NewArticleButtonProps {
+	defaultNotesArticle?: boolean;
+}
+
+export default function NewArticleButton({ defaultNotesArticle = false }: NewArticleButtonProps) {
+	const [sections, setSections] = useState<Section[]>(() => {
+		// Si defaultNotesArticle es true, inicializar con un artículo de notas abierto
+		return defaultNotesArticle ? [{ id: 0, type: "note" }] : [];
+	});
 	const [showMenu, setShowMenu] = useState(false);
 
 	const addSection = (type: SectionType) => {
@@ -22,16 +29,25 @@ export default function NewArticleButton() {
 	};
 
 	return (
-		<div className="flex flex-col w-full max-w-md ">
-			{sections.map((section) => (
-				<div key={section.id}>
-					{section.type === "note" && <NotesArticle />}
-					{section.type === "flight" && <FlightArticle />}
-					{section.type === "hotel" && <HotelArticleTest />}
-				</div>
-			))}
+		<div className="w-full">
+			{/* Grid container para los artículos creados */}
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+				{sections.map((section, index) => (
+					<div key={section.id} className="w-full">
+						{section.type === "note" && (
+							<NotesArticle 
+								defaultOpen={defaultNotesArticle && index === 0}
+								alignment="left"
+							/>
+						)}
+						{section.type === "flight" && <FlightArticle />}
+						{section.type === "hotel" && <HotelArticleTest />}
+					</div>
+				))}
+			</div>
 
-			<div className="relative ">
+			{/* Botón para añadir nueva sección */}
+			<div className="relative w-full max-w-md">
 				<button
 					type="button"
 					onClick={() => setShowMenu((prev) => !prev)}

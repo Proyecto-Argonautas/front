@@ -19,9 +19,7 @@ const WidgetBudget: React.FC<WidgetBudgetProps> = ({
       <div className="text-2xl font-bold text-gray-600 mb-1">
         {total.toFixed(2)} {currency}
       </div>
-      <button className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
-        View details
-      </button>
+      
     </div>
   );
 };
