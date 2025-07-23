@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "biomejs.biome",
-    "oxc.oxc-vscode"
+    "oxc.oxc-vscode",
+    "ms-vsliveshare.vsliveshare"
   ]
 }
