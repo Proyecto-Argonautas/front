@@ -4,18 +4,16 @@ import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import LoginCard from "../components/login/LoginCard";
 
 function LoginPage() {
-	return (
-		<>
-			<LoginCard />
+  return (
+    <>
+      <LoginCard />
 
-			
-
-			<MenuBar>
-				<HomeButton />
-				<ReturnButton />
-			</MenuBar>
-		</>
-	);
+      <MenuBar>
+        <HomeButton />
+        <ReturnButton />
+      </MenuBar>
+    </>
+  );
 }
 
 export default LoginPage;

@@ -4,16 +4,16 @@ import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import PackList from "~/components/packingCRUD/PackList";
 
 function PackListPage() {
-	return (
-		<>
-			<PackList />
+  return (
+    <>
+      <PackList />
 
-			<MenuBar>
-				<HomeButton />
-				<ReturnButton />
-			</MenuBar>
-		</>
-	);
+      <MenuBar>
+        <HomeButton />
+        <ReturnButton />
+      </MenuBar>
+    </>
+  );
 }
 
 export default PackListPage;

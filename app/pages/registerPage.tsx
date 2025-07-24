@@ -5,17 +5,15 @@ import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import RegisterCard from "~/components/register/RegisterCard";
 
 function RegisterPage() {
-	return (
-		<>
-			
-        <RegisterCard />
-        <MenuBar>
-          <HomeButton />
-          <ReturnButton />
-        </MenuBar>
-      
-		</>
-	);
+  return (
+    <>
+      <RegisterCard />
+      <MenuBar>
+        <HomeButton />
+        <ReturnButton />
+      </MenuBar>
+    </>
+  );
 }
 
 export default RegisterPage;
