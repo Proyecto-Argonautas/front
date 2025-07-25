@@ -18,7 +18,7 @@ interface NewArticleButtonProps {
 
 export default function NewArticleButton({ defaultNotesArticle = false }: NewArticleButtonProps) {
 	const [sections, setSections] = useState<Section[]>(() => {
-		// Si defaultNotesArticle es true, inicializar con un artículo de notas abierto
+		
 		return defaultNotesArticle ? [{ id: 0, type: "note" }] : [];
 	});
 	const [showMenu, setShowMenu] = useState(false);
@@ -30,7 +30,7 @@ export default function NewArticleButton({ defaultNotesArticle = false }: NewArt
 
 	return (
 		<div className="w-full">
-			{/* Grid container para los artículos creados */}
+			
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
 				{sections.map((section, index) => (
 					<div key={section.id} className="w-full">
@@ -46,7 +46,7 @@ export default function NewArticleButton({ defaultNotesArticle = false }: NewArt
 				))}
 			</div>
 
-			{/* Botón para añadir nueva sección */}
+			
 			<div className="relative w-full max-w-md">
 				<button
 					type="button"

@@ -2,6 +2,8 @@ import { Outlet } from "react-router";
 import { useLocation } from "react-router";
 import MenuBar from "~/components/bars/MenuBar";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
+import AddArticleButton from "~/components/buttonsComponents/AddArticleButton";
+
 import HomeButton from "~/components/buttonsComponents/HomeButton";
 import PacklistButton from "~/components/buttonsComponents/PacklistButton";
 import ProfileButton from "~/components/buttonsComponents/ProfileButton";
@@ -35,6 +37,7 @@ export default function TravelPage() {
 				<MenuBar>
 					<HomeButton />
 					<PacklistButton />
+					<AddArticleButton/>
 					<ProfileButton />
 				</MenuBar>
 			</div>
