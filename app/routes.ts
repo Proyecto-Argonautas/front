@@ -35,11 +35,13 @@ export default [
 
 				// Ruta "/travel/1/budget": muestra el presupuesto del viaje
 				route("budget", "routes/travel-budget.tsx"),
+
+				// Ruta "/travel/1/pack-list": muestra la lista de equipaje
+				route("packlist", "routes/pack-list.tsx"),
 			]),
 
-			// Ruta "/travel/1/pack-list": muestra la lista de equipaje
-			route("pack-list", "routes/pack-list.tsx"),
-		]),
+			]),
+
 
 		// Ruta "/travel/create": formulario para crear un nuevo viaje
 		route("create", "routes/main-form.tsx"),

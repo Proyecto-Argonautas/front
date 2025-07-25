@@ -9,8 +9,8 @@ import MembersForm from "~/components/forms/MembersForm";
 import { DateForm } from "../components/forms/DateForm";
 
 export default function MainFormPage() {
-	const [numberOfMembers, setNumberOfMembers] = useState(1);
-	const [memberNames, setMemberNames] = useState<string[]>([""]);
+	const [numberOfMembers, setNumberOfMembers] = useState(0);
+	const [memberNames, setMemberNames] = useState<string[]>([]);
 
 	const handleNumberChange = (num: number) => {
 		setNumberOfMembers(num);

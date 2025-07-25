@@ -1,4 +1,4 @@
-// import React from "react";
+
 import { CalendarDays } from "lucide-react";
 
 type YourTravelCardWithBackgroundProps = {
@@ -18,7 +18,7 @@ const YourTravelCardWithBackground = ({
 	backgroundImage,
 	compact = false,
 }: YourTravelCardWithBackgroundProps) => {
-	// Si está en modo compacto, mostrar una versión reducida con imagen de fondo
+	
 	if (compact) {
 		return (
 			<div className="relative w-full h-32 rounded-t-xl overflow-hidden">
@@ -29,10 +29,10 @@ const YourTravelCardWithBackground = ({
 					className="absolute inset-0 w-full h-full object-cover"
 				/>
 
-				{/* Overlay más sutil */}
+				
 				<div className="absolute inset-0 bg-black/25" />
 
-				{/* Contenido encima - posicionado en la parte inferior para mostrar más imagen arriba */}
+				
 				<div className="relative h-full flex items-end p-4">
 					<div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-sm w-full flex justify-between items-center">
 						<div>
@@ -58,7 +58,9 @@ const YourTravelCardWithBackground = ({
 	}
 
 	return (
-		<div className="relative w-full h-48 md:h-56 lg:h-64 rounded-t-xl overflow-hidden">{/* Reducido la altura y solo esquinas superiores redondeadas */}
+		<div className="relative w-full h-48 md:h-56 lg:h-64 rounded-t-xl overflow-hidden">{/* 
+
+
 			{/* Imagen de fondo */}
 			<img
 				src={backgroundImage}
@@ -66,10 +68,10 @@ const YourTravelCardWithBackground = ({
 				className="absolute inset-0 w-full h-full object-cover"
 			/>
 
-			{/* Overlay opcional */}
+			
 			<div className="absolute inset-0 bg-black/30" />
 
-			{/* Contenido encima */}
+			
 			<div className="relative h-full flex items-end p-4">
 				<div className="bg-white rounded-xl p-4 shadow-lg w-full flex justify-between items-center">
 					<div>

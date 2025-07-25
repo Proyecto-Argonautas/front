@@ -16,7 +16,8 @@ export default function TravelPage() {
 	// Determinar si estamos en una ruta que requiere modo compacto
 	const isCompactMode = location.pathname.includes('/itinerary') || 
 						  location.pathname.includes('/tools') || 
-						  location.pathname.includes('/budget');
+						  location.pathname.includes('/budget')|| 
+							location.pathname.includes('/packlist') ;
 
 	return (
 		<div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-25">{/* Reducido el gap de 5 a 3 */}

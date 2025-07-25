@@ -17,7 +17,7 @@ const MembersForm: React.FC<MembersFormProps> = ({
 	return (
 		<div className="w-full">
 			<div className="flex items-center justify-between w-full mb-3">
-				<span className="text-base font-semibold text-gray-800">Acompañantes</span>
+				<span className="text-base font-semibold text-gray-800">Acompañantes <span className="text-gray-500">(opcional)</span></span>
 
 				<div className="flex items-center gap-2">
 					<button

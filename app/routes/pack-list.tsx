@@ -1,4 +1,4 @@
-import PackListPage from "~/pages/packListPage";
+import PackListPage from "~/pages/travel/packListPage";
 
 // {}: Route.MetaArgs
 export function meta() {

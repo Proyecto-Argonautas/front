@@ -2,7 +2,7 @@ import { nanoid } from "nanoid";
 import type React from "react";
 import { useEffect, useState } from "react";
 
-// import HomeButton from "../buttonsComponents/HomeButton";
+
 
 const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
 
@@ -115,105 +115,119 @@ const PackList: React.FC = () => {
 
 	return (
 		<div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
-			<div className="w-full max-w-md bg-white rounded-xl shadow-lg p-4 sm:p-8 md:p-6">
-				<h1 className="text-2xl sm:text-3xl md:text-2xl font-bold mb-6 md:mb-4 text-center">
+			<div className="w-full max-w-md lg:max-w-6xl">
+				<h1 className="text-2xl sm:text-3xl md:text-2xl font-bold mb-6 md:mb-4 text-center text-gray-800">
 					🌍 Planificador de Equipaje
 				</h1>
 
-				{/* Destino y clima */}
-				<div className="flex flex-col sm:flex-row gap-2 mb-4 md:mb-3">
-					<input
-						type="text"
-						placeholder="Destino (ej. Madrid)"
-						className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
-						value={destination}
-						onChange={(e) => setDestination(e.target.value)}
-					/>
-					<button
-						type="button"
-						onClick={fetchWeather}
-						className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition min-w-[120px]"
-						disabled={loading}
-					>
-						{loading ? "Buscando..." : "Buscar clima"}
-					</button>
-				</div>
-
-				{error && (
-					<p className="text-red-500 text-center mb-4 md:mb-3">{error}</p>
-				)}
-
-				{weather && (
-					<div className="bg-blue-100 rounded p-4 md:p-3 mb-4 md:mb-3 text-center flex flex-col items-center">
-						<h2 className="text-lg md:text-base font-semibold mb-2 md:mb-1">
-							Clima en {destination}
-						</h2>
-						<img
-							src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-							alt="icono clima"
-							className="mx-auto w-16 h-16 md:w-12 md:h-12"
-						/>
-						<p className="capitalize -mt-2 md:-mt-1">
-							{weather.resume} : {weather.temp}°C
-						</p>
-					</div>
-				)}
-
-				{/* Lista de equipaje */}
-				<div>
-					<h3 className="text-xl font-semibold mb-2">🧳 Lista de Equipaje</h3>
-
-					<div className="flex flex-col sm:flex-row gap-2 mb-4">
-						<input
-							type="text"
-							className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-300"
-							placeholder="Añadir ítem..."
-							value={newItem}
-							onChange={(e) => setNewItem(e.target.value)}
-							onKeyDown={(e) => {
-								if (e.key === "Enter") addItem();
-							}}
-						/>
-						<button
-							type="button"
-							onClick={addItem}
-							className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition min-w-[80px]"
-						>
-							Añadir
-						</button>
-					</div>
-
-					<ul className="space-y-2">
-						{packingList.map((item) => (
-							<li
-								key={item.id}
-								className="flex items-center justify-between p-2 border rounded bg-gray-100"
-							>
-								<div className="flex items-center gap-2">
+				<div className="lg:flex lg:gap-6 lg:items-start">
+					{/* Sección de lista de equipaje */}
+					<div className="lg:w-1/2 mb-6 lg:mb-0">
+						<div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
+							<h2 className="text-xl font-semibold mb-4 lg:mb-3">🧳 Lista de Equipaje</h2>
+							
+							{/* Lista de equipaje */}
+							<div>
+								<div className="flex flex-col sm:flex-row gap-2 mb-4">
 									<input
-										type="checkbox"
-										checked={item.packed}
-										onChange={() => togglePacked(item.id)}
+										type="text"
+										className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-300"
+										placeholder="Añadir ítem..."
+										value={newItem}
+										onChange={(e) => setNewItem(e.target.value)}
+										onKeyDown={(e) => {
+											if (e.key === "Enter") addItem();
+										}}
 									/>
-									<span
-										className={item.packed ? "line-through text-gray-500" : ""}
+									<button
+										type="button"
+										onClick={addItem}
+										className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition min-w-[80px]"
 									>
-										{item.text}
-									</span>
+										Añadir
+									</button>
 								</div>
-								<button
-									type="button"
-									onClick={() => removeItem(item.id)}
-									className="text-red-500 hover:text-red-700 text-lg px-2 py-1 rounded transition"
-									aria-label="Eliminar"
-								>
-									❌
-								</button>
-							</li>
-						))}
-					</ul>
+
+								<ul className="space-y-2">
+									{packingList.map((item) => (
+										<li
+											key={item.id}
+											className="flex items-center justify-between p-2 border rounded bg-gray-100"
+										>
+											<div className="flex items-center gap-2">
+												<input
+													type="checkbox"
+													checked={item.packed}
+													onChange={() => togglePacked(item.id)}
+												/>
+												<span
+													className={item.packed ? "line-through text-gray-500" : ""}
+												>
+													{item.text}
+												</span>
+											</div>
+											<button
+												type="button"
+												onClick={() => removeItem(item.id)}
+												className="text-red-500 hover:text-red-700 text-lg px-2 py-1 rounded transition"
+												aria-label="Eliminar"
+											>
+												❌
+											</button>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					{/* Sección de destino y clima */}
+					<div className="lg:w-1/2">
+						<div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
+							<h2 className="text-xl font-semibold mb-4 lg:mb-3">🌤️ Información del Clima</h2>
+							
+							{/* Destino y clima */}
+							<div className="flex flex-col sm:flex-row gap-2 mb-4 md:mb-3">
+							<input
+								type="text"
+								placeholder="Destino (ej. Madrid)"
+								className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
+								value={destination}
+								onChange={(e) => setDestination(e.target.value)}
+							/>
+							<button
+								type="button"
+								onClick={fetchWeather}
+								className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition min-w-[120px]"
+								disabled={loading}
+							>
+								{loading ? "Buscando..." : "Buscar clima"}
+							</button>
+						</div>
+
+						{error && (
+							<p className="text-red-500 text-center mb-4 md:mb-3">{error}</p>
+						)}
+
+						{weather && (
+							<div className="bg-blue-100 rounded p-4 md:p-3 mb-4 md:mb-3 text-center flex flex-col items-center">
+								<h2 className="text-lg md:text-base font-semibold mb-2 md:mb-1">
+									Clima en {destination}
+								</h2>
+								<img
+									src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
+									alt="icono clima"
+									className="mx-auto w-16 h-16 md:w-12 md:h-12"
+								/>
+								<p className="capitalize -mt-2 md:-mt-1">
+									{weather.resume} : {weather.temp}°C
+								</p>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	);
 };
