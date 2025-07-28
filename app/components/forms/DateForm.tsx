@@ -10,7 +10,7 @@ export function DateForm() {
 				className="block font-semibold text-gray-800 mb-2"
 				htmlFor="start-date"
 			>
-				Fechas <span className="text-gray-500">(opcional)</span>
+				Fechas 
 			</label>
 			<div className="flex flex-col sm:flex-row gap-4">
 				<div className="flex items-center gap-2">

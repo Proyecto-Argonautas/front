@@ -32,7 +32,7 @@ export default function HotelArticleTest() {
 	if (!visible) return null; // Oculta el artículo si se elimina
 
 	return (
-		<article className="relative w-full max-w-md mx-auto mt-5 bg-white rounded-2xl shadow-md">
+		<article className="relative w-full mt-5 bg-white rounded-2xl shadow-md">
 			<button
 				type="button"
 				className="flex items-center justify-between w-full p-4 cursor-pointer bg-transparent border-0 rounded-t-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
