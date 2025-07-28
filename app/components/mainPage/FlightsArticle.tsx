@@ -32,7 +32,7 @@ export default function FlightArticle() {
   if (!visible) return null; // No renderiza si fue eliminado
 
   return (
-    <article className="relative w-full max-w-md mx-auto mt-5 bg-white rounded-2xl shadow-md">
+    <article className="relative w-full mt-5 bg-white rounded-2xl shadow-md">
       <button
         aria-controls="article-details"
         aria-expanded={open}

@@ -4,13 +4,13 @@ import MenuBar from "~/components/bars/MenuBar";
 import HomeButton from "~/components/buttonsComponents/HomeButton";
 import ProfileButton from "~/components/buttonsComponents/ProfileButton";
 import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
+import { DateForm } from "~/components/forms/DateForm";
 import { DestinationForm } from "~/components/forms/DestinationForm";
 import MembersForm from "~/components/forms/MembersForm";
-import { DateForm } from "~/components/forms/DateForm";
 
 export default function MainFormPage() {
-  const [numberOfMembers, setNumberOfMembers] = useState(1);
-  const [memberNames, setMemberNames] = useState<string[]>([""]);
+  const [numberOfMembers, setNumberOfMembers] = useState(0);
+  const [memberNames, setMemberNames] = useState<string[]>([]);
 
   const handleNumberChange = (num: number) => {
     setNumberOfMembers(num);

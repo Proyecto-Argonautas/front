@@ -1,4 +1,3 @@
-// import React from "react";
 import { CalendarDays } from "lucide-react";
 
 type YourTravelCardWithBackgroundProps = {
@@ -7,6 +6,7 @@ type YourTravelCardWithBackgroundProps = {
   endDate: string;
   avatarUrl?: string;
   backgroundImage: string;
+  compact?: boolean;
 };
 
 const YourTravelCardWithBackground = ({
@@ -15,20 +15,58 @@ const YourTravelCardWithBackground = ({
   endDate,
   avatarUrl,
   backgroundImage,
+  compact = false,
 }: YourTravelCardWithBackgroundProps) => {
+  if (compact) {
+    return (
+      <div className="relative w-full h-32 rounded-t-xl overflow-hidden">
+        {/* Imagen de fondo */}
+        <img
+          alt="Fondo"
+          className="absolute inset-0 w-full h-full object-cover"
+          src={backgroundImage}
+        />
+
+        <div className="absolute inset-0 bg-black/25" />
+
+        <div className="relative h-full flex items-end p-4">
+          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-sm w-full flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-bold text-gray-900">{title}</h2>
+              <div className="flex items-center text-gray-600 mt-1 text-sm">
+                <CalendarDays className="mr-2 w-4 h-4" />
+                <span>
+                  {startDate} - {endDate}
+                </span>
+              </div>
+            </div>
+            {avatarUrl && (
+              <img
+                alt="Avatar"
+                className="w-8 h-8 rounded-full object-cover"
+                src={avatarUrl}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative w-full h-64 md:h-72 lg:h-80 rounded-xl overflow-hidden">
-      {/* Imagen de fondo */}
+    <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-t-xl overflow-hidden">
+      {/*
+
+
+			{/* Imagen de fondo */}
       <img
         alt="Fondo"
         className="absolute inset-0 w-full h-full object-cover"
         src={backgroundImage}
       />
 
-      {/* Overlay opcional */}
       <div className="absolute inset-0 bg-black/30" />
 
-      {/* Contenido encima */}
       <div className="relative h-full flex items-end p-4">
         <div className="bg-white rounded-xl p-4 shadow-lg w-full flex justify-between items-center">
           <div>
