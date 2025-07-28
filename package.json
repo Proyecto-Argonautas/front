@@ -15,29 +15,30 @@
 		"lint:fix-all": "oxlint --fix --fix-suggestions"
 	},
 	"dependencies": {
-		"@react-router/node": "^7.6.3",
-		"@react-router/serve": "^7.6.3",
-		"dotenv": "^17.2.0",
-		"isbot": "^5.1.28",
-		"lucide-react": "^0.525.0",
-		"nanoid": "^5.1.5",
-		"react": "^19.1.0",
-		"react-dom": "^19.1.0",
-		"react-router": "^7.6.3",
-		"zod": "^4.0.2"
+		"@react-router/node": "7.7.0",
+		"@react-router/serve": "7.7.0",
+		"better-auth": "^1.3.2",
+		"dotenv": "17.2.0",
+		"isbot": "5.1.28",
+		"lucide-react": "0.525.0",
+		"nanoid": "5.1.5",
+		"react": "19.1.0",
+		"react-dom": "19.1.0",
+		"react-router": "7.7.0",
+		"zod": "4.0.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.1.1",
-		"@react-router/dev": "^7.6.3",
-		"@tailwindcss/vite": "^4.1.11",
-		"@types/bun": "^1.2.18",
-		"@types/react": "^19.1.8",
-		"@types/react-dom": "^19.1.6",
-		"oxlint": "^1.6.0",
-		"tailwindcss": "^4.1.11",
-		"typescript": "^5.8.3",
-		"vite": "^7.0.4",
-		"vite-plugin-devtools-json": "^0.2.1",
-		"vite-tsconfig-paths": "^5.1.4"
+		"@biomejs/biome": "2.1.2",
+		"@react-router/dev": "7.7.0",
+		"@tailwindcss/vite": "4.1.11",
+		"@types/bun": "1.2.19",
+		"@types/react": "19.1.8",
+		"@types/react-dom": "19.1.6",
+		"oxlint": "1.7.0",
+		"tailwindcss": "4.1.11",
+		"typescript": "5.8.3",
+		"vite": "7.0.5",
+		"vite-plugin-devtools-json": "0.3.0",
+		"vite-tsconfig-paths": "5.1.4"
 	}
 }

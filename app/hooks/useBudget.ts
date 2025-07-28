@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface Expense {
   id: number;
@@ -11,19 +11,26 @@ interface Expense {
 export const useBudget = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState<"Vuelos" | "Alojamiento" | "Comida" | "Transporte" | "Otros">("Vuelos");
+  const [category, setCategory] = useState<
+    "Vuelos" | "Alojamiento" | "Comida" | "Transporte" | "Otros"
+  >("Vuelos");
   const [amount, setAmount] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
-  const [groupMembers] = useState<string[]>(["Albert", "María", "Carlos", "Ana"]);
+  const [groupMembers] = useState<string[]>([
+    "Albert",
+    "María",
+    "Carlos",
+    "Ana",
+  ]);
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
   const total = expenses.reduce((sum, e) => sum + e.amount, 0);
 
   const toggleMember = (member: string) => {
-    setSelectedMembers(prev => 
-      prev.includes(member) 
-        ? prev.filter(m => m !== member)
-        : [...prev, member]
+    setSelectedMembers((prev) =>
+      prev.includes(member)
+        ? prev.filter((m) => m !== member)
+        : [...prev, member],
     );
   };
 
@@ -34,9 +41,15 @@ export const useBudget = () => {
       setExpenses((prev) =>
         prev.map((exp) =>
           exp.id === editId
-            ? { ...exp, title, category, amount: parseFloat(amount), sharedWith: selectedMembers }
-            : exp
-        )
+            ? {
+                ...exp,
+                title,
+                category,
+                amount: parseFloat(amount),
+                sharedWith: selectedMembers,
+              }
+            : exp,
+        ),
       );
       setEditId(null);
     } else {
@@ -82,6 +95,6 @@ export const useBudget = () => {
     toggleMember,
     handleAddOrUpdateExpense,
     handleDelete,
-    handleEdit
+    handleEdit,
   };
 };
