@@ -23,7 +23,7 @@ const YourTravelNavBar = () => {
 					display: none;  /* Safari and Chrome */
 				}
 			`}</style>
-			<div className={`bg-white shadow-sm -mt-3 ${
+			<div className={`bg-white shadow-sm -mt-3 -mb-2 ${
 				isResumeMode ? 'rounded-xl' : 'rounded-t-xl'
 			}`}>
 				<div className="overflow-x-auto px-4 hide-scrollbar">
