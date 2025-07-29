@@ -39,17 +39,17 @@ export default [
     ]),
 
     // Ruta "/travel/create": formulario para crear un nuevo viaje
-    route("create", "pages/mainFormPage.tsx"),
+    route("create", "pages/travel/mainFormPage.tsx"),
   ]),
 
   // Agrupa rutas bajo "/user"
   ...prefix("user", [
     // Ruta "/user/profile": perfil de usuario
-    route("profile", "pages/profilePage.tsx"),
+    route("profile", "pages/user/profilePage.tsx"),
     // Ruta "/user/login": inicio de sesión de usuario
-    route("login", "pages/loginPage.tsx"),
+    route("login", "pages/user/loginPage.tsx"),
 
     // Ruta "/user/register": registro de usuario
-    route("register", "pages/registerPage.tsx"),
+    route("register", "pages/user/registerPage.tsx"),
   ]),
 ] satisfies RouteConfig;
