@@ -3,6 +3,11 @@ import HomeButton from "~/components/buttonsComponents/HomeButton";
 import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import LoginCard from "../components/login/LoginCard";
 
+export function meta() {
+  return [{ title: "Login" }, { name: "resume", content: "Login" }];
+}
+
+
 function LoginPage() {
   return (
     <>

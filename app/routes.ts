@@ -9,7 +9,7 @@ import {
 // por defecto esta root "/"
 export default [
   // Ruta principal: carga el componente de inicio en "/"
-  index("routes/home.tsx"),
+  index("pages/landingPage.tsx"),
 
   // Agrupa rutas bajo el prefijo "/travel"
   ...prefix("travel", [
@@ -47,7 +47,7 @@ export default [
     // Ruta "/user/profile": perfil de usuario
     route("profile", "routes/profile.tsx"),
     // Ruta "/user/login": inicio de sesión de usuario
-    route("login", "routes/login.tsx"),
+    route("login", "pages/loginPage.tsx"),
 
     // Ruta "/user/register": registro de usuario
     route("register", "routes/register.tsx"),

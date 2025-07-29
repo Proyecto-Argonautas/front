@@ -5,7 +5,11 @@ import ProfileButton from "~/components/buttonsComponents/ProfileButton";
 import SearchButton from "~/components/buttonsComponents/SearchButton";
 import DestinationCard from "../components/cards/DestinationCard";
 
-export function LandingPage() {
+export function meta() {
+  return [{ title: "Travels" }, { name: "resume", content: "Travels" }];
+}
+
+export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="flex flex-col gap-5 items-center justify-center pt-6 sm:pt-4 pb-25 px-4 max-w-6xl mx-auto sm:gap-4 ">
