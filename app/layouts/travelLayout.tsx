@@ -17,6 +17,9 @@ export default function TravelPage() {
 						  location.pathname.includes('/budget')|| 
 							location.pathname.includes('/packlist') ;
 
+	// Determinar si estamos en la página resume
+	const isResumePage = location.pathname.includes('/resume') || location.pathname === '/travel/1';
+
 	return (
 		<SectionsProvider>
 			<div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-25">{/* Reducido el gap de 5 a 3 */}
@@ -37,7 +40,7 @@ export default function TravelPage() {
 					<MenuBar>
 						<HomeButton />
 						
-						<AddArticleButton/>
+						{isResumePage && <AddArticleButton/>}
 						
 						<ProfileButton />
 					</MenuBar>
