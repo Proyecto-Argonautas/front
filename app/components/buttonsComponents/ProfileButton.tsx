@@ -3,8 +3,6 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { authClient } from "~/utils/auth-client";
 
-
-
 const ProfileButton = () => {
   let linkUrl = "/user/login";
   let buttonClass =
@@ -21,8 +19,6 @@ const ProfileButton = () => {
   //     setUser(true);
   //   }
   // });
-
-
 
   //!!poner user aqui abajo donde pone true!!
 

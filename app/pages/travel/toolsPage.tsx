@@ -16,9 +16,8 @@ export default function ToolPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
             🛠️ Herramientas de Viaje
           </h1>
-          
         </div>
-        
+
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
           <CurrencyExchangeCard key="currency-exchange" />
           <PackListCard key="pack-list" />

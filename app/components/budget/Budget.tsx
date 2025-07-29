@@ -187,14 +187,10 @@ const Budget: React.FC = () => {
           </div>
         </div>
 
-        
-        
         {/* Layout escritorio */}
         <div className="hidden lg:block">
           <div className="grid grid-cols-3 gap-8 py-4 items-stretch">
-           
-           
-           {/* Columna izquierda: Resumen */}
+            {/* Columna izquierda: Resumen */}
             <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
               <div className="bg-emerald-400 text-white rounded-2xl p-8 text-center shadow-lg">
                 <h2 className="text-4xl font-bold">{total.toFixed(2)} €</h2>
@@ -205,13 +201,22 @@ const Budget: React.FC = () => {
                 <h3 className="text-xl font-semibold mb-4">
                   Miembros del grupo
                 </h3>
-                <div className="space-y-3 overflow-y-auto" style={{maxHeight: '400px'}}>
+                <div
+                  className="space-y-3 overflow-y-auto"
+                  style={{ maxHeight: "400px" }}
+                >
                   {groupMembers.map((member) => {
                     const memberTotal = expenses
                       .filter((e) => e.sharedWith.includes(member))
-                      .reduce((sum, expense) => sum + (expense.amount / expense.sharedWith.length), 0);
-                    const memberExpenseCount = expenses.filter((e) => e.sharedWith.includes(member)).length;
-                    
+                      .reduce(
+                        (sum, expense) =>
+                          sum + expense.amount / expense.sharedWith.length,
+                        0,
+                      );
+                    const memberExpenseCount = expenses.filter((e) =>
+                      e.sharedWith.includes(member),
+                    ).length;
+
                     return (
                       <div
                         className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
@@ -225,7 +230,9 @@ const Budget: React.FC = () => {
                         </div>
                         <div className="text-right">
                           <div className="bg-white border-2 border-gray-400 rounded-lg px-3 py-1">
-                            <span className="font-bold text-lg">{memberTotal.toFixed(0)}€</span>
+                            <span className="font-bold text-lg">
+                              {memberTotal.toFixed(0)}€
+                            </span>
                           </div>
                           <span className="text-sm text-gray-500">
                             {memberExpenseCount} gastos
@@ -238,8 +245,6 @@ const Budget: React.FC = () => {
               </div>
             </div>
 
-            
-            
             {/* Columna central: Formulario */}
             <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
               <h3 className="text-2xl font-semibold mb-6">
@@ -350,9 +355,6 @@ const Budget: React.FC = () => {
               </div>
             </div>
 
-            
-            
-            
             {/* Columna derecha: Lista de gastos */}
             <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
               <h3 className="text-2xl font-semibold mb-6">Lista de gastos</h3>

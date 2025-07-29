@@ -1,7 +1,9 @@
-import type React from "react";
+import { Outlet } from "react-router";
 
-function App({ children }: { children: React.ReactNode }) {
-  return <div className="relative min-h-screen pb-16">{children}</div>;
+export default function MainLayout() {
+  return (
+    <main className="relative min-h-screen pb-16">
+      <Outlet />
+    </main>
+  );
 }
-
-export default App;

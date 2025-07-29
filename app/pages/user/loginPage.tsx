@@ -7,7 +7,6 @@ export function meta() {
   return [{ title: "Login" }, { name: "resume", content: "Login" }];
 }
 
-
 function LoginPage() {
   return (
     <>

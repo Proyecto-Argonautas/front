@@ -2,7 +2,6 @@ import WidgetBudget from "~/components/budget/WidgetBudget";
 import SectionsRenderer from "~/components/sections/SectionsRenderer";
 import { useBudget } from "~/hooks/useBudget";
 
-
 export function meta() {
   return [
     { title: "Travels - nombre viaje" },

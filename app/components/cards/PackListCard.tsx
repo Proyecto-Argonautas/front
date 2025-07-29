@@ -114,12 +114,16 @@ const PackListCard: React.FC = () => {
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg w-full h-fit ${isExpanded ? 'p-4 sm:p-6' : 'p-4'}`}>
+    <div
+      className={`bg-white rounded-xl shadow-lg w-full h-fit ${isExpanded ? "p-4 sm:p-6" : "p-4"}`}
+    >
       <div className="relative">
-        <h2 className={`text-center text-gray-800 pr-12 ${isExpanded ? 'text-xl sm:text-2xl font-bold mb-4 sm:mb-6' : 'text-lg font-semibold text-gray-700 mb-1'}`}>
+        <h2
+          className={`text-center text-gray-800 pr-12 ${isExpanded ? "text-xl sm:text-2xl font-bold mb-4 sm:mb-6" : "text-lg font-semibold text-gray-700 mb-1"}`}
+        >
           {isExpanded ? "🧳 Planificador de Equipaje" : "Equipaje"}
         </h2>
-        
+
         <button
           aria-label={
             isExpanded ? "Colapsar planificador" : "Expandir planificador"
@@ -194,7 +198,9 @@ const PackListCard: React.FC = () => {
               ) : (
                 <div className="text-center py-6 text-gray-500">
                   <p className="text-sm">🌍 Busca un destino</p>
-                  <p className="text-xs">para obtener recomendaciones de equipaje</p>
+                  <p className="text-xs">
+                    para obtener recomendaciones de equipaje
+                  </p>
                 </div>
               )}
             </div>
@@ -233,7 +239,9 @@ const PackListCard: React.FC = () => {
                 {packingList.length === 0 ? (
                   <div className="text-center py-6 text-gray-500">
                     <p className="text-sm">No hay ítems en tu lista</p>
-                    <p className="text-xs">¡Añade algunos elementos para empezar!</p>
+                    <p className="text-xs">
+                      ¡Añade algunos elementos para empezar!
+                    </p>
                   </div>
                 ) : (
                   <ul className="space-y-2">
@@ -244,15 +252,15 @@ const PackListCard: React.FC = () => {
                       >
                         <div className="flex items-center gap-3 flex-1">
                           <input
-                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                             checked={item.packed}
+                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                             onChange={() => togglePacked(item.id)}
                             type="checkbox"
                           />
                           <span
                             className={`transition-all duration-200 ${
-                              item.packed 
-                                ? "line-through text-gray-500 opacity-75" 
+                              item.packed
+                                ? "line-through text-gray-500 opacity-75"
                                 : "text-gray-700"
                             }`}
                           >

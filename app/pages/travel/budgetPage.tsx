@@ -5,7 +5,6 @@ export function meta() {
   ];
 }
 
-
 import Budget from "../../components/budget/Budget";
 
 const BudgetPage: React.FC = () => {

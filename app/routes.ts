@@ -39,7 +39,7 @@ export default [
     ]),
 
     // Ruta "/travel/create": formulario para crear un nuevo viaje
-    route("create", "pages/travel/mainFormPage.tsx"),
+    route("create", "pages/travel/createTravelPage.tsx"),
   ]),
 
   // Agrupa rutas bajo "/user"

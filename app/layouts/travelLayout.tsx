@@ -7,7 +7,7 @@ import ProfileButton from "~/components/buttonsComponents/ProfileButton";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import { SectionsProvider } from "~/contexts/SectionsContext";
 
-export default function TravelPage() {
+export default function TravelLayout() {
   const location = useLocation();
 
   // Determinar si estamos en una ruta que requiere modo compacto
@@ -24,7 +24,6 @@ export default function TravelPage() {
   return (
     <SectionsProvider>
       <div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-20">
-    
         <div className="bg-gray-100 min-h-screen">
           <YourTravelCardWithBackground
             avatarUrl="https://i.pravatar.cc/40?img=56"

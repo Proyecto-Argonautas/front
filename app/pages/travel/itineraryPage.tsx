@@ -5,7 +5,6 @@ export function meta() {
   ];
 }
 
-
 export default function ItineraryPage() {
   return (
     <div>
