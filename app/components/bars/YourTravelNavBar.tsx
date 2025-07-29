@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router";
 
-const tabs = ["Resume", "Itinerary", "Tools", "Budget", "Packlist"];
+const tabs = ["Resume", "Itinerary", "Tools", "Budget"];
 
 const YourTravelNavBar = () => {
   const [activeTab, setActiveTab] = useState("Resume");
@@ -25,7 +25,7 @@ const YourTravelNavBar = () => {
 				}
 			`}</style>
       <div
-        className={`bg-white shadow-sm -mt-3 ${
+        className={`bg-white shadow-sm -mt-3 -mb-2 ${
           isResumeMode ? "rounded-xl" : "rounded-t-xl"
         }`}
       >
