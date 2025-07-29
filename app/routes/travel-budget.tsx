@@ -1,6 +1,5 @@
 import BudgetPage from "~/pages/travel/budgetPage";
 
-
 // {}: Route.MetaArgs
 export function meta() {
   return [
