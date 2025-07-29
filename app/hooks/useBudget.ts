@@ -21,6 +21,8 @@ export const useBudget = () => {
     "María",
     "Carlos",
     "Ana",
+    "Luis",
+    "Sofía",
   ]);
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 

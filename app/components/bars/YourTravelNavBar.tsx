@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router";
 
-const tabs = ["Resume", "Itinerary", "Tools", "Budget", "Packlist"];
+const tabs = ["Resume", "Itinerary", "Tools", "Budget"];
 
 const YourTravelNavBar = () => {
   const [activeTab, setActiveTab] = useState("Resume");

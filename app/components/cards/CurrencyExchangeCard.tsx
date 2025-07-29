@@ -180,7 +180,7 @@ const CurrencyExchangeCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-sm mt-8 bg-white rounded-2xl shadow-lg p-4 relative">
+    <div className="w-full max-w-sm  bg-white rounded-2xl shadow-lg p-4 relative">
       <div className="flex items-start justify-between mb-1">
         <div className="flex-1 pr-12">
           {isExpanded ? (

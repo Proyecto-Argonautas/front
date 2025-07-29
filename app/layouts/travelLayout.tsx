@@ -23,8 +23,8 @@ export default function TravelPage() {
 
   return (
     <SectionsProvider>
-      <div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-25">
-        {/* Reducido el gap de 5 a 3 */}
+      <div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-20">
+    
         <div className="bg-gray-100 min-h-screen">
           <YourTravelCardWithBackground
             avatarUrl="https://i.pravatar.cc/40?img=56"
