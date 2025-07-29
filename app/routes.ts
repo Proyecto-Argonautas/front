@@ -18,38 +18,38 @@ export default [
       // Define un layout para todas las rutas hijas bajo "/travel/1"
       layout("layouts/travelLayout.tsx", [
         // Ruta "/travel/1" muestra la descripción del viaje
-        index("routes/travel-resume.tsx", {
+        index("pages/travel/resumePage.tsx", {
           id: "travel-resume-index",
         }),
 
         // Ruta "/travel/1/resume": muestra la descripción del viaje
-        route("resume", "routes/travel-resume.tsx", {
+        route("resume", "pages/travel/resumePage.tsx", {
           id: "travel-resume-route",
         }),
 
         // Ruta "/travel/1/itinerary": muestra el itinerario del viaje
-        route("itinerary", "routes/travel-itinerary.tsx"),
+        route("itinerary", "pages/travel/itineraryPage.tsx"),
 
         // Ruta "/travel/1/tools": muestra las herramientas del viaje
-        route("tools", "routes/travel-tools.tsx"),
+        route("tools", "pages/travel/toolsPage.tsx"),
 
         // Ruta "/travel/1/budget": muestra el presupuesto del viaje
-        route("budget", "routes/travel-budget.tsx"),
+        route("budget", "pages/travel/budgetPage.tsx"),
       ]),
     ]),
 
     // Ruta "/travel/create": formulario para crear un nuevo viaje
-    route("create", "routes/main-form.tsx"),
+    route("create", "pages/mainFormPage.tsx"),
   ]),
 
   // Agrupa rutas bajo "/user"
   ...prefix("user", [
     // Ruta "/user/profile": perfil de usuario
-    route("profile", "routes/profile.tsx"),
+    route("profile", "pages/profilePage.tsx"),
     // Ruta "/user/login": inicio de sesión de usuario
     route("login", "pages/loginPage.tsx"),
 
     // Ruta "/user/register": registro de usuario
-    route("register", "routes/register.tsx"),
+    route("register", "pages/registerPage.tsx"),
   ]),
 ] satisfies RouteConfig;

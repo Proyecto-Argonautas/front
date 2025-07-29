@@ -8,6 +8,14 @@ import { DateForm } from "~/components/forms/DateForm";
 import { DestinationForm } from "~/components/forms/DestinationForm";
 import MembersForm from "~/components/forms/MembersForm";
 
+
+export function meta() {
+  return [
+    { title: "Travels - Main Form" },
+    { name: "resume", content: "Form create travels" },
+  ];
+}
+
 export default function MainFormPage() {
   const [numberOfMembers, setNumberOfMembers] = useState(0);
   const [memberNames, setMemberNames] = useState<string[]>([]);

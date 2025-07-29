@@ -1,6 +1,13 @@
 import CurrencyExchangeCard from "~/components/cards/CurrencyExchangeCard";
 import PackListCard from "~/components/cards/PackListCard";
 
+export function meta() {
+  return [
+    { title: "Travels - nombre viaje" },
+    { name: "resume", content: "Nombre viaje" },
+  ];
+}
+
 export default function ToolPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-4 sm:py-6 px-2 sm:px-4">

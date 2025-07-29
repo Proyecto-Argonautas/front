@@ -3,6 +3,14 @@ import HomeButton from "~/components/buttonsComponents/HomeButton";
 
 import ProfileCard from "~/components/profile/ProfileCard";
 
+
+export function meta() {
+  return [
+    { title: "User Profile" },
+    { name: "resume", content: "User profile" },
+  ];
+}
+
 function ProfilePage() {
   return (
     <>
