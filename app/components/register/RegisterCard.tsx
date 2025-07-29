@@ -1,12 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import RegisterSubmit from "./RegisterSubmit";
 
 const RegisterCard: React.FC = () => {
 	const [email, setEmail] = useState("");
 	const [name, setName] = useState("");
 	const [lastName, setLastName] = useState("");
 
-	
+	const handleRegistrationSubmit = (data: { email: string; name: string; lastName: string }) => {
+		// Aquí puedes agregar la lógica específica después del registro exitoso
+		console.log("Datos de registro:", data);
+		// Por ejemplo, redireccionar a otra página o mostrar un mensaje de éxito
+	};
 
 	return (
 		<div className="flex flex-col items-center bg-gray-100 min-h-screen px-6 pt-6 md:pt-2">
@@ -48,10 +53,13 @@ const RegisterCard: React.FC = () => {
          onChange={(e) => setLastName(e.target.value)}
          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
 
-
-
-
-
+				{/* Botón de registro */}
+				<RegisterSubmit
+					email={email}
+					name={name}
+					lastName={lastName}
+					onSubmit={handleRegistrationSubmit}
+				/>
 
 			</div>
 			<div className="flex justify-center text-gray-600 mt-5">
