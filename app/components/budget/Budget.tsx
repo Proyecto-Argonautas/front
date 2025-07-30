@@ -1,6 +1,8 @@
 import {
   BedDouble,
   Car,
+  ChevronDown,
+  ChevronUp,
   MoreHorizontal,
   Pencil,
   Plane,
@@ -9,6 +11,7 @@ import {
   Users,
   Utensils,
 } from "lucide-react";
+import { useState } from "react";
 import { useBudget } from "../../hooks/useBudget";
 
 const iconForCategory = (category: string) => {
@@ -29,6 +32,8 @@ const iconForCategory = (category: string) => {
 };
 
 const Budget: React.FC = () => {
+  const [showMembers, setShowMembers] = useState(false);
+  
   const {
     expenses,
     title,
@@ -52,10 +57,69 @@ const Budget: React.FC = () => {
       <div className="max-w-md mx-auto lg:max-w-7xl">
         {/* Layout móvil */}
         <div className="lg:hidden">
-          <div className="bg-cold-light-900 text-white rounded-2xl p-6 text-center shadow-lg">
-            <h2 className="text-3xl font-bold">{total.toFixed(2)} €</h2>
-            <p className="mt-2 text-sm">Gasto total del grupo</p>
+          <div 
+            className="bg-cold-light-900 text-white rounded-2xl p-6 text-center shadow-lg cursor-pointer hover:bg-cold-light-800 transition-colors"
+            onClick={() => setShowMembers(!showMembers)}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <div>
+                <h2 className="text-3xl font-bold">{total.toFixed(2)} €</h2>
+                <p className="mt-2 text-sm">Gasto total del grupo</p>
+              </div>
+              {showMembers ? (
+                <ChevronUp className="w-6 h-6" />
+              ) : (
+                <ChevronDown className="w-6 h-6" />
+              )}
+            </div>
           </div>
+
+          {/* Sección desplegable de miembros */}
+          {showMembers && (
+            <div className="mt-4 bg-light-primary rounded-2xl p-4 shadow-lg">
+              <h3 className="text-lg font-semibold mb-3">
+                Miembros del grupo
+              </h3>
+              <div className="space-y-3">
+                {groupMembers.map((member) => {
+                  const memberTotal = expenses
+                    .filter((e) => e.sharedWith.includes(member))
+                    .reduce(
+                      (sum, expense) =>
+                        sum + expense.amount / expense.sharedWith.length,
+                      0,
+                    );
+                  const memberExpenseCount = expenses.filter((e) =>
+                    e.sharedWith.includes(member),
+                  ).length;
+
+                  return (
+                    <div
+                      className="flex items-center justify-between p-3 bg-light-secondary-50 rounded-lg"
+                      key={member}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-cold-light-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                          {member.charAt(0)}
+                        </div>
+                        <span className="font-medium">{member}</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="bg-light-primary border-2 border-gray-400 rounded-lg px-3 py-1">
+                          <span className="font-bold text-lg">
+                            {memberTotal.toFixed(0)}€
+                          </span>
+                        </div>
+                        <span className="text-sm text-gray-500">
+                          {memberExpenseCount} gastos
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="mt-6">
             <h3 className="text-xl font-semibold mb-2">Gastos</h3>

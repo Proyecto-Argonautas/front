@@ -1,5 +1,4 @@
-import MenuBar from "~/components/bars/MenuBar";
-import HomeButton from "~/components/buttonsComponents/HomeButton";
+
 
 import ProfileCard from "~/components/profile/ProfileCard";
 
@@ -20,9 +19,7 @@ function ProfilePage() {
         viajesCount={5}
       />
 
-      <MenuBar>
-        <HomeButton />
-      </MenuBar>
+     
     </>
   );
 }
