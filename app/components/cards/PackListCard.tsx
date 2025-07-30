@@ -118,25 +118,33 @@ const PackListCard: React.FC = () => {
       className={`bg-light-primary rounded-xl shadow-lg w-full h-fit ${isExpanded ? "p-4 sm:p-6" : "p-4"}`}
     >
       <div className="relative">
-        <h2
-          className={`text-center text-gray-800 pr-12 ${isExpanded ? "text-xl sm:text-2xl font-bold mb-4 sm:mb-6" : "text-lg font-semibold text-gray-700 mb-1"}`}
-        >
-          {isExpanded ? "🧳 Planificador de Equipaje" : "Equipaje"}
-        </h2>
-
-        <button
-          aria-label={
-            isExpanded ? "Colapsar planificador" : "Expandir planificador"
-          }
-          className="absolute top-0 right-0 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
+        <div 
+          className="cursor-pointer pr-12 flex items-center justify-between"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? (
-            <ChevronUp className="w-5 h-5 text-gray-600" />
-          ) : (
-            <ChevronDown className="w-5 h-5 text-gray-600" />
-          )}
-        </button>
+          <h2
+            className={` text-gray-800 flex-1 ${isExpanded ? "text-center text-xl sm:text-2xl font-bold mb-4 sm:mb-6" : "text-lg font-semibold text-gray-700 mb-1"}`}
+          >
+            {isExpanded ? "🧳 Planificador de Equipaje" : "Planificador de Equipaje"}
+          </h2>
+
+          <button
+            aria-label={
+              isExpanded ? "Colapsar planificador" : "Expandir planificador"
+            }
+            className="absolute top-0 right-0 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
+          >
+            {isExpanded ? (
+              <ChevronUp className="w-5 h-5 text-gray-600" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-gray-600" />
+            )}
+          </button>
+        </div>
       </div>
 
       {isExpanded && (
@@ -158,7 +166,7 @@ const PackListCard: React.FC = () => {
                   value={destination}
                 />
                 <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px]"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px]"
                   disabled={loading}
                   onClick={fetchWeather}
                   type="button"
@@ -226,7 +234,7 @@ const PackListCard: React.FC = () => {
                   value={newItem}
                 />
                 <button
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 font-medium shadow-sm min-w-[80px]"
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300 font-medium shadow-sm min-w-[80px]"
                   onClick={addItem}
                   type="button"
                 >
@@ -247,7 +255,7 @@ const PackListCard: React.FC = () => {
                   <ul className="space-y-2">
                     {packingList.map((item) => (
                       <li
-                        className="flex items-center justify-between p-3 border border-green-100 rounded-lg bg-light-primary shadow-sm hover:shadow-md transition-shadow duration-200"
+                        className="flex items-center justify-between p-3 border border-green-100 rounded-lg bg-light-primary shadow-sm hover:shadow-md transition-shadow duration-300"
                         key={item.id}
                       >
                         <div className="flex items-center gap-3 flex-1">
@@ -258,7 +266,7 @@ const PackListCard: React.FC = () => {
                             type="checkbox"
                           />
                           <span
-                            className={`transition-all duration-200 ${
+                            className={`transition-all duration-300 ${
                               item.packed
                                 ? "line-through text-gray-500 opacity-75"
                                 : "text-gray-700"
@@ -269,7 +277,7 @@ const PackListCard: React.FC = () => {
                         </div>
                         <button
                           aria-label="Eliminar"
-                          className="text-red-400 hover:text-red-600 p-1 rounded transition-colors duration-200 hover:bg-red-50"
+                          className="text-red-400 hover:text-red-600 p-1 rounded transition-colors duration-300 hover:bg-red-50"
                           onClick={() => removeItem(item.id)}
                           type="button"
                         >

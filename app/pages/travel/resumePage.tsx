@@ -20,9 +20,9 @@ export default function ResumePage() {
           <SectionsRenderer />
         </div>
 
-        {/* Columna derecha - Budget */}
+        {/* Columna derecha - Presupuesto */}
         <div className="lg:w-80 lg:mt-5">
-          <WidgetBudget currency="€" title="Budgeting" total={total} />
+          <WidgetBudget currency="€" title="PRESUPUESTO TOTAL" total={total} />
         </div>
       </div>
     </div>

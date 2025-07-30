@@ -58,7 +58,7 @@ const Budget: React.FC = () => {
         {/* Layout móvil */}
         <div className="lg:hidden">
           <div 
-            className="bg-cold-light-900 text-white rounded-2xl p-6 text-center shadow-lg cursor-pointer hover:bg-cold-light-800 transition-colors"
+            className="bg-cold-light-500 text-white rounded-2xl p-6 text-center shadow-lg cursor-pointer hover:bg-cold-light-800 transition-colors"
             onClick={() => setShowMembers(!showMembers)}
           >
             <div className="flex items-center justify-center gap-2">
@@ -169,7 +169,7 @@ const Budget: React.FC = () => {
                     <button
                       className={`px-3 py-2 rounded-lg text-sm transition-colors ${
                         selectedMembers.includes(member)
-                          ? "bg-cold-light-500 text-white"
+                          ? "bg-cold-light-100 text-gray-700"
                           : "bg-light-secondary-100 text-gray-700 hover:bg-light-secondary-200"
                       }`}
                       key={member}
@@ -180,9 +180,13 @@ const Budget: React.FC = () => {
                     </button>
                   ))}
                 </div>
-                {selectedMembers.length === 0 && (
+                {selectedMembers.length === 0 ? (
                   <p className="text-xs text-red-500 mt-1">
                     Selecciona al menos un miembro
+                  </p>
+                ) : (
+                  <p className="text-xs text-light-secondary-400 mt-1">
+                    Has seleccionado {selectedMembers.length} {selectedMembers.length === 1 ? 'miembro' : 'miembros'}
                   </p>
                 )}
               </div>
@@ -389,7 +393,7 @@ const Budget: React.FC = () => {
                         <button
                           className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                             selectedMembers.includes(member)
-                              ? "bg-cold-light-500 text-white shadow-md"
+                              ? "bg-cold-light-100 text-gray-700 shadow-md"
                               : "bg-light-secondary-100 text-gray-700 hover:bg-light-secondary-200"
                           }`}
                           key={member}
@@ -400,9 +404,13 @@ const Budget: React.FC = () => {
                         </button>
                       ))}
                     </div>
-                    {selectedMembers.length === 0 && (
+                    {selectedMembers.length === 0 ? (
                       <p className="text-sm text-red-500 mt-2">
                         Selecciona al menos un miembro
+                      </p>
+                    ) : (
+                      <p className="text-sm text-light-secondary-400 mt-2">
+                        Has seleccionado {selectedMembers.length} {selectedMembers.length === 1 ? 'miembro' : 'miembros'}
                       </p>
                     )}
                   </div>

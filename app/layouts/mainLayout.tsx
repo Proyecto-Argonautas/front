@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "react-router";
+import React from "react";
 
 import MenuBar from "~/components/bars/MenuBar";
 import AddArticleButton from "~/components/buttonsComponents/AddArticleButton";
@@ -9,11 +10,15 @@ import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import SearchButton from "~/components/buttonsComponents/SearchButton";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
+import LayoutTransition from "~/components/transitions/LayoutTransition";
 import { SectionsProvider } from "~/contexts/SectionsContext";
+
 
 export default function MainLayout() {
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const [count, setCount] = React.useState(0);
 
   // Determinar si mostrar el header
   const headerView = currentPath.includes("/travel") && !currentPath.includes("/create") 
@@ -95,14 +100,16 @@ export default function MainLayout() {
   return (
     <SectionsProvider>
       <header className={headerView}>
-        <YourTravelCardWithBackground
-          avatarUrl="https://i.pravatar.cc/40?img=56"
-          backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          compact={isCompactMode}
-          endDate="31/7"
-          startDate="15/7"
-          title="Viaje a Islandia"
-        />
+        <LayoutTransition>
+          <YourTravelCardWithBackground
+            avatarUrl="https://i.pravatar.cc/40?img=56"
+            backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            compact={isCompactMode}
+            endDate="31/7"
+            startDate="15/7"
+            title="Viaje a Islandia"
+          />
+        </LayoutTransition>
 
         <YourTravelNavBar />
 
@@ -115,7 +122,7 @@ export default function MainLayout() {
 
       <main className="min-h-screen bg-light-secondary-100">
         {/* Aqui se carga el contenido cuando se llama al layout */}
-        <Outlet />
+        <Outlet context={[count, setCount]}/>
       </main>
       <footer>
         <MenuBar>

@@ -1,6 +1,7 @@
-
+// import { useOutletContext } from "react-router";
 
 import ProfileCard from "~/components/profile/ProfileCard";
+import getUser from "~/utils/local/user";
 
 export function meta() {
   return [
@@ -10,6 +11,12 @@ export function meta() {
 }
 
 function ProfilePage() {
+  // const [count, setCount] = useOutletContext<[number, React.Dispatch<React.SetStateAction<number>>]>();
+  // const increment = () => setCount((c) => c + 1);
+
+  console.log(getUser());
+  
+  
   return (
     <>
       <ProfileCard
@@ -18,7 +25,6 @@ function ProfilePage() {
         username="albertg"
         viajesCount={5}
       />
-
      
     </>
   );

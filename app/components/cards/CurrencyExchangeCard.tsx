@@ -181,8 +181,11 @@ const CurrencyExchangeCard: React.FC = () => {
 
   return (
     <div className="w-full max-w-sm  bg-light-primary rounded-2xl shadow-lg p-4 relative">
-      <div className="flex items-start justify-between mb-1">
-        <div className="flex-1 pr-12">
+      <div 
+        className="flex items-start justify-between mb-1 cursor-pointer pr-12"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex-1">
           {isExpanded ? (
             <>
               <div className="text-gray-600 text-sm">
@@ -200,7 +203,7 @@ const CurrencyExchangeCard: React.FC = () => {
             </>
           ) : (
             <div className="text-lg font-semibold text-gray-700">
-              Currency Exchange
+              Cambio de divisas 
             </div>
           )}
         </div>
@@ -209,7 +212,10 @@ const CurrencyExchangeCard: React.FC = () => {
             isExpanded ? "Colapsar convertidor" : "Expandir convertidor"
           }
           className="absolute top-4 right-4 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
         >
           {isExpanded ? (
             <ChevronUp className="w-5 h-5 text-gray-600" />
