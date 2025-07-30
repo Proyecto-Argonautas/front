@@ -24,7 +24,7 @@ const MembersForm: React.FC<MembersFormProps> = ({
         <div className="flex items-center gap-2">
           <button
             aria-label="Disminuir miembros"
-            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 transition disabled:opacity-50"
+            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-light-primary text-gray-700 hover:bg-light-secondary-100 transition disabled:opacity-50"
             disabled={numberOfMembers <= 0}
             onClick={() => onNumberChange(Math.max(0, numberOfMembers - 1))}
             type="button"
@@ -38,7 +38,7 @@ const MembersForm: React.FC<MembersFormProps> = ({
 
           <button
             aria-label="Aumentar miembros"
-            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 transition disabled:opacity-50"
+            className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-light-primary text-gray-700 hover:bg-light-secondary-100 transition disabled:opacity-50"
             disabled={numberOfMembers >= 20}
             onClick={() => onNumberChange(Math.min(20, numberOfMembers + 1))}
             type="button"

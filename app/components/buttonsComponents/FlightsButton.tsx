@@ -6,7 +6,7 @@ const FlightsButton = () => {
   return (
     <Link to="/">
       <button
-        className="bg-emerald-400 text-white rounded-full p-4 shadow-lg "
+        className="bg-cold-light-400 text-white rounded-full p-4 shadow-lg "
         type="button"
       >
         <Plane className="w-6 h-6" />

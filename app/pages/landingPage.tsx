@@ -12,7 +12,7 @@ export function meta() {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-light-secondary-100">
       <main className="flex flex-col gap-5 items-center justify-center pt-6 sm:pt-4 pb-25 px-4 max-w-6xl mx-auto sm:gap-4 ">
         {/* Layout móvil: todo vertical */}
         <MobileLanding />

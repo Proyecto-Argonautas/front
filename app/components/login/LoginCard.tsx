@@ -11,11 +11,11 @@ const LoginCard: React.FC = () => {
   // TODO Hacer que los botones tengan un loader hasta que la petición se complete
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 min-h-screen px-6 pt-6 md:pt-2">
-      <h2 className="bg-emerald-400 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
+    <div className="flex flex-col items-center bg-light-secondary-100 min-h-screen px-6 pt-6 md:pt-2">
+      <h2 className="bg-cold-light-400 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
         Iniciar Sesión
       </h2>
-      <div className="bg-emerald-400 text-black p-8 rounded-lg w-full max-w-sm shadow-lg">
+      <div className="bg-cold-light-400 text-black p-8 rounded-lg w-full max-w-sm shadow-lg">
         <p className="text-sm mb-6">
           Ingresa tu correo electrónico a continuación para iniciar sesión en tu
           cuenta
@@ -24,7 +24,7 @@ const LoginCard: React.FC = () => {
           Email
         </label>
         <input
-          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-light-secondary-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           id="email"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="correo@example.com"
@@ -33,7 +33,7 @@ const LoginCard: React.FC = () => {
           value={email}
         />
         <button
-          className="w-full mb-4 py-2 bg-gray-100 text-black font-medium rounded-md hover:bg-gray-200 transition"
+          className="w-full mb-4 py-2 bg-light-secondary-100 text-black font-medium rounded-md hover:bg-light-secondary-200 transition"
           onClick={async () => {
             await signIn.magicLink(
               {
@@ -54,7 +54,7 @@ const LoginCard: React.FC = () => {
           Sign-in with Magic Link
         </button>
         <button
-          className="w-full py-2 bg-gray-100 text-black font-medium rounded-md hover:bg-gray-200 transition"
+          className="w-full py-2 bg-light-secondary-100 text-black font-medium rounded-md hover:bg-light-secondary-200 transition"
           // disabled={loading}
           onClick={async () => {
             await signIn.social(

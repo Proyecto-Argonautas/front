@@ -31,7 +31,7 @@ const TestMembersForm: React.FC = () => {
         <span className="text-sm font-medium text-gray-700">MIEMBROS</span>
         <div className="flex items-center space-x-2">
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-full border text-lg text-gray-600 hover:bg-gray-100"
+            className="w-8 h-8 flex items-center justify-center rounded-full border text-lg text-gray-600 hover:bg-light-secondary-100"
             onClick={removeMember}
             type="button"
           >
@@ -39,7 +39,7 @@ const TestMembersForm: React.FC = () => {
           </button>
           <span className="w-6 text-center text-lg">{members.length}</span>
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-full border text-lg text-gray-600 hover:bg-gray-100"
+            className="w-8 h-8 flex items-center justify-center rounded-full border text-lg text-gray-600 hover:bg-light-secondary-100"
             onClick={addMember}
             type="button"
           >

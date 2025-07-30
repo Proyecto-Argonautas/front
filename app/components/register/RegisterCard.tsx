@@ -18,7 +18,7 @@ const RegisterCard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 min-h-screen px-6 pt-6 md:pt-2">
+    <div className="flex flex-col items-center bg-light-secondary-100 min-h-screen px-6 pt-6 md:pt-2">
       <h2 className="bg-amber-200 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
         Registra tu cuenta
       </h2>
@@ -29,7 +29,7 @@ const RegisterCard: React.FC = () => {
 
         {/* Email */}
         <input
-          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-light-secondary-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           id="email"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="tuemail@example.com"
@@ -39,7 +39,7 @@ const RegisterCard: React.FC = () => {
 
         {/* Nombre completo */}
         <input
-          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-light-secondary-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           id="name"
           onChange={(e) => setName(e.target.value)}
           placeholder="Nombre"
@@ -49,7 +49,7 @@ const RegisterCard: React.FC = () => {
 
         {/* Apellido */}
         <input
-          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full px-3 py-2 mb-4 text-black rounded-md bg-light-secondary-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           id="last-name"
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Apellido"

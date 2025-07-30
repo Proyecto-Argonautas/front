@@ -30,7 +30,7 @@ const YourTravelCardWithBackground = ({
         <div className="absolute inset-0 bg-black/25" />
 
         <div className="relative h-full flex items-end p-4">
-          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-3 shadow-sm w-full flex justify-between items-center">
+          <div className="bg-light-primary/95 backdrop-blur-sm rounded-lg p-3 shadow-sm w-full flex justify-between items-center">
             <div>
               <h2 className="text-lg font-bold text-gray-900">{title}</h2>
               <div className="flex items-center text-gray-600 mt-1 text-sm">
@@ -68,7 +68,7 @@ const YourTravelCardWithBackground = ({
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative h-full flex items-end p-4">
-        <div className="bg-white rounded-xl p-4 shadow-lg w-full flex justify-between items-center">
+        <div className="bg-light-primary rounded-xl p-4 shadow-lg w-full flex justify-between items-center">
           <div>
             <h2 className="text-xl font-bold text-gray-900">{title}</h2>
             <div className="flex items-center text-gray-600 mt-1 text-sm">
@@ -88,7 +88,7 @@ const YourTravelCardWithBackground = ({
               />
             )}
             <button
-              className="bg-gray-900 text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-gray-800 mr-3"
+              className="bg-light-secondary-900 text-white text-sm font-semibold px-4 py-1.5 rounded-full hover:bg-light-secondary-800 mr-3"
               type="button"
             >
               Compartir

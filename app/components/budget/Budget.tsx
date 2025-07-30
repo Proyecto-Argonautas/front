@@ -48,11 +48,11 @@ const Budget: React.FC = () => {
   } = useBudget();
 
   return (
-    <div className="bg-gray-50 px-4 pt-4 pb-4">
+    <div className="bg-light-secondary-50 px-4 pt-4 pb-4">
       <div className="max-w-md mx-auto lg:max-w-7xl">
         {/* Layout móvil */}
         <div className="lg:hidden">
-          <div className="bg-emerald-900 text-white rounded-2xl p-6 text-center shadow-lg">
+          <div className="bg-cold-light-900 text-white rounded-2xl p-6 text-center shadow-lg">
             <h2 className="text-3xl font-bold">{total.toFixed(2)} €</h2>
             <p className="mt-2 text-sm">Gasto total del grupo</p>
           </div>
@@ -105,8 +105,8 @@ const Budget: React.FC = () => {
                     <button
                       className={`px-3 py-2 rounded-lg text-sm transition-colors ${
                         selectedMembers.includes(member)
-                          ? "bg-emerald-500 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          ? "bg-cold-light-500 text-white"
+                          : "bg-light-secondary-100 text-gray-700 hover:bg-light-secondary-200"
                       }`}
                       key={member}
                       onClick={() => toggleMember(member)}
@@ -123,7 +123,7 @@ const Budget: React.FC = () => {
                 )}
               </div>
               <button
-                className="w-full bg-emerald-400 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-cold-light-400 hover:bg-cold-light-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
                 onClick={handleAddOrUpdateExpense}
                 type="button"
               >
@@ -135,7 +135,7 @@ const Budget: React.FC = () => {
             <div className="space-y-3">
               {expenses.map((expense) => (
                 <div
-                  className="flex items-center p-4 justify-between bg-white border border-gray-200 rounded-lg shadow-sm"
+                  className="flex items-center p-4 justify-between bg-light-primary border border-gray-200 rounded-lg shadow-sm"
                   key={expense.id}
                 >
                   <div className="flex items-center gap-4">
@@ -166,14 +166,14 @@ const Budget: React.FC = () => {
                     </p>
                     <div className="flex gap-2 mt-1 justify-end">
                       <button
-                        className="p-1 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1 hover:bg-light-secondary-100 rounded transition-colors"
                         onClick={() => handleEdit(expense)}
                         type="button"
                       >
                         <Pencil className="w-4 h-4 text-blue-600" />
                       </button>
                       <button
-                        className="p-1 hover:bg-gray-100 rounded transition-colors"
+                        className="p-1 hover:bg-light-secondary-100 rounded transition-colors"
                         onClick={() => handleDelete(expense.id)}
                         type="button"
                       >
@@ -191,8 +191,8 @@ const Budget: React.FC = () => {
         <div className="hidden lg:block">
           <div className="grid grid-cols-3 gap-8 py-4 items-stretch">
             {/* Columna izquierda: Resumen */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
-              <div className="bg-emerald-400 text-white rounded-2xl p-8 text-center shadow-lg">
+            <div className="bg-light-primary rounded-2xl p-6 shadow-lg flex flex-col">
+              <div className="bg-cold-light-400 text-white rounded-2xl p-8 text-center shadow-lg">
                 <h2 className="text-4xl font-bold">{total.toFixed(2)} €</h2>
                 <p className="mt-3 text-base">Gasto total del grupo</p>
               </div>
@@ -219,17 +219,17 @@ const Budget: React.FC = () => {
 
                     return (
                       <div
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between p-3 bg-light-secondary-50 rounded-lg"
                         key={member}
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                          <div className="w-8 h-8 bg-cold-light-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
                             {member.charAt(0)}
                           </div>
                           <span className="font-medium">{member}</span>
                         </div>
                         <div className="text-right">
-                          <div className="bg-white border-2 border-gray-400 rounded-lg px-3 py-1">
+                          <div className="bg-light-primary border-2 border-gray-400 rounded-lg px-3 py-1">
                             <span className="font-bold text-lg">
                               {memberTotal.toFixed(0)}€
                             </span>
@@ -246,7 +246,7 @@ const Budget: React.FC = () => {
             </div>
 
             {/* Columna central: Formulario */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
+            <div className="bg-light-primary rounded-2xl p-6 shadow-lg flex flex-col">
               <h3 className="text-2xl font-semibold mb-6">
                 Añadir nuevo gasto
               </h3>
@@ -325,8 +325,8 @@ const Budget: React.FC = () => {
                         <button
                           className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                             selectedMembers.includes(member)
-                              ? "bg-emerald-500 text-white shadow-md"
-                              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                              ? "bg-cold-light-500 text-white shadow-md"
+                              : "bg-light-secondary-100 text-gray-700 hover:bg-light-secondary-200"
                           }`}
                           key={member}
                           onClick={() => toggleMember(member)}
@@ -345,7 +345,7 @@ const Budget: React.FC = () => {
                 </div>
 
                 <button
-                  className="w-full bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium text-lg mt-6"
+                  className="w-full bg-cold-light-500 hover:bg-cold-light-600 text-white px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium text-lg mt-6"
                   onClick={handleAddOrUpdateExpense}
                   type="button"
                 >
@@ -356,13 +356,13 @@ const Budget: React.FC = () => {
             </div>
 
             {/* Columna derecha: Lista de gastos */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg flex flex-col">
+            <div className="bg-light-primary rounded-2xl p-6 shadow-lg flex flex-col">
               <h3 className="text-2xl font-semibold mb-6">Lista de gastos</h3>
 
               <div className="space-y-4 flex-1">
                 {expenses.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-16 bg-light-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Plus className="w-8 h-8 text-gray-400" />
                     </div>
                     <p className="text-lg">No hay gastos aún</p>
@@ -371,7 +371,7 @@ const Budget: React.FC = () => {
                 ) : (
                   expenses.map((expense) => (
                     <div
-                      className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors"
+                      className="bg-light-secondary-50 rounded-lg p-4 hover:bg-light-secondary-100 transition-colors"
                       key={expense.id}
                     >
                       <div className="flex items-start justify-between">
@@ -413,14 +413,14 @@ const Budget: React.FC = () => {
                           </p>
                           <div className="flex gap-2 justify-end">
                             <button
-                              className="p-2 hover:bg-white rounded-lg transition-colors"
+                              className="p-2 hover:bg-light-primary rounded-lg transition-colors"
                               onClick={() => handleEdit(expense)}
                               type="button"
                             >
                               <Pencil className="w-4 h-4 text-blue-600" />
                             </button>
                             <button
-                              className="p-2 hover:bg-white rounded-lg transition-colors"
+                              className="p-2 hover:bg-light-primary rounded-lg transition-colors"
                               onClick={() => handleDelete(expense.id)}
                               type="button"
                             >

@@ -9,7 +9,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ name, email, avatarUrl, bio }) => {
   return (
-    <div className="max-w-sm bg-emerald-200 rounded-xl shadow-md overflow-hidden p-6">
+    <div className="max-w-sm bg-cold-light-200 rounded-xl shadow-md overflow-hidden p-6">
       <div className="flex items-center space-x-4">
         <img
           alt={`${name}'s avatar`}

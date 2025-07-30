@@ -25,7 +25,7 @@ const YourTravelNavBar = () => {
 				}
 			`}</style>
       <div
-        className={`bg-white shadow-sm -mt-3 -mb-2 ${
+        className={`bg-light-primary shadow-sm -mt-3 -mb-2 ${
           isResumeMode ? "rounded-xl" : "rounded-t-xl"
         }`}
       >

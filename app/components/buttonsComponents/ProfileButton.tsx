@@ -6,7 +6,7 @@ import { authClient } from "~/utils/auth-client";
 const ProfileButton = () => {
   let linkUrl = "/user/login";
   let buttonClass =
-    "bg-gray-50 text-black outline-emerald-400 outline-2 rounded-full -outline-offset-2 p-4 shadow-lg -mt-8";
+    "bg-light-secondary-50 text-black outline-emerald-400 outline-2 rounded-full -outline-offset-2 p-4 shadow-lg -mt-8";
 
   // const [user, setUser] = useState<boolean>(false);
 
@@ -24,7 +24,8 @@ const ProfileButton = () => {
 
   if (true) {
     linkUrl = "/user/profile";
-    buttonClass = "bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8";
+    buttonClass =
+      "bg-cold-light-400 text-white rounded-full p-4 shadow-lg -mt-8";
   }
   return (
     <Link to={linkUrl}>

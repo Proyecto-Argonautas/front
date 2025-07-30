@@ -23,8 +23,8 @@ export default function TravelLayout() {
 
   return (
     <SectionsProvider>
-      <div className="flex flex-col bg-gray-100 min-h-screen gap-3 p-4 pb-20">
-        <div className="bg-gray-100 min-h-screen">
+      <div className="flex flex-col bg-light-secondary-100 min-h-screen gap-3 p-4 pb-20">
+        <div className="bg-light-secondary-100 min-h-screen">
           <YourTravelCardWithBackground
             avatarUrl="https://i.pravatar.cc/40?img=56"
             backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"

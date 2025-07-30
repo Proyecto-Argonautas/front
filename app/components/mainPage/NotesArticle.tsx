@@ -54,7 +54,7 @@ export default function NotesArticle({
 
   return (
     <article
-      className={`relative w-full ${getAlignmentClass()} mt-5 bg-white rounded-2xl shadow-md`}
+      className={`relative w-full ${getAlignmentClass()} mt-5 bg-light-primary rounded-2xl shadow-md`}
     >
       <button
         aria-controls="notes-article-content"
@@ -79,9 +79,9 @@ export default function NotesArticle({
           <Ellipsis />
         </button>
         {showOptions && (
-          <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+          <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-lg z-10">
             <button
-              className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
               onClick={() => setVisible(false)}
               type="button"
             >

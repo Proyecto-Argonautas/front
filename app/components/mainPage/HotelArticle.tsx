@@ -32,7 +32,7 @@ export default function HotelArticleTest() {
   if (!visible) return null; // Oculta el artículo si se elimina
 
   return (
-    <article className="relative w-full mt-5 bg-white rounded-2xl shadow-md">
+    <article className="relative w-full mt-5 bg-light-primary rounded-2xl shadow-md">
       <button
         aria-controls="article-details"
         aria-expanded={open}
@@ -57,9 +57,9 @@ export default function HotelArticleTest() {
             <Ellipsis />
           </button>
           {showOptions && (
-            <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-md z-20">
+            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-20">
               <button
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
                 onClick={() => setVisible(false)}
                 type="button"
               >
@@ -93,7 +93,7 @@ export default function HotelArticleTest() {
               </div>
               <div className="font-mono text-sm">4131314</div>
             </div>
-            <div className="bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-800">
+            <div className="bg-light-secondary-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-800">
               780,00 US$
             </div>
           </div>

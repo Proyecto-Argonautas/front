@@ -115,7 +115,7 @@ const PackListCard: React.FC = () => {
 
   return (
     <div
-      className={`bg-white rounded-xl shadow-lg w-full h-fit ${isExpanded ? "p-4 sm:p-6" : "p-4"}`}
+      className={`bg-light-primary rounded-xl shadow-lg w-full h-fit ${isExpanded ? "p-4 sm:p-6" : "p-4"}`}
     >
       <div className="relative">
         <h2
@@ -128,7 +128,7 @@ const PackListCard: React.FC = () => {
           aria-label={
             isExpanded ? "Colapsar planificador" : "Expandir planificador"
           }
-          className="absolute top-0 right-0 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="absolute top-0 right-0 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? (
@@ -175,7 +175,7 @@ const PackListCard: React.FC = () => {
 
               {/* Mostrar información del clima */}
               {weather ? (
-                <div className="bg-white rounded-lg p-4 text-center border border-blue-200 shadow-sm">
+                <div className="bg-light-primary rounded-lg p-4 text-center border border-blue-200 shadow-sm">
                   <h4 className="text-lg font-semibold mb-3 text-gray-800">
                     📍 {destination}
                   </h4>
@@ -247,13 +247,13 @@ const PackListCard: React.FC = () => {
                   <ul className="space-y-2">
                     {packingList.map((item) => (
                       <li
-                        className="flex items-center justify-between p-3 border border-green-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
+                        className="flex items-center justify-between p-3 border border-green-100 rounded-lg bg-light-primary shadow-sm hover:shadow-md transition-shadow duration-200"
                         key={item.id}
                       >
                         <div className="flex items-center gap-3 flex-1">
                           <input
                             checked={item.packed}
-                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
+                            className="w-4 h-4 text-green-600 bg-light-secondary-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                             onChange={() => togglePacked(item.id)}
                             type="checkbox"
                           />
