@@ -180,18 +180,18 @@ const CurrencyExchangeCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-sm  bg-light-primary rounded-2xl shadow-lg p-4 relative">
+    <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
       <div 
-        className="flex items-start justify-between mb-1 cursor-pointer pr-12"
+        className="flex items-start justify-between mb-4 cursor-pointer pr-12"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
           {isExpanded ? (
             <>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-sm mb-1">
                 1 {fromCurrency} equivale a
               </div>
-              <div className="text-[1.35rem] font-semibold text-black">
+              <div className="text-[1.35rem] font-semibold text-black mb-2">
                 {isLoading
                   ? "..."
                   : exchangeRate
@@ -199,7 +199,7 @@ const CurrencyExchangeCard: React.FC = () => {
                     : "Error"}{" "}
                 {symbols[toCurrency]?.description || toCurrency}
               </div>
-              <div className="text-gray-400 text-sm mb-3">{lastUpdated}</div>
+              <div className="text-gray-400 text-sm mb-4">{lastUpdated}</div>
             </>
           ) : (
             <div className="text-lg font-semibold text-gray-700">
@@ -226,70 +226,71 @@ const CurrencyExchangeCard: React.FC = () => {
       </div>
 
       {isExpanded && (
-        <div className="space-y-2">
-          <div className="flex gap-2 items-center">
-            <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">
-                {fromCurrency}
-              </label>
+        <div className="space-y-5 flex-1 overflow-hidden flex flex-col">
+          {/* Primera fila: Input EUR */}
+          <div className="flex flex-col flex-shrink-0">
+            <label className="text-xs text-gray-500 mb-2">EUR</label>
+            <div className="flex gap-3">
               <input
-                className="border border-gray-300 rounded-md p-2 text-xs w-full"
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
                 min="0"
                 onChange={(e) => handleFromAmountChange(Number(e.target.value))}
-                placeholder="Cantidad"
+                placeholder="1"
                 step="0.01"
                 type="number"
                 value={Math.round(amount * 100) / 100}
               />
+              <select
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
+                onChange={(e) => setFromCurrency(e.target.value)}
+                value={fromCurrency}
+              >
+                {getSortedSymbols().length > 0
+                  ? getSortedSymbols().map(([code, data]) => (
+                      <option key={code} value={code}>
+                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                      </option>
+                    ))
+                  : commonCurrencies.map((code) => (
+                      <option key={code} value={code}>
+                        {code}
+                      </option>
+                    ))}
+              </select>
             </div>
-            <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">{toCurrency}</label>
+          </div>
+
+          {/* Segunda fila: Input USD */}
+          <div className="flex flex-col flex-shrink-0">
+            <label className="text-xs text-gray-500 mb-2">USD</label>
+            <div className="flex gap-3">
               <input
-                className="border border-gray-300 rounded-md p-2 text-xs w-full"
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
                 min="0"
                 onChange={(e) => handleToAmountChange(Number(e.target.value))}
-                placeholder="Conversión"
+                placeholder="1,14"
                 step="0.01"
                 type="number"
                 value={Math.round(convertedAmount * 100) / 100}
               />
+              <select
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
+                onChange={(e) => setToCurrency(e.target.value)}
+                value={toCurrency}
+              >
+                {getSortedSymbols().length > 0
+                  ? getSortedSymbols().map(([code, data]) => (
+                      <option key={code} value={code}>
+                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                      </option>
+                    ))
+                  : commonCurrencies.map((code) => (
+                      <option key={code} value={code}>
+                        {code}
+                      </option>
+                    ))}
+              </select>
             </div>
-          </div>
-          <div className="flex gap-2 items-center">
-            <select
-              className="border border-gray-300 rounded-md p-2 text-xs w-full"
-              onChange={(e) => setFromCurrency(e.target.value)}
-              value={fromCurrency}
-            >
-              {getSortedSymbols().length > 0
-                ? getSortedSymbols().map(([code, data]) => (
-                    <option key={code} value={code}>
-                      {code} - {data?.description || code}
-                    </option>
-                  ))
-                : commonCurrencies.map((code) => (
-                    <option key={code} value={code}>
-                      {code}
-                    </option>
-                  ))}
-            </select>
-            <select
-              className="border border-gray-300 rounded-md p-2 text-xs w-full"
-              onChange={(e) => setToCurrency(e.target.value)}
-              value={toCurrency}
-            >
-              {getSortedSymbols().length > 0
-                ? getSortedSymbols().map(([code, data]) => (
-                    <option key={code} value={code}>
-                      {code} - {data?.description || code}
-                    </option>
-                  ))
-                : commonCurrencies.map((code) => (
-                    <option key={code} value={code}>
-                      {code}
-                    </option>
-                  ))}
-            </select>
           </div>
         </div>
       )}
