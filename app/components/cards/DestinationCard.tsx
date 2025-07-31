@@ -16,7 +16,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
   endDate,
 }) => {
   return (
-    <div className="w-64 sm:w-56 rounded-xl overflow-hidden shadow-md bg-light-primary">
+    <div className="w-full max-w-xl min-[1000px]:max-w-sm mx-auto rounded-xl overflow-hidden shadow-md bg-light-primary">
       <img
         alt={title}
         className="w-full h-32 sm:h-30 object-cover"

@@ -15,35 +15,37 @@ const CurrencyExchangeCard: React.FC = () => {
   const [lastEditedField, setLastEditedField] = useState<"from" | "to">("from");
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL"];
+  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF"];
 
   useEffect(() => {
     const fetchSymbols = async () => {
       try {
-        const res = await fetch("https://api.exchangerate.host/symbols");
-        const data = await res.json();
-        console.log("API Response:", JSON.stringify(data, null, 2)); // Better debug log
-        console.log("Has symbols property:", data.hasOwnProperty("symbols"));
-        console.log("Symbols value:", data.symbols);
-
-        if (data && data.symbols) {
-          setSymbols(data.symbols);
-        } else {
-          console.error("Invalid API response structure. Using fallback data.");
-          // Fallback con monedas básicas
-          setSymbols({
-            USD: { description: "United States Dollar" },
-            EUR: { description: "Euro" },
-            MXN: { description: "Mexican Peso" },
-            GBP: { description: "British Pound Sterling" },
-            JPY: { description: "Japanese Yen" },
-            CAD: { description: "Canadian Dollar" },
-            BRL: { description: "Brazilian Real" },
-          });
-        }
+        // Use a more comprehensive fallback data directly
+        setSymbols({
+          USD: { description: "United States Dollar" },
+          EUR: { description: "Euro" },
+          MXN: { description: "Mexican Peso" },
+          GBP: { description: "British Pound Sterling" },
+          JPY: { description: "Japanese Yen" },
+          CAD: { description: "Canadian Dollar" },
+          BRL: { description: "Brazilian Real" },
+          AUD: { description: "Australian Dollar" },
+          CHF: { description: "Swiss Franc" },
+          CNY: { description: "Chinese Yuan" },
+          INR: { description: "Indian Rupee" },
+          KRW: { description: "South Korean Won" },
+          SGD: { description: "Singapore Dollar" },
+          HKD: { description: "Hong Kong Dollar" },
+          NOK: { description: "Norwegian Krone" },
+          SEK: { description: "Swedish Krona" },
+          DKK: { description: "Danish Krone" },
+          PLN: { description: "Polish Zloty" },
+          CZK: { description: "Czech Koruna" },
+          HUF: { description: "Hungarian Forint" },
+        });
       } catch (error) {
-        console.error("Error fetching symbols:", error);
-        // Fallback con monedas básicas
+        console.error("Error setting up currency symbols:", error);
+        // Even simpler fallback
         setSymbols({
           USD: { description: "United States Dollar" },
           EUR: { description: "Euro" },
@@ -62,47 +64,31 @@ const CurrencyExchangeCard: React.FC = () => {
     const fetchExchangeRate = async () => {
       setIsLoading(true);
       try {
+        // Primary API: fxratesapi.com (working and free)
         const res = await fetch(
-          `https://api.exchangerate.host/convert?from=${fromCurrency}&to=${toCurrency}`,
+          `https://api.fxratesapi.com/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`,
         );
         const data = await res.json();
-        console.log(
-          "Exchange Rate API Response:",
-          JSON.stringify(data, null, 2),
-        ); // Better debug log
-        console.log("Has result property:", data.hasOwnProperty("result"));
-        console.log("Result value:", data.result);
-        console.log("Has info property:", data.hasOwnProperty("info"));
-
-        if (data && typeof data.result === "number") {
+        
+        if (data && data.success && typeof data.result === "number") {
           setExchangeRate(data.result);
-        } else if (data && data.info && typeof data.info.rate === "number") {
-          setExchangeRate(data.info.rate);
-        } else if (data && data.rates && data.rates[toCurrency]) {
-          // Otra estructura posible
-          setExchangeRate(data.rates[toCurrency]);
         } else {
-          console.error(
-            "Invalid exchange rate response. Using fallback API...",
-          );
-          // Intentar con otra API como fallback
+          console.error("Primary API failed, trying backup...");
+          // Backup API: exchangerate-api.com (free tier)
           try {
-            const fallbackRes = await fetch(
-              `https://api.fxratesapi.com/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`,
+            const backupRes = await fetch(
+              `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
             );
-            const fallbackData = await fallbackRes.json();
-            console.log(
-              "Fallback API Response:",
-              JSON.stringify(fallbackData, null, 2),
-            );
-
-            if (fallbackData && fallbackData.result) {
-              setExchangeRate(fallbackData.result);
+            const backupData = await backupRes.json();
+            
+            if (backupData && backupData.rates && backupData.rates[toCurrency]) {
+              setExchangeRate(backupData.rates[toCurrency]);
             } else {
+              console.error("Backup API also failed");
               setExchangeRate(null);
             }
-          } catch (fallbackError) {
-            console.error("Fallback API also failed:", fallbackError);
+          } catch (backupError) {
+            console.error("Backup API error:", backupError);
             setExchangeRate(null);
           }
         }

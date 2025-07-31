@@ -3,7 +3,7 @@ import DestinationCard from "~/components/cards/DestinationCard";
 
 export function MobileLanding() {
   return (
-    <div className="flex flex-col gap-5 w-full sm:hidden">
+    <div className="flex flex-col gap-5 w-full">
       <h1 className="font-bold text-xl text-center">SEGUIR PLANIFICANDO</h1>
 
       <div className="w-full flex flex-col gap-4 items-center">

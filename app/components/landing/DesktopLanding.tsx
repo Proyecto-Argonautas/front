@@ -4,14 +4,14 @@ import DestinationCard from "~/components/cards/DestinationCard";
 export function DesktopLanding() {
   return (
     <>
-      <div className="hidden sm:flex sm:gap-20 sm:w-full sm:max-w-5xl">
+      <div className="grid grid-cols-1 min-[1000px]:grid-cols-2 gap-8 min-[1000px]:gap-20 w-full max-w-5xl">
         {/* Columna izquierda: SEGUIR PLANIFICANDO */}
-        <div className="flex-1">
+        <div className="w-full">
           <h1 className="font-bold text-xl text-center mb-1">
             SEGUIR PLANIFICANDO
           </h1>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 min-[1000px]:grid-cols-2 gap-5">
             <Link style={{ cursor: "pointer" }} to="/travel/1/resume">
               <DestinationCard
                 endDate="2024/08/10"
@@ -35,12 +35,12 @@ export function DesktopLanding() {
         </div>
 
         {/* Columna derecha: TUS PRÓXIMOS VIAJES */}
-        <div className="flex-1">
+        <div className="w-full">
           <h1 className="font-bold text-xl text-center mb-2">
             TUS PRÓXIMOS VIAJES
           </h1>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 min-[1000px]:grid-cols-2 gap-5">
             <Link style={{ cursor: "pointer" }} to="/travel/1/resume">
               <DestinationCard
                 endDate="2024/07/10"
