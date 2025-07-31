@@ -106,19 +106,19 @@ function TranslateCard({ defaultTargetLang = "es" }: TranslateCardProps) {
   return (
     <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
       <div 
-        className="flex items-start justify-between mb-1 cursor-pointer pr-12"
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
           {isExpanded ? (
             <>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-sm mb-1">
                 Traductor de texto
               </div>
-              <div className="text-[1.35rem] font-semibold text-black">
+              <div className="text-[1.35rem] font-semibold text-black mb-2">
                 {translated ? `${sourceLang.toUpperCase()} → ${targetLang.toUpperCase()}` : "Listo para traducir"}
               </div>
-              <div className="text-gray-400 text-sm mb-3">
+              <div className="text-gray-400 text-sm mb-4">
                 {translated ? "Traducción completada" : "Introduce texto para traducir"}
               </div>
             </>
@@ -213,7 +213,7 @@ function TranslateCard({ defaultTargetLang = "es" }: TranslateCardProps) {
             </label>
             <textarea
               className="border border-gray-300 rounded-md p-2 text-xs w-full resize-none focus:outline-none focus:border-green-500 focus:ring-0 "
-              rows={3}
+              rows={2}
               placeholder="Escribe el texto a traducir..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -227,7 +227,7 @@ function TranslateCard({ defaultTargetLang = "es" }: TranslateCardProps) {
             </label>
             <textarea
               className="border border-gray-300 rounded-md p-2 text-xs w-full resize-none bg-gray-50 focus:outline-none "
-              rows={3}
+              rows={2}
               placeholder={loading ? "Traduciendo..." : "La traducción aparecerá aquí"}
               value={loading ? "Traduciendo..." : translated}
               readOnly

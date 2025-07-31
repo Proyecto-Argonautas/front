@@ -54,19 +54,19 @@ const PackListCard: React.FC = () => {
   return (
     <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
       <div 
-        className="flex items-start justify-between mb-1 cursor-pointer pr-12"
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
           {isExpanded ? (
             <>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-sm mb-1">
                 Lista de equipaje
               </div>
-              <div className="text-[1.35rem] font-semibold text-black">
+              <div className="text-[1.35rem] font-semibold text-black mb-2">
                 {packingList.length > 0 ? `${packingList.filter(item => item.packed).length}/${packingList.length} Items` : "Lista vacía"}
               </div>
-              <div className="text-gray-400 text-sm mb-3">
+              <div className="text-gray-400 text-sm mb-4">
                 {packingList.length > 0 ? "Organiza tu equipaje" : "Añade elementos a tu lista"}
               </div>
             </>

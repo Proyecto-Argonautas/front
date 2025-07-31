@@ -182,7 +182,7 @@ const CurrencyExchangeCard: React.FC = () => {
   return (
     <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
       <div 
-        className="flex items-start justify-between mb-4 cursor-pointer pr-12"
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
