@@ -96,7 +96,7 @@ const RegisterSubmit: React.FC<RegisterSubmitProps> = ({
 
       {/* Botón de submit */}
       <button
-        className={`w-full py-3 px-4 rounded-md font-semibold text-white transition-colors duration-200 ${
+        className={`w-full py-3 px-4 rounded-md font-semibold text-white transition-colors duration-300 ${
           !isFormValid || isLoading
             ? "bg-light-secondary-400 cursor-not-allowed"
             : "bg-cold-light-500 hover:bg-cold-light-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"

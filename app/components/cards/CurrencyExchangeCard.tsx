@@ -15,35 +15,37 @@ const CurrencyExchangeCard: React.FC = () => {
   const [lastEditedField, setLastEditedField] = useState<"from" | "to">("from");
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL"];
+  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF"];
 
   useEffect(() => {
     const fetchSymbols = async () => {
       try {
-        const res = await fetch("https://api.exchangerate.host/symbols");
-        const data = await res.json();
-        console.log("API Response:", JSON.stringify(data, null, 2)); // Better debug log
-        console.log("Has symbols property:", data.hasOwnProperty("symbols"));
-        console.log("Symbols value:", data.symbols);
-
-        if (data && data.symbols) {
-          setSymbols(data.symbols);
-        } else {
-          console.error("Invalid API response structure. Using fallback data.");
-          // Fallback con monedas básicas
-          setSymbols({
-            USD: { description: "United States Dollar" },
-            EUR: { description: "Euro" },
-            MXN: { description: "Mexican Peso" },
-            GBP: { description: "British Pound Sterling" },
-            JPY: { description: "Japanese Yen" },
-            CAD: { description: "Canadian Dollar" },
-            BRL: { description: "Brazilian Real" },
-          });
-        }
+        // Use a more comprehensive fallback data directly
+        setSymbols({
+          USD: { description: "United States Dollar" },
+          EUR: { description: "Euro" },
+          MXN: { description: "Mexican Peso" },
+          GBP: { description: "British Pound Sterling" },
+          JPY: { description: "Japanese Yen" },
+          CAD: { description: "Canadian Dollar" },
+          BRL: { description: "Brazilian Real" },
+          AUD: { description: "Australian Dollar" },
+          CHF: { description: "Swiss Franc" },
+          CNY: { description: "Chinese Yuan" },
+          INR: { description: "Indian Rupee" },
+          KRW: { description: "South Korean Won" },
+          SGD: { description: "Singapore Dollar" },
+          HKD: { description: "Hong Kong Dollar" },
+          NOK: { description: "Norwegian Krone" },
+          SEK: { description: "Swedish Krona" },
+          DKK: { description: "Danish Krone" },
+          PLN: { description: "Polish Zloty" },
+          CZK: { description: "Czech Koruna" },
+          HUF: { description: "Hungarian Forint" },
+        });
       } catch (error) {
-        console.error("Error fetching symbols:", error);
-        // Fallback con monedas básicas
+        console.error("Error setting up currency symbols:", error);
+        // Even simpler fallback
         setSymbols({
           USD: { description: "United States Dollar" },
           EUR: { description: "Euro" },
@@ -62,47 +64,31 @@ const CurrencyExchangeCard: React.FC = () => {
     const fetchExchangeRate = async () => {
       setIsLoading(true);
       try {
+        // Primary API: fxratesapi.com (working and free)
         const res = await fetch(
-          `https://api.exchangerate.host/convert?from=${fromCurrency}&to=${toCurrency}`,
+          `https://api.fxratesapi.com/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`,
         );
         const data = await res.json();
-        console.log(
-          "Exchange Rate API Response:",
-          JSON.stringify(data, null, 2),
-        ); // Better debug log
-        console.log("Has result property:", data.hasOwnProperty("result"));
-        console.log("Result value:", data.result);
-        console.log("Has info property:", data.hasOwnProperty("info"));
-
-        if (data && typeof data.result === "number") {
+        
+        if (data && data.success && typeof data.result === "number") {
           setExchangeRate(data.result);
-        } else if (data && data.info && typeof data.info.rate === "number") {
-          setExchangeRate(data.info.rate);
-        } else if (data && data.rates && data.rates[toCurrency]) {
-          // Otra estructura posible
-          setExchangeRate(data.rates[toCurrency]);
         } else {
-          console.error(
-            "Invalid exchange rate response. Using fallback API...",
-          );
-          // Intentar con otra API como fallback
+          console.error("Primary API failed, trying backup...");
+          // Backup API: exchangerate-api.com (free tier)
           try {
-            const fallbackRes = await fetch(
-              `https://api.fxratesapi.com/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`,
+            const backupRes = await fetch(
+              `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
             );
-            const fallbackData = await fallbackRes.json();
-            console.log(
-              "Fallback API Response:",
-              JSON.stringify(fallbackData, null, 2),
-            );
-
-            if (fallbackData && fallbackData.result) {
-              setExchangeRate(fallbackData.result);
+            const backupData = await backupRes.json();
+            
+            if (backupData && backupData.rates && backupData.rates[toCurrency]) {
+              setExchangeRate(backupData.rates[toCurrency]);
             } else {
+              console.error("Backup API also failed");
               setExchangeRate(null);
             }
-          } catch (fallbackError) {
-            console.error("Fallback API also failed:", fallbackError);
+          } catch (backupError) {
+            console.error("Backup API error:", backupError);
             setExchangeRate(null);
           }
         }
@@ -180,15 +166,18 @@ const CurrencyExchangeCard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-sm  bg-light-primary rounded-2xl shadow-lg p-4 relative">
-      <div className="flex items-start justify-between mb-1">
-        <div className="flex-1 pr-12">
+    <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
+      <div 
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex-1">
           {isExpanded ? (
             <>
-              <div className="text-gray-600 text-sm">
+              <div className="text-gray-600 text-sm mb-1">
                 1 {fromCurrency} equivale a
               </div>
-              <div className="text-[1.35rem] font-semibold text-black">
+              <div className="text-[1.35rem] font-semibold text-black mb-2">
                 {isLoading
                   ? "..."
                   : exchangeRate
@@ -196,11 +185,11 @@ const CurrencyExchangeCard: React.FC = () => {
                     : "Error"}{" "}
                 {symbols[toCurrency]?.description || toCurrency}
               </div>
-              <div className="text-gray-400 text-sm mb-3">{lastUpdated}</div>
+              <div className="text-gray-400 text-sm mb-4">{lastUpdated}</div>
             </>
           ) : (
             <div className="text-lg font-semibold text-gray-700">
-              Currency Exchange
+              Cambio de divisas 
             </div>
           )}
         </div>
@@ -209,7 +198,10 @@ const CurrencyExchangeCard: React.FC = () => {
             isExpanded ? "Colapsar convertidor" : "Expandir convertidor"
           }
           className="absolute top-4 right-4 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
         >
           {isExpanded ? (
             <ChevronUp className="w-5 h-5 text-gray-600" />
@@ -220,70 +212,71 @@ const CurrencyExchangeCard: React.FC = () => {
       </div>
 
       {isExpanded && (
-        <div className="space-y-2">
-          <div className="flex gap-2 items-center">
-            <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">
-                {fromCurrency}
-              </label>
+        <div className="space-y-5 flex-1 overflow-hidden flex flex-col">
+          {/* Primera fila: Input EUR */}
+          <div className="flex flex-col flex-shrink-0">
+            <label className="text-xs text-gray-500 mb-2">EUR</label>
+            <div className="flex gap-3">
               <input
-                className="border border-gray-300 rounded-md p-2 text-xs w-full"
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
                 min="0"
                 onChange={(e) => handleFromAmountChange(Number(e.target.value))}
-                placeholder="Cantidad"
+                placeholder="1"
                 step="0.01"
                 type="number"
                 value={Math.round(amount * 100) / 100}
               />
+              <select
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
+                onChange={(e) => setFromCurrency(e.target.value)}
+                value={fromCurrency}
+              >
+                {getSortedSymbols().length > 0
+                  ? getSortedSymbols().map(([code, data]) => (
+                      <option key={code} value={code}>
+                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                      </option>
+                    ))
+                  : commonCurrencies.map((code) => (
+                      <option key={code} value={code}>
+                        {code}
+                      </option>
+                    ))}
+              </select>
             </div>
-            <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">{toCurrency}</label>
+          </div>
+
+          {/* Segunda fila: Input USD */}
+          <div className="flex flex-col flex-shrink-0">
+            <label className="text-xs text-gray-500 mb-2">USD</label>
+            <div className="flex gap-3">
               <input
-                className="border border-gray-300 rounded-md p-2 text-xs w-full"
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
                 min="0"
                 onChange={(e) => handleToAmountChange(Number(e.target.value))}
-                placeholder="Conversión"
+                placeholder="1,14"
                 step="0.01"
                 type="number"
                 value={Math.round(convertedAmount * 100) / 100}
               />
+              <select
+                className="border border-gray-300 rounded-md p-3 text-sm w-1/2 focus:outline-none focus:border-green-500"
+                onChange={(e) => setToCurrency(e.target.value)}
+                value={toCurrency}
+              >
+                {getSortedSymbols().length > 0
+                  ? getSortedSymbols().map(([code, data]) => (
+                      <option key={code} value={code}>
+                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                      </option>
+                    ))
+                  : commonCurrencies.map((code) => (
+                      <option key={code} value={code}>
+                        {code}
+                      </option>
+                    ))}
+              </select>
             </div>
-          </div>
-          <div className="flex gap-2 items-center">
-            <select
-              className="border border-gray-300 rounded-md p-2 text-xs w-full"
-              onChange={(e) => setFromCurrency(e.target.value)}
-              value={fromCurrency}
-            >
-              {getSortedSymbols().length > 0
-                ? getSortedSymbols().map(([code, data]) => (
-                    <option key={code} value={code}>
-                      {code} - {data?.description || code}
-                    </option>
-                  ))
-                : commonCurrencies.map((code) => (
-                    <option key={code} value={code}>
-                      {code}
-                    </option>
-                  ))}
-            </select>
-            <select
-              className="border border-gray-300 rounded-md p-2 text-xs w-full"
-              onChange={(e) => setToCurrency(e.target.value)}
-              value={toCurrency}
-            >
-              {getSortedSymbols().length > 0
-                ? getSortedSymbols().map(([code, data]) => (
-                    <option key={code} value={code}>
-                      {code} - {data?.description || code}
-                    </option>
-                  ))
-                : commonCurrencies.map((code) => (
-                    <option key={code} value={code}>
-                      {code}
-                    </option>
-                  ))}
-            </select>
           </div>
         </div>
       )}

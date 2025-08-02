@@ -1,5 +1,7 @@
 import CurrencyExchangeCard from "~/components/cards/CurrencyExchangeCard";
 import PackListCard from "~/components/cards/PackListCard";
+import TranslateCard from "~/components/cards/TranslateCard";
+import FindWeatherCard from "~/components/cards/FindWeatherCard";
 
 export function meta() {
   return [
@@ -18,8 +20,10 @@ export default function ToolPage() {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
           <CurrencyExchangeCard key="currency-exchange" />
+          <FindWeatherCard key="weather" />
+          <TranslateCard key="translate" />
           <PackListCard key="pack-list" />
         </div>
       </div>
