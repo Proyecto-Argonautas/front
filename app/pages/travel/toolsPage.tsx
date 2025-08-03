@@ -1,7 +1,8 @@
 import CurrencyExchangeCard from "~/components/cards/CurrencyExchangeCard";
+import FindWeatherCard from "~/components/cards/FindWeatherCard";
 import PackListCard from "~/components/cards/PackListCard";
 import TranslateCard from "~/components/cards/TranslateCard";
-import FindWeatherCard from "~/components/cards/FindWeatherCard";
+import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
   return [
@@ -9,6 +10,10 @@ export function meta() {
     { name: "resume", content: "Nombre viaje" },
   ];
 }
+
+export const handle: handlePages = {
+  buttons: ["home", "profile"],
+};
 
 export default function ToolPage() {
   return (

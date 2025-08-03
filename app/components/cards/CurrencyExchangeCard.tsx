@@ -15,7 +15,17 @@ const CurrencyExchangeCard: React.FC = () => {
   const [lastEditedField, setLastEditedField] = useState<"from" | "to">("from");
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF"];
+  const commonCurrencies = [
+    "USD",
+    "EUR",
+    "MXN",
+    "GBP",
+    "JPY",
+    "CAD",
+    "BRL",
+    "AUD",
+    "CHF",
+  ];
 
   useEffect(() => {
     const fetchSymbols = async () => {
@@ -69,7 +79,7 @@ const CurrencyExchangeCard: React.FC = () => {
           `https://api.fxratesapi.com/convert?from=${fromCurrency}&to=${toCurrency}&amount=1`,
         );
         const data = await res.json();
-        
+
         if (data && data.success && typeof data.result === "number") {
           setExchangeRate(data.result);
         } else {
@@ -80,8 +90,12 @@ const CurrencyExchangeCard: React.FC = () => {
               `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`,
             );
             const backupData = await backupRes.json();
-            
-            if (backupData && backupData.rates && backupData.rates[toCurrency]) {
+
+            if (
+              backupData &&
+              backupData.rates &&
+              backupData.rates[toCurrency]
+            ) {
               setExchangeRate(backupData.rates[toCurrency]);
             } else {
               console.error("Backup API also failed");
@@ -166,9 +180,11 @@ const CurrencyExchangeCard: React.FC = () => {
   };
 
   return (
-    <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
-      <div 
-        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
+    <div
+      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? "h-[410px]" : "h-auto"}`}
+    >
+      <div
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? "mb-4" : "mb-1"}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
@@ -189,7 +205,7 @@ const CurrencyExchangeCard: React.FC = () => {
             </>
           ) : (
             <div className="text-lg font-semibold text-gray-700">
-              Cambio de divisas 
+              Cambio de divisas
             </div>
           )}
         </div>
@@ -234,7 +250,9 @@ const CurrencyExchangeCard: React.FC = () => {
                 {getSortedSymbols().length > 0
                   ? getSortedSymbols().map(([code, data]) => (
                       <option key={code} value={code}>
-                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                        {code} -{" "}
+                        {data?.description?.split(" ").slice(0, 2).join(" ") ||
+                          code}
                       </option>
                     ))
                   : commonCurrencies.map((code) => (
@@ -267,7 +285,9 @@ const CurrencyExchangeCard: React.FC = () => {
                 {getSortedSymbols().length > 0
                   ? getSortedSymbols().map(([code, data]) => (
                       <option key={code} value={code}>
-                        {code} - {data?.description?.split(' ').slice(0, 2).join(' ') || code}
+                        {code} -{" "}
+                        {data?.description?.split(" ").slice(0, 2).join(" ") ||
+                          code}
                       </option>
                     ))
                   : commonCurrencies.map((code) => (

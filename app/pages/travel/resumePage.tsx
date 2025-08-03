@@ -1,6 +1,7 @@
 import WidgetBudget from "~/components/budget/WidgetBudget";
 import SectionsRenderer from "~/components/sections/SectionsRenderer";
 import { useBudget } from "~/hooks/useBudget";
+import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
   return [
@@ -8,6 +9,10 @@ export function meta() {
     { name: "resume", content: "Nombre viaje" },
   ];
 }
+
+export const handle: handlePages = {
+  buttons: ["home", "addArticle", "profile"],
+};
 
 export default function ResumePage() {
   const { total } = useBudget();

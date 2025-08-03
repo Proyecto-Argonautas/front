@@ -6,9 +6,9 @@ interface LayoutTransitionProps {
   className?: string;
 }
 
-const LayoutTransition: React.FC<LayoutTransitionProps> = ({ 
-  children, 
-  className = "" 
+const LayoutTransition: React.FC<LayoutTransitionProps> = ({
+  children,
+  className = "",
 }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayChildren, setDisplayChildren] = useState(children);
@@ -16,7 +16,7 @@ const LayoutTransition: React.FC<LayoutTransitionProps> = ({
 
   useEffect(() => {
     setIsTransitioning(true);
-    
+
     const timer = setTimeout(() => {
       setDisplayChildren(children);
       setIsTransitioning(false);
@@ -26,11 +26,9 @@ const LayoutTransition: React.FC<LayoutTransitionProps> = ({
   }, [location.pathname, children]);
 
   return (
-    <div 
+    <div
       className={`transition-all duration-500 ease-in-out ${
-        isTransitioning 
-          ? 'opacity-90' 
-          : 'opacity-100'
+        isTransitioning ? "opacity-90" : "opacity-100"
       } ${className}`}
     >
       {displayChildren}

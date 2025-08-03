@@ -4,20 +4,20 @@ import type React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Esquema validacion Zod
-const travelFormSchema = z.object({
-  destination: z.string().min(1, "El destino es requerido"),
-  startDate: z.string().min(1, "La fecha de inicio es requerida"),
-  endDate: z.string().min(1, "La fecha de finalización es requerida"),
-  numberOfMembers: z.number().min(0).max(20),
-  memberNames: z.array(z.string()).optional(),
-}).refine(
-  (data) => new Date(data.startDate) <= new Date(data.endDate),
-  {
-    message: "La fecha de inicio debe ser anterior o igual a la fecha de finalización",
+// Esquema validación Zod
+const travelFormSchema = z
+  .object({
+    destination: z.string().min(1, "El destino es requerido"),
+    startDate: z.string().min(1, "La fecha de inicio es requerida"),
+    endDate: z.string().min(1, "La fecha de finalización es requerida"),
+    numberOfMembers: z.number().min(0).max(20),
+    memberNames: z.array(z.string()).optional(),
+  })
+  .refine((data) => new Date(data.startDate) <= new Date(data.endDate), {
+    message:
+      "La fecha de inicio debe ser anterior o igual a la fecha de finalización",
     path: ["endDate"],
-  }
-);
+  });
 
 export type TravelFormData = z.infer<typeof travelFormSchema>;
 
@@ -26,9 +26,9 @@ type TravelFormProps = {
   defaultValues?: Partial<TravelFormData>;
 };
 
-export const TravelForm: React.FC<TravelFormProps> = ({ 
-  onSubmit, 
-  defaultValues 
+export const TravelForm: React.FC<TravelFormProps> = ({
+  onSubmit,
+  defaultValues,
 }) => {
   const {
     register,
@@ -70,7 +70,7 @@ export const TravelForm: React.FC<TravelFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
       <div className="border border-gray-300 rounded-lg p-3 mb-4">
         {/* Destination Form */}
         <div className="rounded-xl p-4">
@@ -91,7 +91,9 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             type="text"
           />
           {errors.destination && (
-            <p className="text-red-500 text-sm mt-1">{errors.destination.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.destination.message}
+            </p>
           )}
         </div>
 
@@ -155,10 +157,14 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             </div>
           </div>
           {errors.startDate && (
-            <p className="text-red-500 text-sm mt-1">{errors.startDate.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.startDate.message}
+            </p>
           )}
           {errors.endDate && (
-            <p className="text-red-500 text-sm mt-1">{errors.endDate.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.endDate.message}
+            </p>
           )}
         </div>
       </div>
@@ -176,7 +182,9 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 aria-label="Disminuir miembros"
                 className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-light-primary text-gray-700 hover:bg-light-secondary-100 transition disabled:opacity-50"
                 disabled={numberOfMembers <= 0}
-                onClick={() => handleNumberChange(Math.max(0, numberOfMembers - 1))}
+                onClick={() =>
+                  handleNumberChange(Math.max(0, numberOfMembers - 1))
+                }
                 type="button"
               >
                 <Minus className="w-3 h-3" />
@@ -190,7 +198,9 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 aria-label="Aumentar miembros"
                 className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 bg-light-primary text-gray-700 hover:bg-light-secondary-100 transition disabled:opacity-50"
                 disabled={numberOfMembers >= 20}
-                onClick={() => handleNumberChange(Math.min(20, numberOfMembers + 1))}
+                onClick={() =>
+                  handleNumberChange(Math.min(20, numberOfMembers + 1))
+                }
                 type="button"
               >
                 <Plus className="w-3 h-3" />
@@ -214,7 +224,9 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                   <input
                     className="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     id={`member-${index}`}
-                    onChange={(e) => handleMemberNameChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleMemberNameChange(index, e.target.value)
+                    }
                     placeholder={`Miembro ${index + 1}`}
                     type="text"
                     value={memberNames[index] || ""}

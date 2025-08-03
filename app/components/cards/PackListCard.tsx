@@ -52,9 +52,11 @@ const PackListCard: React.FC = () => {
   };
 
   return (
-    <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
-      <div 
-        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
+    <div
+      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? "h-[410px]" : "h-auto"}`}
+    >
+      <div
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? "mb-4" : "mb-1"}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
@@ -64,22 +66,22 @@ const PackListCard: React.FC = () => {
                 Lista de equipaje
               </div>
               <div className="text-[1.35rem] font-semibold text-black mb-2">
-                {packingList.length > 0 ? `${packingList.filter(item => item.packed).length}/${packingList.length} Items` : "Lista vacía"}
+                {packingList.length > 0
+                  ? `${packingList.filter((item) => item.packed).length}/${packingList.length} Items`
+                  : "Lista vacía"}
               </div>
               <div className="text-gray-400 text-sm mb-4">
-                {packingList.length > 0 ? "Organiza tu equipaje" : "Añade elementos a tu lista"}
+                {packingList.length > 0
+                  ? "Organiza tu equipaje"
+                  : "Añade elementos a tu lista"}
               </div>
             </>
           ) : (
-            <div className="text-lg font-semibold text-gray-700">
-              Equipaje
-            </div>
+            <div className="text-lg font-semibold text-gray-700">Equipaje</div>
           )}
         </div>
         <button
-          aria-label={
-            isExpanded ? "Colapsar equipaje" : "Expandir equipaje"
-          }
+          aria-label={isExpanded ? "Colapsar equipaje" : "Expandir equipaje"}
           className="absolute top-4 right-4 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
           onClick={(e) => {
             e.stopPropagation();
@@ -98,9 +100,7 @@ const PackListCard: React.FC = () => {
         <div className="space-y-2 flex-1 overflow-hidden flex flex-col">
           {/* Añadir ítem */}
           <div className="flex flex-col flex-shrink-0">
-            <label className="text-xs text-gray-500 mb-1">
-              Nuevo elemento
-            </label>
+            <label className="text-xs text-gray-500 mb-1">Nuevo elemento</label>
             <input
               className="border border-gray-300 rounded-md p-2 text-xs w-full focus:outline-none focus:border-green-500 focus:ring-0 "
               onChange={(e) => setNewItem(e.target.value)}
@@ -116,8 +116,8 @@ const PackListCard: React.FC = () => {
           {/* Botón añadir */}
           <button
             className="w-full bg-green-600 text-white py-2 px-4 rounded-md text-xs hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0"
-            onClick={addItem}
             disabled={!newItem.trim()}
+            onClick={addItem}
             type="button"
           >
             Añadir elemento

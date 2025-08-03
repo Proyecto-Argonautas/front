@@ -1,16 +1,32 @@
+import React from "react";
+import { useNavigate } from "react-router";
+import { authClient } from "~/utils/auth-client";
+
 interface ProfileCardProps {
   name: string;
-  username: string;
+  email: string;
   profileImageUrl: string;
   viajesCount: number;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
   name,
-  username,
+  email,
   profileImageUrl,
   viajesCount,
 }) => {
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          navigate("/user/login"); // redirige tras cerrar sesión
+        },
+      },
+    });
+  }
+
   return (
     <div className="bg-cold-light-200 min-h-screen flex pt-30 justify-center md:justify-center md:items-start md:pt-8">
       <div className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
@@ -43,7 +59,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         {/* Información */}
         <div className="mt-4 md:mt-0 text-center">
           <h1 className="text-lg md:text-xl font-bold text-gray-800">{name}</h1>
-          <p className="text-gray-500 text-sm md:text-base">@{username}</p>
+          <p className="text-gray-500 text-sm md:text-base">e{email}</p>
         </div>
 
         {/* Estadísticas */}
@@ -54,6 +70,16 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <p className="text-sm md:text-base font-medium text-gray-600">
             TUS VIAJES
           </p>
+        </div>
+
+        <div>
+          <button
+            className="w-full p-2 m-2 bg-cold-light-400 text-black font-medium rounded-md hover:bg-cold-light-200 transition"
+            onClick={handleSignOut}
+            type="button"
+          >
+            Cerrar sessión
+          </button>
         </div>
       </div>
     </div>

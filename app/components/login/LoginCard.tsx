@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { signIn } from "~/utils/auth-client";
 
 const LoginCard: React.FC = () => {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   // const [loading, setLoading] = useState(false);
 
   // TODO mostrar errores por pantalla y que se mande el correo
@@ -16,7 +16,7 @@ const LoginCard: React.FC = () => {
         Iniciar Sesión
       </h2>
       <div className="bg-cold-light-400 text-black p-8 rounded-lg w-full max-w-sm shadow-lg">
-        <p className="text-sm mb-6">
+        {/*<p className="text-sm mb-6">
           Ingresa tu correo electrónico a continuación para iniciar sesión en tu
           cuenta
         </p>
@@ -52,39 +52,29 @@ const LoginCard: React.FC = () => {
           type="button"
         >
           Sign-in with Magic Link
-        </button>
+        </button> */}
         <button
           className="w-full py-2 bg-light-secondary-100 text-black font-medium rounded-md hover:bg-light-secondary-200 transition"
           // disabled={loading}
           onClick={async () => {
-            await signIn.social(
-              {
-                provider: "google",
-                callbackURL: "http://localhost:5173/user/profile",
-              },
-              // {
-              //   onRequest: (ctx) => {
-              //     setLoading(true);
-              //   },
-              //   onResponse: (ctx) => {
-              //     setLoading(false);
-              //   },
-              // },
-            );
+            await signIn.social({
+              provider: "google",
+              callbackURL: "http://localhost:5173/user/profile",
+            });
           }}
           type="button"
         >
           Sign in with Google
         </button>
       </div>
-      <div className="flex justify-center text-gray-600 mt-5">
+      {/* <div className="flex justify-center text-gray-600 mt-5">
         <p>
           ¿No tienes una cuenta?{" "}
           <Link className="text-amber-500 underline" to="/user/register">
             Regístrate aquí.
           </Link>
         </p>
-      </div>
+      </div>*/}
     </div>
   );
 };

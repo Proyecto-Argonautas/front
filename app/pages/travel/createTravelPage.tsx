@@ -1,5 +1,6 @@
 import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
 import TravelForm, { type TravelFormData } from "~/components/forms/TravelForm";
+import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
   return [
@@ -7,6 +8,11 @@ export function meta() {
     { name: "resume", content: "Form create travels" },
   ];
 }
+
+export const handle: handlePages = {
+  hideHeader: true,
+  buttons: ["home", "profile"],
+};
 
 export default function CreateTravelPage() {
   const handleTravelFormSubmit = (data: TravelFormData) => {

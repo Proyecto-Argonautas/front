@@ -12,7 +12,7 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
-import { useBudget } from "../../hooks/useBudget";
+import { useBudget } from "~/hooks/useBudget";
 
 const iconForCategory = (category: string) => {
   switch (category) {
@@ -33,7 +33,7 @@ const iconForCategory = (category: string) => {
 
 const Budget: React.FC = () => {
   const [showMembers, setShowMembers] = useState(false);
-  
+
   const {
     expenses,
     title,
@@ -57,7 +57,7 @@ const Budget: React.FC = () => {
       <div className="max-w-md mx-auto lg:max-w-7xl">
         {/* Layout móvil */}
         <div className="lg:hidden">
-          <div 
+          <div
             className="bg-cold-light-500 text-white rounded-2xl p-6 text-center shadow-lg cursor-pointer hover:bg-cold-light-800 transition-colors"
             onClick={() => setShowMembers(!showMembers)}
           >
@@ -77,9 +77,7 @@ const Budget: React.FC = () => {
           {/* Sección desplegable de miembros */}
           {showMembers && (
             <div className="mt-4 bg-light-primary rounded-2xl p-4 shadow-lg">
-              <h3 className="text-lg font-semibold mb-3">
-                Miembros del grupo
-              </h3>
+              <h3 className="text-lg font-semibold mb-3">Miembros del grupo</h3>
               <div className="space-y-3">
                 {groupMembers.map((member) => {
                   const memberTotal = expenses
@@ -186,7 +184,8 @@ const Budget: React.FC = () => {
                   </p>
                 ) : (
                   <p className="text-xs text-light-secondary-400 mt-1">
-                    Has seleccionado {selectedMembers.length} {selectedMembers.length === 1 ? 'miembro' : 'miembros'}
+                    Has seleccionado {selectedMembers.length}{" "}
+                    {selectedMembers.length === 1 ? "miembro" : "miembros"}
                   </p>
                 )}
               </div>
@@ -410,7 +409,8 @@ const Budget: React.FC = () => {
                       </p>
                     ) : (
                       <p className="text-sm text-light-secondary-400 mt-2">
-                        Has seleccionado {selectedMembers.length} {selectedMembers.length === 1 ? 'miembro' : 'miembros'}
+                        Has seleccionado {selectedMembers.length}{" "}
+                        {selectedMembers.length === 1 ? "miembro" : "miembros"}
                       </p>
                     )}
                   </div>

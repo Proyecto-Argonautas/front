@@ -48,9 +48,11 @@ const FindWeatherCard: React.FC = () => {
   };
 
   return (
-    <div className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? 'h-[410px]' : 'h-auto'}`}>
-      <div 
-        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? 'mb-4' : 'mb-1'}`}
+    <div
+      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? "h-[410px]" : "h-auto"}`}
+    >
+      <div
+        className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? "mb-4" : "mb-1"}`}
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1">
@@ -60,22 +62,22 @@ const FindWeatherCard: React.FC = () => {
                 Información del clima
               </div>
               <div className="text-[1.35rem] font-semibold text-black mb-2">
-                {weather ? `${destination} - ${Math.round(weather.temp)}°C` : "Buscar destino"}
+                {weather
+                  ? `${destination} - ${Math.round(weather.temp)}°C`
+                  : "Buscar destino"}
               </div>
               <div className="text-gray-400 text-sm mb-4">
-                {weather ? weather.resume : "Consulta el clima de cualquier ciudad"}
+                {weather
+                  ? weather.resume
+                  : "Consulta el clima de cualquier ciudad"}
               </div>
             </>
           ) : (
-            <div className="text-lg font-semibold text-gray-700">
-              Clima
-            </div>
+            <div className="text-lg font-semibold text-gray-700">Clima</div>
           )}
         </div>
         <button
-          aria-label={
-            isExpanded ? "Colapsar clima" : "Expandir clima"
-          }
+          aria-label={isExpanded ? "Colapsar clima" : "Expandir clima"}
           className="absolute top-4 right-4 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
           onClick={(e) => {
             e.stopPropagation();
@@ -94,18 +96,16 @@ const FindWeatherCard: React.FC = () => {
         <div className="space-y-4 flex-1 overflow-hidden flex flex-col">
           {/* Buscar destino */}
           <div className="flex flex-col flex-shrink-0">
-            <label className="text-xs text-gray-500 mb-2">
-              Destino
-            </label>
+            <label className="text-xs text-gray-500 mb-2">Destino</label>
             <input
               className="border border-gray-300 rounded-md p-2 text-xs w-full focus:outline-none focus:border-green-500 focus:ring-0 "
               onChange={(e) => setDestination(e.target.value)}
-              placeholder="Buscar destino (ej. Madrid)"
-              type="text"
-              value={destination}
               onKeyDown={(e) => {
                 if (e.key === "Enter") fetchWeather();
               }}
+              placeholder="Buscar destino (ej. Madrid)"
+              type="text"
+              value={destination}
             />
           </div>
 
@@ -146,9 +146,7 @@ const FindWeatherCard: React.FC = () => {
                     <p className="capitalize text-gray-600 text-xs">
                       {weather.resume}
                     </p>
-                    <p className="text-xs text-gray-500">
-                      📍 {destination}
-                    </p>
+                    <p className="text-xs text-gray-500">📍 {destination}</p>
                   </div>
                 </div>
               </div>

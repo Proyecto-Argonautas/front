@@ -50,8 +50,8 @@ export default [
       // Ruta "/user/login": inicio de sesión de usuario
       route("login", "pages/user/loginPage.tsx"),
 
-      // Ruta "/user/register": registro de usuario
-      route("register", "pages/user/registerPage.tsx"),
+      // // Ruta "/user/register": registro de usuario
+      // route("register", "pages/user/registerPage.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

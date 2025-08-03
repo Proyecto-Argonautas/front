@@ -1,18 +1,15 @@
-import { Outlet, useLocation } from "react-router";
 import React from "react";
+import { Outlet, useLocation, useMatches } from "react-router";
 
 import MenuBar from "~/components/bars/MenuBar";
-import AddArticleButton from "~/components/buttonsComponents/AddArticleButton";
-import CreateButton from "~/components/buttonsComponents/CreateButton";
-import HomeButton from "~/components/buttonsComponents/HomeButton";
-import ProfileButton from "~/components/buttonsComponents/ProfileButton";
-import ReturnButton from "~/components/buttonsComponents/ReturnButton";
-import SearchButton from "~/components/buttonsComponents/SearchButton";
-import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
+import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
 import { SectionsProvider } from "~/contexts/SectionsContext";
-
+import {
+  type handlePages,
+  NAVIGATION_BUTTONS_COMPONENTS,
+} from "~/types/navigationButtons";
 
 export default function MainLayout() {
   const location = useLocation();
@@ -20,82 +17,19 @@ export default function MainLayout() {
 
   const [count, setCount] = React.useState(0);
 
+  const matches = useMatches();
+  const { hideHeader = false, buttons } = (matches.at(-1)?.handle ?? {
+    hideHeader: false,
+    buttons: ["home", "profile"],
+  }) as handlePages;
+
   // Determinar si mostrar el header
-  const headerView = currentPath.includes("/travel") && !currentPath.includes("/create") 
-    ? "flex flex-col" 
-    : "hidden";
+  const headerView = hideHeader ? "hidden" : "flex flex-col";
 
   const isCompactMode =
     currentPath.includes("/itinerary") ||
     currentPath.includes("/tools") ||
     currentPath.includes("/budget");
-
-  // Función para determinar qué botones mostrar según la ruta
-  const getMenuButtons = () => {
-    // Landing page: Search, Create, Profile
-    if (currentPath === "/") {
-      return (
-        <>
-          <SearchButton />
-          <CreateButton />
-          <ProfileButton />
-        </>
-      );
-    }
-    
-    // Create page: Home, Profile
-    if (currentPath.includes("/create")) {
-      return (
-        <>
-          <HomeButton />
-          <ProfileButton />
-        </>
-      );
-    }
-    
-    // Resume page: Home, AddArticle, Profile
-    if (currentPath.includes("/resume")) {
-      return (
-        <>
-          <HomeButton />
-          <AddArticleButton />
-          <ProfileButton />
-        </>
-      );
-    }
-    
-    // Itinerary, Tools, Budget pages: Home, Profile
-    if (currentPath.includes("/itinerary") || 
-        currentPath.includes("/tools") || 
-        currentPath.includes("/budget")) {
-      return (
-        <>
-          <HomeButton />
-          <ProfileButton />
-        </>
-      );
-    }
-
-    // Profile page: Home, Return
-    if (currentPath.includes("/profile")) {
-      return (
-        <>
-          <ReturnButton />
-          <HomeButton />
-        </>
-      );
-    }
-
-    // Por defecto: mostrar todos los botones
-    return (
-      <>
-        <SearchButton />
-        <HomeButton />
-        <CreateButton />
-        <ProfileButton />
-      </>
-    );
-  };
 
   return (
     <SectionsProvider>
@@ -112,23 +46,19 @@ export default function MainLayout() {
         </LayoutTransition>
 
         <YourTravelNavBar />
-
-
       </header>
 
-
-
-
-
       <main className="min-h-screen bg-light-secondary-100">
-        {/* Aqui se carga el contenido cuando se llama al layout */}
-        <Outlet context={[count, setCount]}/>
+        {/* Aquí se carga el contenido cuando se llama al layout */}
+        <Outlet context={[count, setCount]} />
       </main>
       <footer>
         <MenuBar>
-          {getMenuButtons()}
+          {buttons.map((key) => (
+            <span key={key}>{NAVIGATION_BUTTONS_COMPONENTS[key]}</span>
+          ))}
         </MenuBar>
-        {/* TODO Hacer que el menu crear dependiendo de la ruta se muestre o haga una accion distinta */}
+        {/* TODO Hacer que el menu crear dependiendo de la ruta se muestre o haga una acción distinta */}
       </footer>
     </SectionsProvider>
   );

@@ -1,15 +1,15 @@
 // import { Menu } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 
 const tabs = ["Resumen", "Itinerario", "Herramientas", "Gastos"];
 
 // Mapeo de nombres en español a rutas en inglés
 const tabRoutes: { [key: string]: string } = {
-  "Resumen": "resume",
-  "Itinerario": "itinerary", 
-  "Herramientas": "tools",
-  "Gastos": "budget"
+  Resumen: "resume",
+  Itinerario: "itinerary",
+  Herramientas: "tools",
+  Gastos: "budget",
 };
 
 const YourTravelNavBar = () => {
@@ -23,7 +23,10 @@ const YourTravelNavBar = () => {
 
   // Determinar qué tab está activo basado en la URL
   const getActiveTabFromLocation = () => {
-    if (location.pathname.includes("/resume") || location.pathname.match(/\/travel\/\d+\/?$/)) {
+    if (
+      location.pathname.includes("/resume") ||
+      location.pathname.match(/\/travel\/\d+\/?$/)
+    ) {
       return "Resumen";
     } else if (location.pathname.includes("/itinerary")) {
       return "Itinerario";

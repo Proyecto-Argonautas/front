@@ -32,7 +32,9 @@ const YourTravelCardWithBackground = ({
         <div className="relative h-full flex items-center justify-center transition-all duration-500 ease-out p-4">
           <div className="bg-light-primary/95 backdrop-blur-sm rounded-lg shadow-sm w-full flex justify-between items-center transition-all duration-500 ease-out p-3">
             <div>
-              <h2 className="font-bold text-gray-900 transition-[font-size,line-height] duration-300 ease-in-out text-lg">{title}</h2>
+              <h2 className="font-bold text-gray-900 transition-[font-size,line-height] duration-300 ease-in-out text-lg">
+                {title}
+              </h2>
               <div className="flex items-center text-gray-600 mt-1 transition-[font-size,margin-top] duration-300 ease-in-out text-sm">
                 <CalendarDays className="mr-2 transition-[width,height] duration-300 ease-in-out w-4 h-4" />
                 <span>
@@ -67,7 +69,9 @@ const YourTravelCardWithBackground = ({
       <div className="relative h-full flex items-end transition-all duration-500 ease-out p-4">
         <div className="bg-light-primary shadow-lg w-full flex justify-between items-center transition-all duration-500 ease-out rounded-xl p-4">
           <div>
-            <h2 className="font-bold text-gray-900 transition-[font-size,line-height] duration-300 ease-in-out text-xl">{title}</h2>
+            <h2 className="font-bold text-gray-900 transition-[font-size,line-height] duration-300 ease-in-out text-xl">
+              {title}
+            </h2>
             <div className="flex items-center text-gray-600 mt-1 transition-[font-size,margin-top] duration-300 ease-in-out text-sm">
               <CalendarDays className="mr-2 transition-[width,height] duration-300 ease-in-out w-5 h-5" />
               <span>
@@ -84,7 +88,6 @@ const YourTravelCardWithBackground = ({
                 src={avatarUrl}
               />
             )}
-            
           </div>
         </div>
       </div>
