@@ -6,11 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { Bounce, ToastContainer } from 'react-toastify';
-import 'react-toastify/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import type { Route } from "./+types/root";
 import "./app.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserProvider from "~/contexts/UserProvider";
 
 export const links: Route.LinksFunction = () => [
@@ -27,6 +28,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [isClient, setIsClient] = useState(false);
+
   return (
     <html lang="en">
       <head>
@@ -47,9 +50,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           rtl={false}
           pauseOnHover
           draggable
-          transition={Bounce}
           theme="light"
-/> 
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -86,6 +88,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
           <code>{stack}</code>
         </pre>
       )}
-    </main>    
+    </main>
   );
 }
