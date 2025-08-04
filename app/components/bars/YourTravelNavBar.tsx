@@ -57,14 +57,14 @@ const YourTravelNavBar = () => {
         }`}
       >
         <div className="overflow-x-auto px-2 sm:px-4 hide-scrollbar">
-          <div className="flex space-x-5 sm:space-x-6 min-w-max items-center">
+          <div className="flex space-x-5 min-w-max items-center sm:min-w-0 sm:justify-center sm:space-x-24">
             {tabs.map((tab, index) => (
               <NavLink
-                className={`pt-6 pb-4 sm:pt-7 sm:pb-5 font-semibold text-sm transition-all duration-300 whitespace-nowrap flex items-center ${
+                className={`pt-6 pb-4 sm:pt-7 sm:pb-5 font-semibold text-sm sm:text-base transition-all duration-300 whitespace-nowrap flex items-center ${
                   activeTab === tab
                     ? "text-emerald-400 border-b-2 border-emerald-400"
                     : "text-gray-600"
-                } ${index === 0 ? "ml-2" : ""}`}
+                } ${index === 0 ? "ml-2 sm:ml-0" : ""}`}
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 to={`/travel/1/${tabRoutes[tab]}`}

@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from "react-router";
 import React from "react";
-
 import MenuBar from "~/components/bars/MenuBar";
 import AddArticleButton from "~/components/buttonsComponents/AddArticleButton";
 import CreateButton from "~/components/buttonsComponents/CreateButton";
@@ -10,20 +9,34 @@ import ReturnButton from "~/components/buttonsComponents/ReturnButton";
 import SearchButton from "~/components/buttonsComponents/SearchButton";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
+import MenuHeader from "~/components/bars/MenuHeader";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
 import { SectionsProvider } from "~/contexts/SectionsContext";
+import { TravelProvider, useTravel } from "~/contexts/TravelContext";
 
 
 export default function MainLayout() {
+  return (
+    <TravelProvider>
+      <MainLayoutContent />
+    </TravelProvider>
+  );
+}
+
+function MainLayoutContent() {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { travelData } = useTravel();
 
   const [count, setCount] = React.useState(0);
 
-  // Determinar si mostrar el header
+  // Determinar si mostrar el header 
   const headerView = currentPath.includes("/travel") && !currentPath.includes("/create") 
     ? "flex flex-col" 
     : "hidden";
+
+  // Determinar si mostrar el footer (solo móvil)
+  const footerView = "block sm:hidden";
 
   const isCompactMode =
     currentPath.includes("/itinerary") ||
@@ -101,14 +114,20 @@ export default function MainLayout() {
     <SectionsProvider>
       <header className={headerView}>
         <LayoutTransition>
-          <YourTravelCardWithBackground
-            avatarUrl="https://i.pravatar.cc/40?img=56"
-            backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-            compact={isCompactMode}
-            endDate="31/7"
-            startDate="15/7"
-            title="Viaje a Islandia"
-          />
+          <div className="relative">
+            {/* MenuHeader solo en desktop */}
+            <div className="hidden sm:block">
+              <MenuHeader />
+            </div>
+            <YourTravelCardWithBackground
+              backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              compact={isCompactMode}
+              endDate={travelData.endDate ? new Date(travelData.endDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : "31/7"}
+              participants={(travelData.numberOfMembers || 0) + 1}
+              startDate={travelData.startDate ? new Date(travelData.startDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : "15/7"}
+              title={travelData.destination ? `Viaje a ${travelData.destination}` : "Viaje a Islandia"}
+            />
+          </div>
         </LayoutTransition>
 
         <YourTravelNavBar />
@@ -124,7 +143,10 @@ export default function MainLayout() {
         {/* Aqui se carga el contenido cuando se llama al layout */}
         <Outlet context={[count, setCount]}/>
       </main>
-      <footer>
+      <footer className={footerView}>
+        
+        
+        
         <MenuBar>
           {getMenuButtons()}
         </MenuBar>

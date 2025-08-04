@@ -1,5 +1,6 @@
 import StartPlanning from "~/components/buttonsComponents/StartPlanningButton";
 import TravelForm, { type TravelFormData } from "~/components/forms/TravelForm";
+import { useTravel } from "~/contexts/TravelContext";
 
 export function meta() {
   return [
@@ -9,9 +10,12 @@ export function meta() {
 }
 
 export default function CreateTravelPage() {
+  const { updateTravelData } = useTravel();
+  
   const handleTravelFormSubmit = (data: TravelFormData) => {
     console.log("Travel form data:", data);
-    // para manejar los datos del formulario
+    updateTravelData(data);
+    // Aquí puedes manejar los datos del formulario (ej: navegar a otra página)
   };
 
   return (
