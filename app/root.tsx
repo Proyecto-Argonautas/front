@@ -6,7 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { Bounce, ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 import type { Route } from "./+types/root";
 import "./app.css";
 import React from "react";
@@ -36,6 +37,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <UserProvider>{children}</UserProvider>
+        <ToastContainer
+          position="bottom-right"
+          hideProgressBar={false}
+          autoClose={3000}
+          closeOnClick
+          newestOnTop={false}
+          pauseOnFocusLoss
+          rtl={false}
+          pauseOnHover
+          draggable
+          transition={Bounce}
+          theme="light"
+/> 
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -72,6 +86,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
           <code>{stack}</code>
         </pre>
       )}
-    </main>
+    </main>    
   );
 }

@@ -16,7 +16,7 @@ function ProfileButton() {
     buttonClass =
       "bg-cold-light-400 text-white rounded-full p-4 shadow-lg -mt-8";
     if (user.image)
-      buttonClass += ` bg-[image:var(--img-url)] bg-cover bg-center bg-no-repeat`;
+      buttonClass += ` bg-[image:var(--img-url)] bg-cover bg-center bg-no-repeat border border-emerald-400  `;
   }
 
   return (

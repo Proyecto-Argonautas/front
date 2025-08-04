@@ -28,6 +28,7 @@ function MainLayoutContent() {
 
   const [count, setCount] = React.useState(0);
 
+  // Configurar menu
   const matches = useMatches();
   const { hideHeader = false, buttons } = (matches.at(-1)?.handle ?? {
     hideHeader: false,
@@ -72,7 +73,9 @@ function MainLayoutContent() {
         {/* Aquí se carga el contenido cuando se llama al layout */}
         <Outlet context={[count, setCount]} />
       </main>
-      <footer className={footerView}>
+      {/* <footer className={footerView}> */}
+      <footer>
+      
         <MenuBar>
           {buttons.map((key) => (
             <span key={key}>{NAVIGATION_BUTTONS_COMPONENTS[key]}</span>

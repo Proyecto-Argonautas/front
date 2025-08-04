@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Minus, Plus } from "lucide-react";
 import type React from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 // Esquema validacion Zod
 const travelFormSchema = z
   .object({
-    destination: z.string().min(1, "El destino es requerido"),
-    startDate: z.string().min(1, "La fecha de inicio es requerida"),
-    endDate: z.string().min(1, "La fecha de finalización es requerida"),
+    destination: z.string().min(1, "Este campo está vacío"),
+    startDate: z.string().min(1, "Este campo está vacío"),
+    endDate: z.string().min(1, "Este campo está vacío"),
     numberOfMembers: z.number().min(0).max(20),
     memberNames: z.array(z.string()).optional(),
   })
@@ -17,60 +17,149 @@ const travelFormSchema = z
     message:
       "La fecha de inicio debe ser anterior o igual a la fecha de finalización",
     path: ["endDate"],
+  })
+  .refine((data) => {
+    // Si hay miembros, todos deben tener nombre
+    if (data.numberOfMembers > 0 && data.memberNames) {
+      const filledNames = data.memberNames.filter(name => name.trim() !== "");
+      return filledNames.length === data.numberOfMembers;
+    }
+    return true;
+  }, {
+    message: "Debes poner nombre al acompañante",
+    path: ["memberNames"],
   });
 
 export type TravelFormData = z.infer<typeof travelFormSchema>;
 
 type TravelFormProps = {
-  onSubmit: (data: TravelFormData) => void;
   defaultValues?: Partial<TravelFormData>;
 };
 
 export const TravelForm: React.FC<TravelFormProps> = ({
-  onSubmit,
   defaultValues,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<TravelFormData>({
-    resolver: zodResolver(travelFormSchema),
-    defaultValues: {
-      destination: "",
-      startDate: "",
-      endDate: "",
-      numberOfMembers: 0,
-      memberNames: [],
-      ...defaultValues,
-    },
-  });
-
-  const numberOfMembers = watch("numberOfMembers");
-  const memberNames = watch("memberNames") || [];
+  const [numberOfMembers, setNumberOfMembers] = useState(defaultValues?.numberOfMembers || 0);
+  const [memberNames, setMemberNames] = useState<string[]>(defaultValues?.memberNames || []);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [startDate, setStartDate] = useState(defaultValues?.startDate || "");
+  const [endDate, setEndDate] = useState(defaultValues?.endDate || "");
 
   const handleNumberChange = (num: number) => {
-    setValue("numberOfMembers", num);
+    setNumberOfMembers(num);
     if (num > memberNames.length) {
-      setValue("memberNames", [
+      setMemberNames([
         ...memberNames,
         ...Array(num - memberNames.length).fill(""),
       ]);
     } else {
-      setValue("memberNames", memberNames.slice(0, num));
+      setMemberNames(memberNames.slice(0, num));
     }
   };
 
   const handleMemberNameChange = (index: number, name: string) => {
     const updatedNames = [...memberNames];
     updatedNames[index] = name;
-    setValue("memberNames", updatedNames);
+    setMemberNames(updatedNames);
+    
+    // Validar si todos los miembros tienen nombre
+    const filledNames = updatedNames.filter(memberName => memberName.trim() !== "");
+    if (numberOfMembers > 0 && filledNames.length === numberOfMembers) {
+      // Si todos los miembros tienen nombre, quitar el error
+      const newErrors = { ...errors };
+      delete newErrors.memberNames;
+      setErrors(newErrors);
+    }
+  };
+
+  const validateField = (field: string, value: string, additionalData?: any) => {
+    try {
+      if (field === 'destination') {
+        z.string().min(1, "Este campo está vacío").parse(value);
+        const newErrors = { ...errors };
+        delete newErrors.destination;
+        setErrors(newErrors);
+      } else if (field === 'startDate') {
+        z.string().min(1, "Este campo está vacío").parse(value);
+        const newErrors = { ...errors };
+        delete newErrors.startDate;
+        // También validar la relación con endDate si existe
+        if (additionalData?.endDate && value && additionalData.endDate) {
+          if (new Date(value) <= new Date(additionalData.endDate)) {
+            delete newErrors.endDate;
+          }
+        }
+        setErrors(newErrors);
+      } else if (field === 'endDate') {
+        z.string().min(1, "Este campo está vacío").parse(value);
+        const newErrors = { ...errors };
+        delete newErrors.endDate;
+        // Validar la relación con startDate si existe
+        if (additionalData?.startDate && value && additionalData.startDate) {
+          if (new Date(additionalData.startDate) <= new Date(value)) {
+            delete newErrors.endDate;
+          } else {
+            newErrors.endDate = "La fecha de inicio debe ser anterior o igual a la fecha de finalización";
+          }
+        }
+        setErrors(newErrors);
+      }
+    } catch {
+      // Si hay error en la validación, mantener el error existente
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    const data = {
+      destination: (event.currentTarget.elements.namedItem("destination") as HTMLInputElement)?.value || "",
+      startDate: startDate,
+      endDate: endDate,
+      numberOfMembers: numberOfMembers,
+      memberNames: memberNames, // Enviar todos los nombres, incluidos los vacíos para validación
+    };
+
+    try {
+      const validatedData = travelFormSchema.parse(data);
+      // Filtrar nombres vacíos solo después de la validación exitosa
+      const finalData = {
+        ...validatedData,
+        memberNames: validatedData.memberNames?.filter(name => name.trim() !== "") || []
+      };
+      console.log("Datos del formulario:", finalData);
+      setErrors({});
+      toast.success("Formulario enviado correctamente");
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: {[key: string]: string} = {};
+        let hasEmptyFields = false;
+        
+        error.issues.forEach((issue) => {
+          if (issue.path.length > 0) {
+            newErrors[issue.path[0] as string] = issue.message;
+            if (issue.message === "Este campo está vacío") {
+              hasEmptyFields = true;
+            }
+          }
+        });
+        
+        setErrors(newErrors);
+        console.error("Errores de validación:", newErrors);
+        
+        if (hasEmptyFields) {
+          toast.error("Por favor, completa todos los campos requeridos");
+        } else if (newErrors.memberNames) {
+          toast.error("Por favor, completa los nombres de los acompañantes");
+        } else {
+          toast.error("Hay errores en el formulario");
+        }
+      }
+    }
   };
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       <div className="border border-gray-300 rounded-lg p-3 mb-4">
         {/* Destination Form */}
         <div className="rounded-xl p-4">
@@ -84,15 +173,17 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             </span>
           </label>
           <input
-            {...register("destination")}
+            name="destination"
             className="mt-2 w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="destination-input"
             placeholder="Ingresa un destino"
             type="text"
+            defaultValue={defaultValues?.destination || ""}
+            onChange={(e) => validateField('destination', e.target.value)}
           />
           {errors.destination && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.destination.message}
+              {errors.destination}
             </p>
           )}
         </div>
@@ -123,11 +214,16 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 />
               </svg>
               <input
-                {...register("startDate")}
+                name="startDate"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="start-date"
                 placeholder="Fecha de inicio"
                 type="date"
+                value={startDate}
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  validateField('startDate', e.target.value, { endDate: endDate });
+                }}
               />
             </div>
 
@@ -149,21 +245,27 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 />
               </svg>
               <input
-                {...register("endDate")}
+                name="endDate"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Fecha de finalización"
                 type="date"
+                value={endDate}
+                min={startDate || undefined}
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                  validateField('endDate', e.target.value, { startDate: startDate });
+                }}
               />
             </div>
           </div>
           {errors.startDate && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.startDate.message}
+              {errors.startDate}
             </p>
           )}
           {errors.endDate && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.endDate.message}
+              {errors.endDate}
             </p>
           )}
         </div>
@@ -209,34 +311,42 @@ export const TravelForm: React.FC<TravelFormProps> = ({
           </div>
 
           <div className="grid gap-2">
-            {Array.from({ length: numberOfMembers }).map((_, index) => {
-              const key = memberNames[index]
-                ? `${memberNames[index]}-${index}`
-                : `member-${index}`;
-              return (
-                <div className="mb-2" key={key}>
-                  <label
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                    htmlFor={`member-${index}`}
-                  >
-                    Nombre del miembro {index + 1}
-                  </label>
-                  <input
-                    className="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    id={`member-${index}`}
-                    onChange={(e) =>
-                      handleMemberNameChange(index, e.target.value)
-                    }
-                    placeholder={`Miembro ${index + 1}`}
-                    type="text"
-                    value={memberNames[index] || ""}
-                  />
-                </div>
-              );
-            })}
+            {Array.from({ length: numberOfMembers }).map((_, index) => (
+              <div className="mb-2" key={`member-${index}`}>
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                  htmlFor={`member-${index}`}
+                >
+                  Nombre del miembro {index + 1}
+                </label>
+                <input
+                  className="block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  id={`member-${index}`}
+                  onChange={(e) =>
+                    handleMemberNameChange(index, e.target.value)
+                  }
+                  placeholder={`Miembro ${index + 1}`}
+                  type="text"
+                  value={memberNames[index] || ""}
+                />
+              </div>
+            ))}
           </div>
+          {errors.memberNames && (
+            <p className="text-red-500 text-sm mt-2">
+              {errors.memberNames}
+            </p>
+          )}
         </div>
       </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="mt-4 w-full bg-cold-light-400 text-white py-2 px-4 rounded-md hover:bg-cold-light-700 transition-colors"
+      >
+        Enviar
+      </button>
     </form>
   );
 };

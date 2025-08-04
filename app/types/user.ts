@@ -18,8 +18,8 @@ export interface User {
   email: string;
   emailVerified: boolean;
   image: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   id: string;
 }
 
