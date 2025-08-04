@@ -4,7 +4,7 @@ import type React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-// Esquema validación Zod
+// Esquema validacion Zod
 const travelFormSchema = z
   .object({
     destination: z.string().min(1, "El destino es requerido"),

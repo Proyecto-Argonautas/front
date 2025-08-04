@@ -8,7 +8,6 @@ export function getUser(): User | null {
     (import.meta.env.VITE_BACK_BASE_URL as string) || "http://localhost:3000";
 
   if (!session?.error) {
-    console.log(session);
     const user = session?.data?.user;
     if (user?.image)
       user.image = `${BACK_BASE_URL}/user/proxy-image?url=${encodeURIComponent(user?.image)}`;

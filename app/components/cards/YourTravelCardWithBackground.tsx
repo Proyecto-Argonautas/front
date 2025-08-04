@@ -4,7 +4,7 @@ type YourTravelCardWithBackgroundProps = {
   title: string;
   startDate: string;
   endDate: string;
-  avatarUrl?: string;
+  participants?: number;
   backgroundImage: string;
   compact?: boolean;
 };
@@ -13,13 +13,13 @@ const YourTravelCardWithBackground = ({
   title,
   startDate,
   endDate,
-  avatarUrl,
+  participants = 1,
   backgroundImage,
   compact = false,
 }: YourTravelCardWithBackgroundProps) => {
   if (compact) {
     return (
-      <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-32 rounded-t-xl overflow-hidden">
+      <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-32 sm:h-48 rounded-t-xl overflow-hidden">
         {/* Imagen de fondo */}
         <img
           alt="Fondo"
@@ -29,7 +29,7 @@ const YourTravelCardWithBackground = ({
 
         <div className="absolute inset-0 bg-black/25 transition-opacity duration-300 ease-in-out" />
 
-        <div className="relative h-full flex items-center justify-center transition-all duration-500 ease-out p-4">
+        <div className="relative h-full flex items-end justify-center transition-all duration-500 ease-out p-4 pb-3">
           <div className="bg-light-primary/95 backdrop-blur-sm rounded-lg shadow-sm w-full flex justify-between items-center transition-all duration-500 ease-out p-3">
             <div>
               <h2 className="font-bold text-gray-900 transition-[font-size,line-height] duration-300 ease-in-out text-lg">
@@ -42,13 +42,9 @@ const YourTravelCardWithBackground = ({
                 </span>
               </div>
             </div>
-            {avatarUrl && (
-              <img
-                alt="Avatar"
-                className="rounded-full object-cover transition-[width,height] duration-300 ease-in-out w-8 h-8"
-                src={avatarUrl}
-              />
-            )}
+            <div className="flex items-center text-gray-600 text-sm font-medium">
+              <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -80,14 +76,8 @@ const YourTravelCardWithBackground = ({
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 transition-[opacity,transform] duration-300 ease-in-out">
-            {avatarUrl && (
-              <img
-                alt="Avatar"
-                className="rounded-full object-cover transition-[width,height] duration-300 ease-in-out w-8 h-8"
-                src={avatarUrl}
-              />
-            )}
+          <div className="flex items-center text-gray-600 text-sm font-medium">
+            <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
           </div>
         </div>
       </div>
