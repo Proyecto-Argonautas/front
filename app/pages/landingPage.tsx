@@ -27,7 +27,7 @@ export default function LandingPage() {
     <div className="flex flex-col gap-5 items-center justify-center p-6 max-w-6xl mx-auto sm:gap-4 ">
 
       <div className="flex">
-        <img src="/public/images/file.svg" alt="logo" className="w-40 h-40" />
+        <img src="/images/file.svg" alt="logo" className="w-40 h-40" />
       </div>
       <div className="flex flex-col gap-5 w-full">
         <div className="w-full flex flex-col gap-4 items-center">

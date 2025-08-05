@@ -7,21 +7,22 @@ import {
   Cloud,
   Languages,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useSections } from "~/contexts/SectionsContext";
-import { nanoid } from "nanoid";
+import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 const AddArticleButton = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { addSection } = useSections();
+  const { travelData } = useTravel();
+  const user = useContext(UserContext);
 
   const handleAddSection = (type: "note" | "flight" | "hotel" | "currency" | "weather" | "translate") => {
-    const component_id = nanoid();
-    const component_type = type;
-    
     console.log("Nuevo artículo creado:", {
-      component_type,
-      component_id
+      component_type: type,
+      travel_id: travelData.destiny || "No travel ID",
+      user_id: user?.id || "No user ID"
     });
     
     addSection(type);
