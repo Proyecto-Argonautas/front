@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Outlet, useLocation, useMatches } from "react-router";
 
 import MenuBar from "~/components/bars/MenuBar";
-import MenuHeader from "~/components/bars/MenuHeader";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
@@ -38,8 +37,8 @@ function MainLayoutContent() {
   // Determinar si mostrar el header
   const headerView = hideHeader ? "hidden" : "flex flex-col";
 
-  // Determinar si mostrar el footer (solo móvil)
-  const footerView = "block sm:hidden";
+
+
 
   const isCompactMode =
     currentPath.includes("/itinerary") ||
