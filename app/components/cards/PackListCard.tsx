@@ -21,11 +21,21 @@ const PackListCard: React.FC<PackListCardProps> = ({
   title = "Lista de equipaje",
   onDelete 
 }) => {
+  // ID único para este componente
+  const [componentId] = useState(() => nanoid());
   const [packingList, setPackingList] = useState<PackingItem[]>([]);
   const [newItem, setNewItem] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea un nuevo PackList
+  useEffect(() => {
+    console.log("Nueva PackList creada:", {
+      component_type: "list",
+      component_id: componentId
+    });
+  }, [componentId]);
 
   // Load from localStorage with unique key per list
   useEffect(() => {
@@ -117,6 +127,18 @@ const PackListCard: React.FC<PackListCardProps> = ({
     setPackingList((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // Función para manejar la eliminación de la lista completa
+  const handleDeleteList = () => {
+    console.log("PackList eliminada:", {
+      component_type: "list",
+      component_id: componentId
+    });
+    if (onDelete) {
+      onDelete();
+    }
+    setShowOptions(false);
+  };
+
   return (
     <div
       className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300`}
@@ -164,10 +186,7 @@ const PackListCard: React.FC<PackListCardProps> = ({
               <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-10">
                 <button
                   className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
-                  onClick={() => {
-                    onDelete();
-                    setShowOptions(false);
-                  }}
+                  onClick={handleDeleteList}
                   type="button"
                 >
                   <Trash2 size={16} />
