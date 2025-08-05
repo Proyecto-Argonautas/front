@@ -5,11 +5,15 @@ import {
   Ellipsis,
   Trash2,
   Save,
+  Plus,
+  MapPin,
+  X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { Form } from "react-router";
+import { useEffect, useRef, useState, useContext } from "react";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 // Esquema de validación con Zod v4
 const hotelFormSchema = z.object({
@@ -33,11 +37,22 @@ const hotelFormSchema = z.object({
 type HotelFormData = z.infer<typeof hotelFormSchema>;
 type FormErrors = Partial<Record<keyof HotelFormData, string>>;
 
+// Tipo para hoteles guardados
+interface SavedHotel extends HotelFormData {
+  id: string;
+  component_type: "hotel";
+}
+
 export default function HotelArticleTest() {
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [isEditing, setIsEditing] = useState(true);
+  const [showForm, setShowForm] = useState(true);
+  const [savedHotels, setSavedHotels] = useState<SavedHotel[]>([]);
   const [errors, setErrors] = useState<FormErrors>({});
   const [formData, setFormData] = useState<HotelFormData>({
     hotelName: "",
@@ -49,6 +64,15 @@ export default function HotelArticleTest() {
     currency: "USD",
   });
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "hotel"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof HotelFormData, value: string) => {
@@ -95,16 +119,31 @@ export default function HotelArticleTest() {
     
     try {
       const validatedData = hotelFormSchema.parse(formData);
-      const submissionData = {
+      const newHotel: SavedHotel = {
         ...validatedData,
-        price: parseFloat(validatedData.price),
-        component_id: nanoid(),
+        id: nanoid(),
         component_type: "hotel",
       };
       
-      console.log("Datos del formulario de hotel:", submissionData);
-      setIsEditing(false);
+      // Añadir el hotel a la lista de hoteles guardados
+      setSavedHotels(prev => [...prev, newHotel]);
+      
+      // Resetear el formulario
+      setFormData({
+        hotelName: "",
+        checkInDate: "",
+        checkOutDate: "",
+        address: "",
+        confirmationNumber: "",
+        price: "",
+        currency: "USD",
+      });
+      
+      // Ocultar el formulario
+      setShowForm(false);
       setErrors({});
+      
+      console.log("Hotel guardado:", newHotel);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: FormErrors = {};
@@ -126,6 +165,52 @@ export default function HotelArticleTest() {
     } catch {
       return false;
     }
+  };
+
+  // Función para eliminar un hotel específico
+  const handleDeleteHotel = (hotelId: string) => {
+    setSavedHotels(prev => {
+      const updatedHotels = prev.filter(hotel => hotel.id !== hotelId);
+      // Si eliminamos el último hotel, mostrar el formulario
+      if (updatedHotels.length === 0) {
+        setShowForm(true);
+      }
+      return updatedHotels;
+    });
+  };
+
+  // Función para eliminar el artículo completo
+  const handleDeleteArticle = () => {
+    console.log("Artículo eliminado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "hotel"
+    });
+    setVisible(false);
+  };
+
+  // Función para mostrar el formulario nuevamente
+  const handleAddAnotherHotel = () => {
+    setShowForm(true);
+  };
+
+  // Función para formatear la fecha
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
+  // Función para calcular la duración de la estancia
+  const calculateNights = (checkIn: string, checkOut: string) => {
+    const startDate = new Date(checkIn);
+    const endDate = new Date(checkOut);
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   };
 
   // Cerrar menú si se hace clic fuera
@@ -174,10 +259,10 @@ export default function HotelArticleTest() {
             <Ellipsis />
           </button>
           {showOptions && (
-            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-20">
+            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-10">
               <button
                 className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
-                onClick={() => setVisible(false)}
+                onClick={handleDeleteArticle}
                 type="button"
               >
                 <Trash2 size={16} />
@@ -190,137 +275,208 @@ export default function HotelArticleTest() {
 
       {open && (
         <div className="border-t px-4 py-4 space-y-4 text-sm text-gray-700">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Nombre del hotel */}
-            <div>
-              <label className="block text-sm text-gray-500 mb-2">
-                Nombre del hotel
-              </label>
-              <input
-                type="text"
-                value={formData.hotelName}
-                onChange={(e) => handleInputChange("hotelName", e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                placeholder="Ingresa el nombre del hotel"
-              />
-              {errors.hotelName && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.hotelName}</span>
-              )}
-            </div>
-
-            {/* Fechas de entrada y salida */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">
-                  Fecha entrada
-                </label>
-                <input
-                  type="date"
-                  value={formData.checkInDate}
-                  onChange={(e) => handleInputChange("checkInDate", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                />
-                {errors.checkInDate && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.checkInDate}</span>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">
-                  Fecha salida
-                </label>
-                <input
-                  type="date"
-                  value={formData.checkOutDate}
-                  onChange={(e) => handleInputChange("checkOutDate", e.target.value)}
-                  min={formData.checkInDate || undefined}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                />
-                {errors.checkOutDate && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.checkOutDate}</span>
-                )}
-              </div>
-            </div>
-
-            {/* Dirección */}
-            <div>
-              <label className="block text-sm text-gray-500 mb-2">
-                Dirección
-              </label>
-              <input
-                type="text"
-                value={formData.address}
-                onChange={(e) => handleInputChange("address", e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                placeholder="Dirección del hotel"
-              />
-              {errors.address && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.address}</span>
-              )}
-            </div>
-
-            {/* Número de confirmación */}
-            <div>
-              <label className="block text-sm text-gray-500 mb-2">
-                Número de confirmación
-              </label>
-              <input
-                type="text"
-                value={formData.confirmationNumber}
-                onChange={(e) => handleInputChange("confirmationNumber", e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                placeholder="Ej: 4131314"
-              />
-              {errors.confirmationNumber && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.confirmationNumber}</span>
-              )}
-            </div>
-
-            {/* Precio */}
-            <div>
-              <label className="block text-sm text-gray-500 mb-2">
-                Precio
-              </label>
-              <div className="flex gap-6">
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  value={formData.price}
-                  onChange={(e) => handleInputChange("price", e.target.value)}
-                  className="w-36 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="0.00"
-                />
-                <select
-                  value={formData.currency}
-                  onChange={(e) => handleInputChange("currency", e.target.value)}
-                  className="w-24 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
-                >
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                  <option value="MXN">MXN</option>
-                  <option value="GBP">GBP</option>
-                </select>
-              </div>
-              {errors.price && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.price}</span>
-              )}
-              {errors.currency && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.currency}</span>
-              )}
-            </div>
-
-            {/* Botón de guardar */}
-            <div className="flex justify-center pt-4">
+          {/* Mostrar hoteles guardados */}
+          {savedHotels.map((hotel) => (
+            <div key={hotel.id} className="bg-gray-50 rounded-lg p-4 mb-4 relative">
+              {/* Botón eliminar individual - siempre visible */}
               <button
-                type="submit"
-                disabled={!isFormValid()}
-                className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                onClick={() => handleDeleteHotel(hotel.id)}
+                className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
+                type="button"
+                title="Eliminar este hotel"
               >
-                <Save size={18} />
-                Guardar
+                <X size={16} />
               </button>
+              
+              <div className="flex items-center justify-between mb-3 pr-8">
+                <div className="flex items-center gap-2">
+                  <div className="font-medium text-gray-900">
+                    {hotel.hotelName}
+                  </div>
+                </div>
+                <div className="text-sm text-gray-500 font-medium">
+                  {calculateNights(hotel.checkInDate, hotel.checkOutDate)} noches
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-1 mb-3 text-sm text-gray-600">
+                <MapPin size={14} />
+                <span>{hotel.address}</span>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div className="text-gray-500">Check-in</div>
+                  <div className="font-medium">
+                    {formatDate(hotel.checkInDate)}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Check-out</div>
+                  <div className="font-medium">
+                    {formatDate(hotel.checkOutDate)}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
+                <div>
+                  <span className="text-gray-500">Confirmación: </span>
+                  <span className="font-medium">{hotel.confirmationNumber}</span>
+                </div>
+                <div className="font-medium text-emerald-600">
+                  {hotel.price} {hotel.currency}
+                </div>
+              </div>
             </div>
-          </form>
+          ))}
+
+          {/* Botón para añadir otro hotel */}
+          {savedHotels.length > 0 && !showForm && (
+            <button
+              onClick={handleAddAnotherHotel}
+              className="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-emerald-500 hover:text-emerald-600 transition-colors"
+              type="button"
+            >
+              <Plus size={18} />
+              Añadir otro hotel
+            </button>
+          )}
+
+          {/* Formulario (solo se muestra si showForm es true) */}
+          {showForm && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Nombre del hotel */}
+              <div>
+                <label className="block text-sm text-gray-500 mb-2">
+                  Nombre del hotel
+                </label>
+                <input
+                  type="text"
+                  value={formData.hotelName}
+                  onChange={(e) => handleInputChange("hotelName", e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Ingresa el nombre del hotel"
+                />
+                {errors.hotelName && (
+                  <span className="text-red-500 text-xs mt-1 block">{errors.hotelName}</span>
+                )}
+              </div>
+
+              {/* Fechas de entrada y salida */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm text-gray-500 mb-2">
+                    Fecha entrada
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.checkInDate}
+                    onChange={(e) => handleInputChange("checkInDate", e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  />
+                  {errors.checkInDate && (
+                    <span className="text-red-500 text-xs mt-1 block">{errors.checkInDate}</span>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-500 mb-2">
+                    Fecha salida
+                  </label>
+                  <input
+                    type="date"
+                    value={formData.checkOutDate}
+                    onChange={(e) => handleInputChange("checkOutDate", e.target.value)}
+                    min={formData.checkInDate || undefined}
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  />
+                  {errors.checkOutDate && (
+                    <span className="text-red-500 text-xs mt-1 block">{errors.checkOutDate}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Dirección */}
+              <div>
+                <label className="block text-sm text-gray-500 mb-2">
+                  Dirección
+                </label>
+                <input
+                  type="text"
+                  value={formData.address}
+                  onChange={(e) => handleInputChange("address", e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Dirección del hotel"
+                />
+                {errors.address && (
+                  <span className="text-red-500 text-xs mt-1 block">{errors.address}</span>
+                )}
+              </div>
+
+              {/* Número de confirmación */}
+              <div>
+                <label className="block text-sm text-gray-500 mb-2">
+                  Número de confirmación
+                </label>
+                <input
+                  type="text"
+                  value={formData.confirmationNumber}
+                  onChange={(e) => handleInputChange("confirmationNumber", e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  placeholder="Ej: 4131314"
+                />
+                {errors.confirmationNumber && (
+                  <span className="text-red-500 text-xs mt-1 block">{errors.confirmationNumber}</span>
+                )}
+              </div>
+
+              {/* Precio */}
+              <div>
+                <label className="block text-sm text-gray-500 mb-2">
+                  Precio
+                </label>
+                <div className="flex gap-6">
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.price}
+                    onChange={(e) => handleInputChange("price", e.target.value)}
+                    className="w-36 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    placeholder="0.00"
+                  />
+                  <select
+                    value={formData.currency}
+                    onChange={(e) => handleInputChange("currency", e.target.value)}
+                    className="w-24 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                  >
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="MXN">MXN</option>
+                    <option value="GBP">GBP</option>
+                  </select>
+                </div>
+                {errors.price && (
+                  <span className="text-red-500 text-xs mt-1 block">{errors.price}</span>
+                )}
+                {errors.currency && (
+                  <span className="text-red-500 text-xs mt-1 block">{errors.currency}</span>
+                )}
+              </div>
+
+              {/* Botón de guardar */}
+              <div className="flex justify-center pt-4">
+                <button
+                  type="submit"
+                  disabled={!isFormValid()}
+                  className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                >
+                  <Save size={18} />
+                  Guardar
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       )}
     </article>

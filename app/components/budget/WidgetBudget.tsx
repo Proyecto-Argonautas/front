@@ -12,7 +12,7 @@ const WidgetBudget: React.FC<WidgetBudgetProps> = ({
   title = "Budgeting",
 }) => {
   return (
-    <div className="bg-light-primary rounded-lg p-4 shadow-sm border border-gray-200 max-w-xs">
+    <div className="bg-light-primary rounded-lg p-4 shadow-sm border border-gray-200">
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
       <div className="text-2xl font-bold text-gray-600 mb-1">
         {total.toFixed(2)} {currency}

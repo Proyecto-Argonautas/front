@@ -95,7 +95,7 @@ function MainLayoutContent() {
           <Outlet context={[count, setCount]} />
         </main>
         {/* <footer className={footerView}> */}
-        <footer>
+        <footer className="relative z-50">
           <MenuBar>
             {buttons.map((key) => (
               <span key={key}>{NAVIGATION_BUTTONS_COMPONENTS[key]}</span>

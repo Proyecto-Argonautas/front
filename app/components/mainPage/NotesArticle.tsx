@@ -6,10 +6,12 @@ import {
   Trash2,
   Save,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Form } from "react-router";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 // Esquema de validación con Zod v4
 const notesFormSchema = z.object({
@@ -28,6 +30,10 @@ export default function NotesArticle({
   defaultOpen = false,
   alignment = "center",
 }: NotesArticleProps) {
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(defaultOpen);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -37,6 +43,15 @@ export default function NotesArticle({
     noteText: "",
   });
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "note"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof NotesFormData, value: string) => {
@@ -90,6 +105,16 @@ export default function NotesArticle({
     } catch {
       return false;
     }
+  };
+
+  // Función para eliminar el artículo completo
+  const handleDeleteArticle = () => {
+    console.log("Artículo eliminado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "note"
+    });
+    setVisible(false);
   };
 
   const getAlignmentClass = () => {
@@ -152,7 +177,7 @@ export default function NotesArticle({
           <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-lg z-10">
             <button
               className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
-              onClick={() => setVisible(false)}
+              onClick={handleDeleteArticle}
               type="button"
             >
               <Trash2 size={16} />

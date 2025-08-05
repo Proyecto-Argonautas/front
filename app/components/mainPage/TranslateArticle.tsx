@@ -6,10 +6,12 @@ import {
   Trash2,
   Save,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Form } from "react-router";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 // Esquema de validación con Zod v4
 const translateFormSchema = z.object({
@@ -22,6 +24,10 @@ type TranslateFormData = z.infer<typeof translateFormSchema>;
 type FormErrors = Partial<Record<keyof TranslateFormData, string>>;
 
 export default function TranslateArticle() {
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -35,6 +41,15 @@ export default function TranslateArticle() {
   const [translatedText, setTranslatedText] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "translate"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Idiomas disponibles
   const languages = [
@@ -138,6 +153,16 @@ export default function TranslateArticle() {
     }
   };
 
+  // Función para eliminar el artículo completo
+  const handleDeleteArticle = () => {
+    console.log("Artículo eliminado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "translate"
+    });
+    setVisible(false);
+  };
+
   // Cerrar menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -184,10 +209,10 @@ export default function TranslateArticle() {
             <Ellipsis />
           </button>
           {showOptions && (
-            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-20">
+            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-10">
               <button
                 className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
-                onClick={() => setVisible(false)}
+                onClick={handleDeleteArticle}
                 type="button"
               >
                 <Trash2 size={16} />
