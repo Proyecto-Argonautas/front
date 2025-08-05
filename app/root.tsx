@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -23,22 +23,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
-        <Links />
+        {/*<Links />*/}
       </head>
       <body>
         <UserProvider>{children}</UserProvider>
-        {/*<ToastContainer*/}
-        {/*  autoClose={3000}*/}
-        {/*  closeOnClick*/}
-        {/*  draggable*/}
-        {/*  hideProgressBar={false}*/}
-        {/*  newestOnTop={false}*/}
-        {/*  pauseOnFocusLoss*/}
-        {/*  pauseOnHover*/}
-        {/*  position="bottom-right"*/}
-        {/*  rtl={false}*/}
-        {/*  theme="light"*/}
-        {/*/>*/}
+        <ToastContainer
+          autoClose={3000}
+          closeOnClick
+          draggable
+          hideProgressBar={false}
+          newestOnTop={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          position="bottom-right"
+          rtl={false}
+          theme="light"
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
