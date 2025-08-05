@@ -7,7 +7,7 @@ const MenuHeader = () => {
       <div className="absolute top-0 left-0 right-0 flex justify-between items-center p-4 z-50">
         {/* Logo izquierda */}
         <Link
-          className="w-16 h-16 flex items-center justify-center transition-transform relative inset-0 bg-black/20 backdrop-blur-sm rounded-lg"
+          className="w-16 h-16 flex items-center justify-center transition-transform duration-50 relative inset-0 bg-black/20 backdrop-blur-sm rounded-lg"
           to="/"
         >
           <img

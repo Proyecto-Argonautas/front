@@ -260,7 +260,7 @@ export default function ItineraryPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Itinerario - {travelData.destiny || "Tu destino"}
+            Itinerario - {travelData.destiny || "Tu destino"} 📍
           </h1>
           <p className="text-gray-600">{travelDays.length} días de viaje</p>
         </div>

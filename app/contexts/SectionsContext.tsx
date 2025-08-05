@@ -7,7 +7,8 @@ type SectionType =
   | "hotel"
   | "currency"
   | "weather"
-  | "translate";
+  | "translate"
+  | "budget";
 
 interface Section {
   id: number;

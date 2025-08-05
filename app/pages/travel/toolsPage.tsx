@@ -47,7 +47,7 @@ export default function ToolPage() {
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
-            🧳 Lista de equipaje
+             Lista de equipaje 🧳
           </h1>
         </div>
 

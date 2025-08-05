@@ -7,6 +7,7 @@ import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
 import { SectionsProvider } from "~/contexts/SectionsContext";
+import { MenuProvider } from "~/contexts/MenuContext";
 import { TravelProvider, useTravel } from "~/contexts/TravelContext";
 import {
   type handlePages,
@@ -16,7 +17,9 @@ import {
 export default function MainLayout() {
   return (
     <TravelProvider>
-      <MainLayoutContent />
+      <MenuProvider>
+        <MainLayoutContent />
+      </MenuProvider>
     </TravelProvider>
   );
 }
