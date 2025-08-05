@@ -42,15 +42,6 @@ export default function TranslateArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
 
-  // Log cuando se crea el artículo
-  useEffect(() => {
-    console.log("Artículo creado:", {
-      user_id: user?.id || "unknown",
-      travel_id: travelData?.destiny || "unknown",
-      component_type: "translate"
-    });
-  }, [user?.id, travelData?.destiny]);
-
   // Idiomas disponibles
   const languages = [
     { code: "es", name: "Español" },

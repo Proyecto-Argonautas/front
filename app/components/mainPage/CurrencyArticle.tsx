@@ -34,15 +34,6 @@ export default function CurrencyArticle() {
 
   const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF", "CNY"];
 
-  // Log cuando se crea el artículo
-  useEffect(() => {
-    console.log("Artículo creado:", {
-      user_id: user?.id || "unknown",
-      travel_id: travelData?.destiny || "unknown", // Usando destiny como travel_id temporalmente
-      component_type: "currency"
-    });
-  }, [user?.id, travelData?.destiny]);
-
   // Cerrar el menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

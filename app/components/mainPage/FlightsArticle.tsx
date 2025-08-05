@@ -68,15 +68,6 @@ export default function FlightArticle() {
   });
   const optionsRef = useRef<HTMLDivElement>(null);
 
-  // Log cuando se crea el artículo
-  useEffect(() => {
-    console.log("Artículo creado:", {
-      user_id: user?.id || "unknown",
-      travel_id: travelData?.destiny || "unknown",
-      component_type: "flight"
-    });
-  }, [user?.id, travelData?.destiny]);
-
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof FlightFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };

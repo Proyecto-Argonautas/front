@@ -38,15 +38,6 @@ export default function WeatherArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
 
-  // Log cuando se crea el artículo
-  useEffect(() => {
-    console.log("Artículo creado:", {
-      user_id: user?.id || "unknown",
-      travel_id: travelData?.destiny || "unknown",
-      component_type: "weather"
-    });
-  }, [user?.id, travelData?.destiny]);
-
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof WeatherFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
