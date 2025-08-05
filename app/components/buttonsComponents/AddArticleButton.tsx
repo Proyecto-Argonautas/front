@@ -9,12 +9,21 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useSections } from "~/contexts/SectionsContext";
+import { nanoid } from "nanoid";
 
 const AddArticleButton = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { addSection } = useSections();
 
   const handleAddSection = (type: "note" | "flight" | "hotel" | "currency" | "weather" | "translate") => {
+    const component_id = nanoid();
+    const component_type = type;
+    
+    console.log("Nuevo artículo creado:", {
+      component_type,
+      component_id
+    });
+    
     addSection(type);
     setShowMenu(false);
   };

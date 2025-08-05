@@ -20,6 +20,8 @@ type WeatherFormData = z.infer<typeof weatherFormSchema>;
 type FormErrors = Partial<Record<keyof WeatherFormData, string>>;
 
 export default function WeatherArticle() {
+  // ID único para este artículo
+  const [articleId] = useState(() => nanoid());
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -121,6 +123,15 @@ export default function WeatherArticle() {
     }
   };
 
+  // Función para eliminar el artículo completo
+  const handleDeleteArticle = () => {
+    console.log("Artículo eliminado:", {
+      component_type: "weather",
+      component_id: articleId
+    });
+    setVisible(false);
+  };
+
   // Cerrar menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -167,10 +178,10 @@ export default function WeatherArticle() {
             <Ellipsis />
           </button>
           {showOptions && (
-            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-20">
+            <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-10">
               <button
                 className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
-                onClick={() => setVisible(false)}
+                onClick={handleDeleteArticle}
                 type="button"
               >
                 <Trash2 size={16} />
