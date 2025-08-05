@@ -11,6 +11,8 @@ export async function getTravels(
   }
 
   const urlRequest = `${BACK_BASE_URL}/travel/all/${userId}`;
+  // const urlRequest = `${BACK_BASE_URL}/travel/all/filtered/${userId}`;
+
 
   try {
     const response = await fetch(urlRequest, {
@@ -18,11 +20,12 @@ export async function getTravels(
       method: "GET",
     });
     const data: Travel[] = await response.json();
+    console.log(data);
 
-    // Ordenar los viajes por fecha de inicio ascendente (los más próximos primero)
-    data.sort(
-      (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-    );
+    // // Ordenar los viajes por fecha de inicio ascendente (los más próximos primero)
+    // data.sort(
+    //   (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+    // );
     return data;
   } catch (error) {
     console.error("Error fetching travels:", error);

@@ -3,7 +3,7 @@ import { authClient } from "~/utils/auth-client";
 
 export function getUser(): User | null {
   const session = authClient.useSession();
-  console.log(session);
+  // console.log(session);
 
   const BACK_BASE_URL =
     (import.meta.env.VITE_BACK_BASE_URL as string) || "http://localhost:3000";

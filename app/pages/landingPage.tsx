@@ -68,7 +68,9 @@ export default function LandingPage() {
       </div>
       <div className="flex flex-col gap-5 w-full">
         <div className="w-full flex flex-col gap-4 items-center">
-          <h2 className="font-bold text-xl text-center">PRÓXIMOS VIAJES</h2>
+          {/* <h2 className="font-bold text-xl text-center">PRÓXIMOS VIAJES</h2> */}
+          <h2 className="font-bold text-xl text-center">TUS VIAJES</h2>
+
 
           {isLoading ? (
             <p className="text-gray-500">Cargando viajes...</p>
@@ -90,11 +92,13 @@ export default function LandingPage() {
               </Link>
             ))
           ) : (
-            <p className="text-gray-500">No tienes próximos viajes.</p>
+            // <p className="text-gray-500">No tienes próximos viajes.</p>
+            <p className="text-gray-500">No tienes viajes.</p>
+
           )}
         </div>
 
-        <div className="flex flex-col gap-4 items-center w-full">
+        {/* <div className="flex flex-col gap-4 items-center w-full">
           <h2 className="font-bold text-xl text-center">ANTERIORES VIAJES</h2>
 
           {isLoading ? (
@@ -119,7 +123,7 @@ export default function LandingPage() {
           ) : (
             <p className="text-gray-500">No tienes viajes anteriores.</p>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
