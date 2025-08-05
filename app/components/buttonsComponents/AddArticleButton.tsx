@@ -4,6 +4,8 @@ import {
   NotebookPen,
   PlaneTakeoff,
   Plus,
+  Cloud,
+  Languages,
 } from "lucide-react";
 import { useState } from "react";
 import { useSections } from "~/contexts/SectionsContext";
@@ -12,7 +14,7 @@ const AddArticleButton = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { addSection } = useSections();
 
-  const handleAddSection = (type: "note" | "flight" | "hotel" | "currency") => {
+  const handleAddSection = (type: "note" | "flight" | "hotel" | "currency" | "weather" | "translate") => {
     addSection(type);
     setShowMenu(false);
   };
@@ -28,34 +30,48 @@ const AddArticleButton = () => {
       </button>
 
       {showMenu && (
-        <div className="absolute z-10 w-40 md:w-[500px] lg:w-[600px] bg-light-primary p-3 mb-8 bottom-full left-1/2 transform -translate-x-1/2 rounded-2xl shadow-lg flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+        <div className="absolute z-10 w-40 bg-light-primary p-3 mb-8 bottom-full left-1/2 transform -translate-x-1/2 rounded-2xl shadow-lg flex flex-col space-y-2">
           <button
-            className="flex gap-1 w-full text-center md:text-left justify-center md:justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("note")}
             type="button"
           >
             <NotebookPen /> Nota
           </button>
           <button
-            className="flex gap-1 w-full text-center md:text-left justify-center md:justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("flight")}
             type="button"
           >
             <PlaneTakeoff /> Vuelo
           </button>
           <button
-            className="flex gap-1 w-full text-center md:text-left justify-center md:justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("hotel")}
             type="button"
           >
             <BedDouble /> Hotel
           </button>
           <button
-            className="flex gap-1 w-full text-center md:text-left justify-center md:justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("currency")}
             type="button"
           >
             <DollarSign /> Moneda
+          </button>
+          <button
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            onClick={() => handleAddSection("weather")}
+            type="button"
+          >
+            <Cloud /> Clima
+          </button>
+          <button
+            className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
+            onClick={() => handleAddSection("translate")}
+            type="button"
+          >
+            <Languages /> Traductor
           </button>
         </div>
       )}

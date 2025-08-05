@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet, useLocation, useMatches } from "react-router";
 
 import MenuBar from "~/components/bars/MenuBar";
-import MenuHeader from "~/components/bars/MenuHeader";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
@@ -38,8 +37,8 @@ function MainLayoutContent() {
   // Determinar si mostrar el header
   const headerView = hideHeader ? "hidden" : "flex flex-col";
 
-  // Determinar si mostrar el footer (solo móvil)
-  const footerView = "block sm:hidden";
+ 
+  
 
   const isCompactMode =
     currentPath.includes("/itinerary") ||
@@ -51,17 +50,13 @@ function MainLayoutContent() {
       <header className={headerView}>
         <LayoutTransition>
           <div className="relative">
-            {/* MenuHeader solo en desktop */}
-            <div className="hidden sm:block">
-              <MenuHeader />
-            </div>
             <YourTravelCardWithBackground
               backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
               compact={isCompactMode}
               endDate={travelData.endDate ? new Date(travelData.endDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : "31/7"}
-              participants={(travelData.numberOfMembers || 0) + 1}
+              participants={((travelData.companions?.length ?? 0) + 1)}
               startDate={travelData.startDate ? new Date(travelData.startDate).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : "15/7"}
-              title={travelData.destination ? `Viaje a ${travelData.destination}` : "Viaje a Islandia"}
+              title={travelData.destiny ? `Viaje a ${travelData.destiny}` : "Viaje a Islandia"}
             />
           </div>
         </LayoutTransition>

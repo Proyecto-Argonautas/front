@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 
-const tabs = ["Resumen", "Itinerario", "Herramientas", "Gastos"];
+const tabs = ["Resumen", "Itinerario", "Equipaje", "Gastos"];
 
 // Mapeo de nombres en español a rutas en inglés
 const tabRoutes: { [key: string]: string } = {
   Resumen: "resume",
   Itinerario: "itinerary",
-  Herramientas: "tools",
+  Equipaje: "tools",
   Gastos: "budget",
 };
 
@@ -31,7 +31,7 @@ const YourTravelNavBar = () => {
     } else if (location.pathname.includes("/itinerary")) {
       return "Itinerario";
     } else if (location.pathname.includes("/tools")) {
-      return "Herramientas";
+      return "Equipaje";
     } else if (location.pathname.includes("/budget")) {
       return "Gastos";
     }

@@ -53,7 +53,7 @@ const PackListCard: React.FC = () => {
 
   return (
     <div
-      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300 ${isExpanded ? "h-[410px]" : "h-auto"}`}
+      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300`}
     >
       <div
         className={`flex items-start justify-between cursor-pointer pr-12 ${isExpanded ? "mb-4" : "mb-1"}`}
@@ -97,9 +97,9 @@ const PackListCard: React.FC = () => {
       </div>
 
       {isExpanded && (
-        <div className="space-y-2 flex-1 overflow-hidden flex flex-col">
+        <div className="space-y-2">
           {/* Añadir ítem */}
-          <div className="flex flex-col flex-shrink-0">
+          <div className="flex flex-col">
             <label className="text-xs text-gray-500 mb-1">Nuevo elemento</label>
             <input
               className="border border-gray-300 rounded-md p-2 text-xs w-full focus:outline-none focus:border-green-500 focus:ring-0 "
@@ -115,7 +115,7 @@ const PackListCard: React.FC = () => {
 
           {/* Botón añadir */}
           <button
-            className="w-full bg-green-600 text-white py-2 px-4 rounded-md text-xs hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+            className="w-full bg-green-600 text-white py-2 px-4 rounded-md text-xs hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             disabled={!newItem.trim()}
             onClick={addItem}
             type="button"
@@ -123,8 +123,8 @@ const PackListCard: React.FC = () => {
             Añadir elemento
           </button>
 
-          {/* Lista de ítems - scrolleable */}
-          <div className="flex-1 overflow-y-auto">
+          {/* Lista de ítems */}
+          <div>
             {packingList.length === 0 ? (
               <div className="text-center py-4 text-gray-500">
                 <p className="text-xs">No hay elementos en tu lista</p>

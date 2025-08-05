@@ -198,11 +198,11 @@ export default function CurrencyArticle() {
   if (!visible) return null; // No renderiza si fue eliminado
 
   return (
-    <article className="relative w-full mt-5 bg-light-primary rounded-2xl shadow-md">
+    <article className="relative w-full mt-2 bg-light-primary rounded-2xl shadow-md">
       <button
         aria-controls="article-details"
         aria-expanded={open}
-        className="flex items-center justify-between w-full p-4 cursor-pointer bg-transparent border-0 rounded-t-2xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center justify-between w-full p-4 cursor-pointer bg-transparent border-0 rounded-t-2xl outline-none"
         onClick={() => setOpen(!open)}
         type="button"
       >
@@ -241,14 +241,14 @@ export default function CurrencyArticle() {
       </button>
 
       {open && (
-        <div className="border-t px-4 py-4 space-y-3 text-sm text-gray-700">
+        <div className="border-t px-4 py-6 space-y-4 text-sm text-gray-700">
           {/* Header con información de conversión */}
-          <div className="flex justify-between">
+          <div className="flex justify-between py-2">
             <div>
-              <div className="text-xs text-gray-500">
+              <div className="text-sm text-gray-500">
                 1 {fromCurrency} equivale a
               </div>
-              <div className="font-semibold text-lg">
+              <div className="font-semibold text-xl">
                 {isLoading
                   ? "..."
                   : exchangeRate
@@ -259,16 +259,16 @@ export default function CurrencyArticle() {
             </div>
           </div>
 
-          <div className="text-gray-400 text-sm mb-3">{lastUpdated}</div>
+          <div className="text-gray-400 text-base mb-4">{lastUpdated}</div>
 
           {/* Campos de entrada para las cantidades */}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-3 items-center">
             <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">
+              <label className="text-sm text-gray-500 mb-2">
                 {fromCurrency}
               </label>
               <input
-                className="border border-gray-300 rounded-md p-2 text-sm w-full"
+                className="border border-gray-300 rounded-md p-3 text-base w-full"
                 min="0"
                 onChange={(e) => handleFromAmountChange(Number(e.target.value))}
                 placeholder="Cantidad"
@@ -278,9 +278,9 @@ export default function CurrencyArticle() {
               />
             </div>
             <div className="flex flex-col w-1/2">
-              <label className="text-xs text-gray-500 mb-1">{toCurrency}</label>
+              <label className="text-sm text-gray-500 mb-2">{toCurrency}</label>
               <input
-                className="border border-gray-300 rounded-md p-2 text-sm w-full"
+                className="border border-gray-300 rounded-md p-3 text-base w-full"
                 min="0"
                 onChange={(e) => handleToAmountChange(Number(e.target.value))}
                 placeholder="Conversión"
@@ -292,9 +292,9 @@ export default function CurrencyArticle() {
           </div>
 
           {/* Selectores de moneda */}
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-3 items-center pt-2">
             <select
-              className="border border-gray-300 rounded-md p-2 text-sm w-full"
+              className="border border-gray-300 rounded-md p-3 text-base w-full"
               onChange={(e) => setFromCurrency(e.target.value)}
               value={fromCurrency}
             >
@@ -311,7 +311,7 @@ export default function CurrencyArticle() {
                   ))}
             </select>
             <select
-              className="border border-gray-300 rounded-md p-2 text-sm w-full"
+              className="border border-gray-300 rounded-md p-3 text-base w-full"
               onChange={(e) => setToCurrency(e.target.value)}
               value={toCurrency}
             >
