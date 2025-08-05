@@ -7,6 +7,7 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { nanoid } from "nanoid";
 import { useState } from "react";
 import { useTravel } from "~/contexts/TravelContext";
 import type { handlePages } from "~/types/navigationButtons";
@@ -25,9 +26,9 @@ export const handle: handlePages = {
 export default function ItineraryPage() {
   const { travelData } = useTravel();
   const [expandedDays, setExpandedDays] = useState<number[]>([]);
-  const [dayPlaces, setDayPlaces] = useState<{ [dayIndex: number]: string[] }>(
-    {},
-  );
+  const [dayPlaces, setDayPlaces] = useState<{ 
+    [dayIndex: number]: { id: string; content: string }[] 
+  }>({});
   const [addingPlace, setAddingPlace] = useState<{
     [dayIndex: number]: boolean;
   }>({});
@@ -38,7 +39,9 @@ export default function ItineraryPage() {
   const [editPlaceText, setEditPlaceText] = useState<{ [key: string]: string }>(
     {},
   );
-  const [dayNotes, setDayNotes] = useState<{ [dayIndex: number]: string }>({});
+  const [dayNotes, setDayNotes] = useState<{ 
+    [dayIndex: number]: { id: string; content: string } | null 
+  }>({});
   const [editingNotes, setEditingNotes] = useState<{
     [dayIndex: number]: boolean;
   }>({});
@@ -85,9 +88,20 @@ export default function ItineraryPage() {
   const addPlace = (dayIndex: number) => {
     const place = newPlace[dayIndex]?.trim();
     if (place) {
+      // Generar ID único de 36 caracteres
+      const id = nanoid(36);
+      
+      // Console log para el nuevo lugar
+      console.log({
+        id,
+        travel_id: "1",
+        type: "location" as const,
+        content: place
+      });
+
       setDayPlaces((prev) => ({
         ...prev,
-        [dayIndex]: [...(prev[dayIndex] || []), place],
+        [dayIndex]: [...(prev[dayIndex] || []), { id, content: place }],
       }));
       setNewPlace((prev) => ({ ...prev, [dayIndex]: "" }));
       setAddingPlace((prev) => ({ ...prev, [dayIndex]: false }));
@@ -96,6 +110,15 @@ export default function ItineraryPage() {
 
   // Función para eliminar un lugar
   const removePlace = (dayIndex: number, placeIndex: number) => {
+    const placeToDelete = dayPlaces[dayIndex]?.[placeIndex];
+    if (placeToDelete) {
+      // Console log para DELETE
+      console.log({
+        action: "DELETE",
+        id: placeToDelete.id
+      });
+    }
+
     setDayPlaces((prev) => ({
       ...prev,
       [dayIndex]:
@@ -118,13 +141,23 @@ export default function ItineraryPage() {
   const saveEditPlace = (dayIndex: number, placeIndex: number) => {
     const key = `${dayIndex}-${placeIndex}`;
     const newText = editPlaceText[key]?.trim();
+    const placeToUpdate = dayPlaces[dayIndex]?.[placeIndex];
 
-    if (newText) {
+    if (newText && placeToUpdate) {
+      // Console log para UPDATE
+      console.log({
+        action: "UPDATE",
+        id: placeToUpdate.id,
+        travel_id: "1",
+        type: "location" as const,
+        content: newText
+      });
+
       setDayPlaces((prev) => ({
         ...prev,
         [dayIndex]:
           prev[dayIndex]?.map((place, index) =>
-            index === placeIndex ? newText : place,
+            index === placeIndex ? { ...place, content: newText } : place
           ) || [],
       }));
     }
@@ -165,7 +198,39 @@ export default function ItineraryPage() {
 
   // Función para guardar notas
   const saveNotes = (dayIndex: number, notes: string) => {
-    setDayNotes((prev) => ({ ...prev, [dayIndex]: notes }));
+    const trimmedNotes = notes.trim();
+    const existingNote = dayNotes[dayIndex];
+    
+    if (trimmedNotes) {
+      if (existingNote) {
+        // UPDATE nota existente
+        console.log({
+          action: "UPDATE",
+          id: existingNote.id,
+          travel_id: "1",
+          type: "note" as const,
+          content: trimmedNotes
+        });
+        setDayNotes((prev) => ({ 
+          ...prev, 
+          [dayIndex]: { ...existingNote, content: trimmedNotes } 
+        }));
+      } else {
+        // CREATE nueva nota
+        const id = nanoid(36);
+        console.log({
+          id,
+          travel_id: "1",
+          type: "note" as const,
+          content: trimmedNotes
+        });
+        setDayNotes((prev) => ({ 
+          ...prev, 
+          [dayIndex]: { id, content: trimmedNotes } 
+        }));
+      }
+    }
+    
     setEditingNotes((prev) => ({ ...prev, [dayIndex]: false }));
   };
 
@@ -176,7 +241,15 @@ export default function ItineraryPage() {
 
   // Función para eliminar notas
   const removeNotes = (dayIndex: number) => {
-    setDayNotes((prev) => ({ ...prev, [dayIndex]: "" }));
+    const noteToDelete = dayNotes[dayIndex];
+    if (noteToDelete) {
+      // Console log para DELETE
+      console.log({
+        action: "DELETE",
+        id: noteToDelete.id
+      });
+    }
+    setDayNotes((prev) => ({ ...prev, [dayIndex]: null }));
   };
 
   const travelDays = generateTravelDays();
@@ -194,11 +267,14 @@ export default function ItineraryPage() {
 
         {/* Días del itinerario */}
         <div className="space-y-4">
-          {travelDays.map((day, index) => (
-            <div
-              className="bg-white rounded-2xl shadow-md overflow-hidden"
-              key={index}
-            >
+          {travelDays.map((day, index) => {
+            // console.log("Día renderizado:", day);
+            return (
+              <div
+                className="bg-white rounded-2xl shadow-md overflow-hidden"
+                key={index}
+                id={day.toISOString().slice(0, 19).replace('T', ' ')}
+              >
               {/* Header del día */}
               <button
                 className="w-full p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
@@ -232,7 +308,7 @@ export default function ItineraryPage() {
                         return (
                           <div
                             className="bg-white rounded-lg p-3 shadow-sm"
-                            key={placeIndex}
+                            key={place.id}
                           >
                             {isEditing ? (
                               /* Modo edición */
@@ -280,7 +356,7 @@ export default function ItineraryPage() {
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3 flex-1">
                                   <MapPin className="w-4 h-4 text-emerald-500" />
-                                  <span className="text-gray-800">{place}</span>
+                                  <span className="text-gray-800">{place.content}</span>
                                 </div>
                                 <div className="flex items-center gap-2 ml-2">
                                   <button
@@ -289,7 +365,7 @@ export default function ItineraryPage() {
                                       startEditingPlace(
                                         index,
                                         placeIndex,
-                                        place,
+                                        place.content,
                                       )
                                     }
                                     title="Editar lugar"
@@ -322,7 +398,7 @@ export default function ItineraryPage() {
                           <NotebookPen className="w-4 h-4 text-blue-500 mt-1" />
                           <div className="flex-1">
                             <p className="text-gray-800 whitespace-pre-wrap">
-                              {dayNotes[index]}
+                              {dayNotes[index]?.content}
                             </p>
                           </div>
                         </div>
@@ -395,7 +471,7 @@ export default function ItineraryPage() {
                         <textarea
                           autoFocus
                           className="w-full h-20 outline-none text-gray-800 resize-none text-sm"
-                          defaultValue={dayNotes[index] || ""}
+                          defaultValue={dayNotes[index]?.content || ""}
                           onKeyPress={(e) => {
                             if (e.key === "Enter" && e.ctrlKey) {
                               const target = e.target as HTMLTextAreaElement;
@@ -459,7 +535,7 @@ export default function ItineraryPage() {
                     <p className="text-xs text-gray-500 mt-1">
                       {(() => {
                         const placesCount = dayPlaces[index]?.length || 0;
-                        const hasNotes = dayNotes[index]?.trim().length > 0;
+                        const hasNotes = !!dayNotes[index]?.content && dayNotes[index]?.content.trim().length > 0;
 
                         if (placesCount > 0 && hasNotes) {
                           return `${placesCount} lugar${placesCount > 1 ? "es" : ""} y notas añadidas`;
@@ -476,7 +552,9 @@ export default function ItineraryPage() {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
+          
         </div>
 
         {/* Mensaje si no hay fechas */}

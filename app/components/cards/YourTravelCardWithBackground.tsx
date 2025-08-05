@@ -19,7 +19,7 @@ const YourTravelCardWithBackground = ({
 }: YourTravelCardWithBackgroundProps) => {
   if (compact) {
     return (
-      <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-32 sm:h-48 rounded-t-xl overflow-hidden">
+      <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-32 sm:h-48 overflow-hidden">
         {/* Imagen de fondo */}
         <img
           alt="Fondo"
@@ -43,9 +43,7 @@ const YourTravelCardWithBackground = ({
               </div>
             </div>
             <div className="flex items-center text-gray-600 text-sm font-medium">
-              <span>
-                {participants} participante{participants !== 1 ? "s" : ""}
-              </span>
+              <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
             </div>
           </div>
         </div>
@@ -54,7 +52,7 @@ const YourTravelCardWithBackground = ({
   }
 
   return (
-    <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-48 md:h-56 lg:h-64 rounded-t-xl overflow-hidden">
+    <div className="relative w-full transition-[height,opacity] duration-300 ease-in-out h-48 md:h-56 lg:h-64 overflow-hidden">
       {/* Imagen de fondo */}
       <img
         alt="Fondo"
@@ -79,9 +77,7 @@ const YourTravelCardWithBackground = ({
           </div>
 
           <div className="flex items-center text-gray-600 text-sm font-medium">
-            <span>
-              {participants} participante{participants !== 1 ? "s" : ""}
-            </span>
+            <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
           </div>
         </div>
       </div>
