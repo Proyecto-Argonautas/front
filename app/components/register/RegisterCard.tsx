@@ -18,7 +18,7 @@ const RegisterCard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-light-secondary-100 min-h-screen px-6 pt-6 md:pt-2">
+    <div className="flex flex-col items-center bg-light-secondary-100 px-6 pt-6 md:pt-2">
       <h2 className="bg-amber-200 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
         Registra tu cuenta
       </h2>

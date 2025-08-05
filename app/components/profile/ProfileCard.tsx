@@ -28,7 +28,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   }
 
   return (
-    <div className="bg-cold-light-200 min-h-screen flex pt-30 justify-center md:justify-center md:items-start md:pt-8">
+    <div className="bg-cold-light-200 flex pt-30 justify-center md:justify-center md:items-start md:pt-8">
       <div className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
         {/* Imagen de perfil */}
         <div className="absolute -top-16 md:static md:mb-4">

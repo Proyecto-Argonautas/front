@@ -14,19 +14,6 @@ import "./app.css";
 import React, { useEffect, useState } from "react";
 import UserProvider from "~/contexts/UserProvider";
 
-export const links: Route.LinksFunction = () => [
-  { rel: "preconnect", href: "https://fonts.googleapis.com" },
-  {
-    rel: "preconnect",
-    href: "https://fonts.gstatic.com",
-    crossOrigin: "anonymous",
-  },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
-];
-
 export function Layout({ children }: { children: React.ReactNode }) {
   const [isClient, setIsClient] = useState(false);
 
@@ -40,18 +27,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <UserProvider>{children}</UserProvider>
-        <ToastContainer
-          position="bottom-right"
-          hideProgressBar={false}
-          autoClose={3000}
-          closeOnClick
-          newestOnTop={false}
-          pauseOnFocusLoss
-          rtl={false}
-          pauseOnHover
-          draggable
-          theme="light"
-        />
+        {/*<ToastContainer*/}
+        {/*  autoClose={3000}*/}
+        {/*  closeOnClick*/}
+        {/*  draggable*/}
+        {/*  hideProgressBar={false}*/}
+        {/*  newestOnTop={false}*/}
+        {/*  pauseOnFocusLoss*/}
+        {/*  pauseOnHover*/}
+        {/*  position="bottom-right"*/}
+        {/*  rtl={false}*/}
+        {/*  theme="light"*/}
+        {/*/>*/}
         <ScrollRestoration />
         <Scripts />
       </body>

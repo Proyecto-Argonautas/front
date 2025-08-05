@@ -22,7 +22,7 @@ export default function CreateTravelPage() {
   
 
   return (
-    <div className="flex flex-col gap-2 min-h-screen p-3 sm:p-4 pb-16">
+    <div className="flex flex-col gap-2 p-3 sm:p-4 pb-16">
       <div className="max-w-3xl mx-auto bg-light-primary shadow-md rounded-lg p-3 sm:p-4 w-full">
         <TravelForm />
       </div>

@@ -13,8 +13,8 @@ export async function clientLoader() {
 
 export default function TravelLayout() {
   return (
-    <div className="flex flex-col bg-light-secondary-100 min-h-screen gap-3 p-4 pb-20">
-      <div className="bg-light-secondary-100 min-h-screen">
+    <div className="flex flex-col bg-light-secondary-100 gap-3 p-4 pb-20">
+      <div className="bg-light-secondary-100">
         <Outlet />
 
         {/* <MenuBar>

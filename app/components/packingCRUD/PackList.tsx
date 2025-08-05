@@ -112,7 +112,7 @@ const PackList: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-light-secondary-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
+    <div className="w-full bg-light-secondary-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
       <div className="w-full max-w-md lg:max-w-6xl">
         <h1 className="text-2xl sm:text-3xl md:text-2xl font-bold mb-6 md:mb-4 text-center text-gray-800">
           🌍 Planificador de Equipaje
