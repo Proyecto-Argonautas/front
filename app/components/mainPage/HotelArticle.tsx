@@ -20,7 +20,7 @@ const hotelFormSchema = z
   .object({
     hotelName: z
       .string()
-      .min(1, "El nombre del hotel es requerido")
+      .min(1, "El nombre del alojamiento es requerido")
       .max(100, "Máximo 100 caracteres"),
     checkInDate: z.string().min(1, "La fecha de entrada es requerida"),
     checkOutDate: z.string().min(1, "La fecha de salida es requerida"),
@@ -256,7 +256,7 @@ export default function HotelArticleTest() {
           <div className="flex items-center gap-2 mr-auto">
             <BedDouble />
             <h2 className="flex gap-2 text-lg font-semibold min-w-10">
-              Hotels
+              Alojamiento
             </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>
@@ -359,7 +359,7 @@ export default function HotelArticleTest() {
               type="button"
             >
               <Plus size={18} />
-              Añadir otro hotel
+              Añadir otro alojamiento
             </button>
           )}
 
@@ -369,14 +369,14 @@ export default function HotelArticleTest() {
               {/* Nombre del hotel */}
               <div>
                 <label className="block text-sm text-gray-500 mb-2">
-                  Nombre del hotel
+                  Nombre del alojamiento
                 </label>
                 <input
                   className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   onChange={(e) =>
                     handleInputChange("hotelName", e.target.value)
                   }
-                  placeholder="Ingresa el nombre del hotel"
+                  placeholder="Nombre del alojamiento"
                   type="text"
                   value={formData.hotelName}
                 />
@@ -436,7 +436,7 @@ export default function HotelArticleTest() {
                 <input
                   className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   onChange={(e) => handleInputChange("address", e.target.value)}
-                  placeholder="Dirección del hotel"
+                  placeholder="Dirección del alojamiento"
                   type="text"
                   value={formData.address}
                 />

@@ -62,7 +62,7 @@ const AddArticleButton = () => {
             onClick={() => handleAddSection("hotel")}
             type="button"
           >
-            <BedDouble /> Hotel
+            <BedDouble /> Alojamiento
           </button>
           <button
             className="flex gap-1 w-full text-center justify-center px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
