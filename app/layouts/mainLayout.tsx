@@ -38,15 +38,16 @@ function MainLayoutContent() {
   // Determinar si mostrar el header
   const headerView = hideHeader ? "hidden" : "flex flex-col";
 
-
-
-
   const isCompactMode =
     currentPath.includes("/itinerary") ||
     currentPath.includes("/tools") ||
     currentPath.includes("/budget");
 
-  const gridColumLayout = "grid h-dvh " + (hideHeader ? "grid-rows-[1fr_auto]" : "grid-rows-[auto_1fr_auto]");
+  const styleCompactMode = isCompactMode ? "hidden" : "";
+
+  const gridColumLayout =
+    "grid h-dvh " +
+    (hideHeader ? "grid-rows-[1fr_auto]" : "grid-rows-[auto_1fr_auto]");
 
   return (
     <SectionsProvider>
@@ -54,8 +55,7 @@ function MainLayoutContent() {
         <header className={headerView}>
           <LayoutTransition>
             <div className="relative">
-              {/* MenuHeader solo en desktop */}
-              <div className="hidden sm:block">
+              <div className={styleCompactMode}>
                 <MenuHeader />
               </div>
               <YourTravelCardWithBackground
@@ -69,7 +69,7 @@ function MainLayoutContent() {
                       })
                     : "31/7"
                 }
-                participants={((travelData.companions?.length ?? 0) + 1)}
+                participants={(travelData.companions?.length ?? 0) + 1}
                 startDate={
                   travelData.startDate
                     ? new Date(travelData.startDate).toLocaleDateString(

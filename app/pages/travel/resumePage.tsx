@@ -23,7 +23,6 @@ export default function ResumePage() {
         {/* Área principal - Secciones */}
         <div>
           <SectionsRenderer />
-          
         </div>
 
         {/* Presupuesto */}

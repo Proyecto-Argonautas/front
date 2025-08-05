@@ -25,9 +25,12 @@ export async function clientLoader() {
 export default function LandingPage() {
   return (
     <div className="flex flex-col gap-5 items-center justify-center p-6 max-w-6xl mx-auto sm:gap-4 ">
-
       <div className="flex">
-        <img src="/images/WonderPocket.svg" alt="logo WonderPocket" className="w-40 h-40" />
+        <img
+          alt="logo WonderPocket"
+          className="w-40 h-40"
+          src="/images/WonderPocket.svg"
+        />
       </div>
       <div className="flex flex-col gap-5 w-full">
         <div className="w-full flex flex-col gap-4 items-center">

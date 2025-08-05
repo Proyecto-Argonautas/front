@@ -30,5 +30,5 @@ export function getUser(): User | null {
 export async function isUserAuthenticated() {
   // const { data: session } = await authClient.getSession();
   // return session !== null;
-  return true
+  return true;
 }

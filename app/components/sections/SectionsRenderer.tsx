@@ -3,8 +3,8 @@ import CurrencyArticle from "../mainPage/CurrencyArticle";
 import FlightArticle from "../mainPage/FlightsArticle";
 import HotelArticleTest from "../mainPage/HotelArticle";
 import NotesArticle from "../mainPage/NotesArticle";
-import WeatherArticle from "../mainPage/WeatherArticle";
 import TranslateArticle from "../mainPage/TranslateArticle";
+import WeatherArticle from "../mainPage/WeatherArticle";
 
 export default function SectionsRenderer() {
   const { sections } = useSections();

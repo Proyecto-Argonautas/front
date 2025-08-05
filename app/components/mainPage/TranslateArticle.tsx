@@ -1,21 +1,24 @@
 import {
   ChevronDown,
   ChevronUp,
-  Languages,
   Ellipsis,
-  Trash2,
+  Languages,
   Save,
+  Trash2,
 } from "lucide-react";
-import { useEffect, useRef, useState, useContext } from "react";
+import { nanoid } from "nanoid";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Form } from "react-router";
 import { z } from "zod";
-import { nanoid } from "nanoid";
-import { UserContext } from "~/contexts/UserContext";
 import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 // Esquema de validación con Zod v4
 const translateFormSchema = z.object({
-  text: z.string().min(1, "El texto a traducir es requerido").max(500, "Máximo 500 caracteres"),
+  text: z
+    .string()
+    .min(1, "El texto a traducir es requerido")
+    .max(500, "Máximo 500 caracteres"),
   fromLanguage: z.string().min(1, "El idioma origen es requerido"),
   toLanguage: z.string().min(1, "El idioma destino es requerido"),
 });
@@ -27,7 +30,7 @@ export default function TranslateArticle() {
   // Contextos
   const user = useContext(UserContext);
   const { travelData } = useTravel();
-  
+
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -60,14 +63,14 @@ export default function TranslateArticle() {
   const handleInputChange = (field: keyof TranslateFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
-    
+
     // Validar campo individual
     try {
       translateFormSchema.pick({ [field]: true }).parse({ [field]: value });
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(prev => ({ ...prev, [field]: error.issues[0].message }));
+        setErrors((prev) => ({ ...prev, [field]: error.issues[0].message }));
       }
     }
   };
@@ -77,13 +80,13 @@ export default function TranslateArticle() {
     setIsLoading(true);
     try {
       // Simulación de traducción - en producción usarías Google Translate API o similar
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Traducciones de ejemplo
       const translations: { [key: string]: string } = {
-        "hola": "hello",
-        "adiós": "goodbye",
-        "gracias": "thank you",
+        hola: "hello",
+        adiós: "goodbye",
+        gracias: "thank you",
         "por favor": "please",
         "buenos días": "good morning",
         "buenas noches": "good night",
@@ -94,8 +97,10 @@ export default function TranslateArticle() {
       };
 
       const lowerText = text.toLowerCase();
-      const translated = translations[lowerText] || `[Traducción simulada de "${text}" de ${from} a ${to}]`;
-      
+      const translated =
+        translations[lowerText] ||
+        `[Traducción simulada de "${text}" de ${from} a ${to}]`;
+
       setTranslatedText(translated);
     } catch (error) {
       console.error("Error translating:", error);
@@ -108,7 +113,7 @@ export default function TranslateArticle() {
   // Función para manejar el envío del formulario
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       const validatedData = translateFormSchema.parse(formData);
       const submissionData = {
@@ -116,9 +121,13 @@ export default function TranslateArticle() {
         component_id: nanoid(),
         component_type: "translate",
       };
-      
+
       console.log("Datos del formulario de traducción:", submissionData);
-      translateText(validatedData.text, validatedData.fromLanguage, validatedData.toLanguage);
+      translateText(
+        validatedData.text,
+        validatedData.fromLanguage,
+        validatedData.toLanguage,
+      );
       setIsEditing(false);
       setErrors({});
     } catch (error) {
@@ -149,7 +158,7 @@ export default function TranslateArticle() {
     console.log("Artículo eliminado:", {
       user_id: user?.id || "unknown",
       travel_id: travelData?.destiny || "unknown",
-      component_type: "translate"
+      component_type: "translate",
     });
     setVisible(false);
   };
@@ -184,7 +193,9 @@ export default function TranslateArticle() {
         >
           <div className="flex items-center gap-2 mr-auto">
             <Languages />
-            <h2 className="flex gap-2 text-lg font-semibold min-w-10">Traductor</h2>
+            <h2 className="flex gap-2 text-lg font-semibold min-w-10">
+              Traductor
+            </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>
         </button>
@@ -216,7 +227,7 @@ export default function TranslateArticle() {
 
       {open && (
         <div className="border-t px-4 py-4 space-y-4 text-sm text-gray-700">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Selección de idiomas */}
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -224,9 +235,11 @@ export default function TranslateArticle() {
                   Idioma origen
                 </label>
                 <select
-                  value={formData.fromLanguage}
-                  onChange={(e) => handleInputChange("fromLanguage", e.target.value)}
                   className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                  onChange={(e) =>
+                    handleInputChange("fromLanguage", e.target.value)
+                  }
+                  value={formData.fromLanguage}
                 >
                   {languages.map((lang) => (
                     <option key={lang.code} value={lang.code}>
@@ -235,7 +248,9 @@ export default function TranslateArticle() {
                   ))}
                 </select>
                 {errors.fromLanguage && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.fromLanguage}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.fromLanguage}
+                  </span>
                 )}
               </div>
               <div>
@@ -243,9 +258,11 @@ export default function TranslateArticle() {
                   Idioma destino
                 </label>
                 <select
-                  value={formData.toLanguage}
-                  onChange={(e) => handleInputChange("toLanguage", e.target.value)}
                   className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                  onChange={(e) =>
+                    handleInputChange("toLanguage", e.target.value)
+                  }
+                  value={formData.toLanguage}
                 >
                   {languages.map((lang) => (
                     <option key={lang.code} value={lang.code}>
@@ -254,7 +271,9 @@ export default function TranslateArticle() {
                   ))}
                 </select>
                 {errors.toLanguage && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.toLanguage}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.toLanguage}
+                  </span>
                 )}
               </div>
             </div>
@@ -265,22 +284,24 @@ export default function TranslateArticle() {
                 Texto a traducir
               </label>
               <textarea
-                value={formData.text}
-                onChange={(e) => handleInputChange("text", e.target.value)}
                 className="w-full h-32 p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                onChange={(e) => handleInputChange("text", e.target.value)}
                 placeholder="Escribe el texto que quieres traducir..."
+                value={formData.text}
               />
               {errors.text && (
-                <span className="text-red-500 text-xs mt-1 block">{errors.text}</span>
+                <span className="text-red-500 text-xs mt-1 block">
+                  {errors.text}
+                </span>
               )}
             </div>
 
             {/* Botón de traducir */}
             <div className="flex justify-center pt-4">
               <button
-                type="submit"
-                disabled={!isFormValid() || isLoading}
                 className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                disabled={!isFormValid() || isLoading}
+                type="submit"
               >
                 <Save size={18} />
                 {isLoading ? "Traduciendo..." : "Traducir"}
@@ -297,16 +318,20 @@ export default function TranslateArticle() {
               <div className="text-base text-gray-800 font-medium">
                 {translatedText}
               </div>
-              
+
               {/* Botón para nueva traducción */}
               <div className="flex justify-center pt-4">
                 <button
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors"
                   onClick={() => {
                     setTranslatedText("");
-                    setFormData({ text: "", fromLanguage: "es", toLanguage: "en" });
+                    setFormData({
+                      text: "",
+                      fromLanguage: "es",
+                      toLanguage: "en",
+                    });
                     setIsEditing(true);
                   }}
-                  className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   Nueva traducción
                 </button>

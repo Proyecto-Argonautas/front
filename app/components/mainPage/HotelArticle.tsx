@@ -3,36 +3,54 @@ import {
   ChevronDown,
   ChevronUp,
   Ellipsis,
-  Trash2,
-  Save,
-  Plus,
   MapPin,
+  Plus,
+  Save,
+  Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState, useContext } from "react";
-import { z } from "zod";
 import { nanoid } from "nanoid";
-import { UserContext } from "~/contexts/UserContext";
+import { useContext, useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 // Esquema de validación con Zod v4
-const hotelFormSchema = z.object({
-  hotelName: z.string().min(1, "El nombre del hotel es requerido").max(100, "Máximo 100 caracteres"),
-  checkInDate: z.string().min(1, "La fecha de entrada es requerida"),
-  checkOutDate: z.string().min(1, "La fecha de salida es requerida"),
-  address: z.string().min(1, "La dirección es requerida").max(200, "Máximo 200 caracteres"),
-  confirmationNumber: z.string().min(1, "El número de confirmación es requerido").max(20, "Máximo 20 caracteres"),
-  price: z.string().min(1, "El precio es requerido"),
-  currency: z.string().min(1, "La moneda es requerida").max(3, "Máximo 3 caracteres"),
-}).refine((data) => {
-  if (data.checkInDate && data.checkOutDate) {
-    return new Date(data.checkOutDate) >= new Date(data.checkInDate);
-  }
-  return true;
-}, {
-  message: "La fecha de salida debe ser igual o posterior a la fecha de entrada",
-  path: ["checkOutDate"],
-});
+const hotelFormSchema = z
+  .object({
+    hotelName: z
+      .string()
+      .min(1, "El nombre del hotel es requerido")
+      .max(100, "Máximo 100 caracteres"),
+    checkInDate: z.string().min(1, "La fecha de entrada es requerida"),
+    checkOutDate: z.string().min(1, "La fecha de salida es requerida"),
+    address: z
+      .string()
+      .min(1, "La dirección es requerida")
+      .max(200, "Máximo 200 caracteres"),
+    confirmationNumber: z
+      .string()
+      .min(1, "El número de confirmación es requerido")
+      .max(20, "Máximo 20 caracteres"),
+    price: z.string().min(1, "El precio es requerido"),
+    currency: z
+      .string()
+      .min(1, "La moneda es requerida")
+      .max(3, "Máximo 3 caracteres"),
+  })
+  .refine(
+    (data) => {
+      if (data.checkInDate && data.checkOutDate) {
+        return new Date(data.checkOutDate) >= new Date(data.checkInDate);
+      }
+      return true;
+    },
+    {
+      message:
+        "La fecha de salida debe ser igual o posterior a la fecha de entrada",
+      path: ["checkOutDate"],
+    },
+  );
 
 type HotelFormData = z.infer<typeof hotelFormSchema>;
 type FormErrors = Partial<Record<keyof HotelFormData, string>>;
@@ -47,7 +65,7 @@ export default function HotelArticleTest() {
   // Contextos
   const user = useContext(UserContext);
   const { travelData } = useTravel();
-  
+
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -69,14 +87,14 @@ export default function HotelArticleTest() {
   const handleInputChange = (field: keyof HotelFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
-    
+
     // Validar campo individual
     try {
       hotelFormSchema.pick({ [field]: true }).parse({ [field]: value });
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(prev => ({ ...prev, [field]: error.issues[0].message }));
+        setErrors((prev) => ({ ...prev, [field]: error.issues[0].message }));
       }
     }
 
@@ -85,20 +103,23 @@ export default function HotelArticleTest() {
       try {
         hotelFormSchema.parse(newFormData);
         // Si pasa la validación completa, limpiar errores de fechas
-        setErrors(prev => ({ 
-          ...prev, 
-          checkInDate: undefined, 
-          checkOutDate: undefined 
+        setErrors((prev) => ({
+          ...prev,
+          checkInDate: undefined,
+          checkOutDate: undefined,
         }));
       } catch (error) {
         if (error instanceof z.ZodError) {
           const dateErrors: FormErrors = {};
           error.issues.forEach((issue) => {
-            if (issue.path[0] === "checkOutDate" || issue.path[0] === "checkInDate") {
+            if (
+              issue.path[0] === "checkOutDate" ||
+              issue.path[0] === "checkInDate"
+            ) {
               dateErrors[issue.path[0] as keyof HotelFormData] = issue.message;
             }
           });
-          setErrors(prev => ({ ...prev, ...dateErrors }));
+          setErrors((prev) => ({ ...prev, ...dateErrors }));
         }
       }
     }
@@ -107,7 +128,7 @@ export default function HotelArticleTest() {
   // Función para manejar el envío del formulario
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       const validatedData = hotelFormSchema.parse(formData);
       const newHotel: SavedHotel = {
@@ -115,10 +136,10 @@ export default function HotelArticleTest() {
         id: nanoid(),
         component_type: "hotel",
       };
-      
+
       // Añadir el hotel a la lista de hoteles guardados
-      setSavedHotels(prev => [...prev, newHotel]);
-      
+      setSavedHotels((prev) => [...prev, newHotel]);
+
       // Resetear el formulario
       setFormData({
         hotelName: "",
@@ -129,11 +150,11 @@ export default function HotelArticleTest() {
         price: "",
         currency: "USD",
       });
-      
+
       // Ocultar el formulario
       setShowForm(false);
       setErrors({});
-      
+
       console.log("Hotel guardado:", newHotel);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -160,8 +181,8 @@ export default function HotelArticleTest() {
 
   // Función para eliminar un hotel específico
   const handleDeleteHotel = (hotelId: string) => {
-    setSavedHotels(prev => {
-      const updatedHotels = prev.filter(hotel => hotel.id !== hotelId);
+    setSavedHotels((prev) => {
+      const updatedHotels = prev.filter((hotel) => hotel.id !== hotelId);
       // Si eliminamos el último hotel, mostrar el formulario
       if (updatedHotels.length === 0) {
         setShowForm(true);
@@ -175,7 +196,7 @@ export default function HotelArticleTest() {
     console.log("Artículo eliminado:", {
       user_id: user?.id || "unknown",
       travel_id: travelData?.destiny || "unknown",
-      component_type: "hotel"
+      component_type: "hotel",
     });
     setVisible(false);
   };
@@ -188,10 +209,10 @@ export default function HotelArticleTest() {
   // Función para formatear la fecha
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    return date.toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
@@ -234,7 +255,9 @@ export default function HotelArticleTest() {
         >
           <div className="flex items-center gap-2 mr-auto">
             <BedDouble />
-            <h2 className="flex gap-2 text-lg font-semibold min-w-10">Hotels</h2>
+            <h2 className="flex gap-2 text-lg font-semibold min-w-10">
+              Hotels
+            </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>
         </button>
@@ -268,17 +291,20 @@ export default function HotelArticleTest() {
         <div className="border-t px-4 py-4 space-y-4 text-sm text-gray-700">
           {/* Mostrar hoteles guardados */}
           {savedHotels.map((hotel) => (
-            <div key={hotel.id} className="bg-gray-50 rounded-lg p-4 mb-4 relative">
+            <div
+              className="bg-gray-50 rounded-lg p-4 mb-4 relative"
+              key={hotel.id}
+            >
               {/* Botón eliminar individual - siempre visible */}
               <button
-                onClick={() => handleDeleteHotel(hotel.id)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
-                type="button"
+                onClick={() => handleDeleteHotel(hotel.id)}
                 title="Eliminar este hotel"
+                type="button"
               >
                 <X size={16} />
               </button>
-              
+
               <div className="flex items-center justify-between mb-3 pr-8">
                 <div className="flex items-center gap-2">
                   <div className="font-medium text-gray-900">
@@ -286,15 +312,16 @@ export default function HotelArticleTest() {
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 font-medium">
-                  {calculateNights(hotel.checkInDate, hotel.checkOutDate)} noches
+                  {calculateNights(hotel.checkInDate, hotel.checkOutDate)}{" "}
+                  noches
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-1 mb-3 text-sm text-gray-600">
                 <MapPin size={14} />
                 <span>{hotel.address}</span>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <div className="text-gray-500">Check-in</div>
@@ -309,11 +336,13 @@ export default function HotelArticleTest() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
                 <div>
                   <span className="text-gray-500">Confirmación: </span>
-                  <span className="font-medium">{hotel.confirmationNumber}</span>
+                  <span className="font-medium">
+                    {hotel.confirmationNumber}
+                  </span>
                 </div>
                 <div className="font-medium text-emerald-600">
                   {hotel.price} {hotel.currency}
@@ -325,8 +354,8 @@ export default function HotelArticleTest() {
           {/* Botón para añadir otro hotel */}
           {savedHotels.length > 0 && !showForm && (
             <button
-              onClick={handleAddAnotherHotel}
               className="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-emerald-500 hover:text-emerald-600 transition-colors"
+              onClick={handleAddAnotherHotel}
               type="button"
             >
               <Plus size={18} />
@@ -336,21 +365,25 @@ export default function HotelArticleTest() {
 
           {/* Formulario (solo se muestra si showForm es true) */}
           {showForm && (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Nombre del hotel */}
               <div>
                 <label className="block text-sm text-gray-500 mb-2">
                   Nombre del hotel
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) =>
+                    handleInputChange("hotelName", e.target.value)
+                  }
+                  placeholder="Ingresa el nombre del hotel"
                   type="text"
                   value={formData.hotelName}
-                  onChange={(e) => handleInputChange("hotelName", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="Ingresa el nombre del hotel"
                 />
                 {errors.hotelName && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.hotelName}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.hotelName}
+                  </span>
                 )}
               </div>
 
@@ -361,13 +394,17 @@ export default function HotelArticleTest() {
                     Fecha entrada
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("checkInDate", e.target.value)
+                    }
                     type="date"
                     value={formData.checkInDate}
-                    onChange={(e) => handleInputChange("checkInDate", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                   {errors.checkInDate && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.checkInDate}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.checkInDate}
+                    </span>
                   )}
                 </div>
                 <div>
@@ -375,14 +412,18 @@ export default function HotelArticleTest() {
                     Fecha salida
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    min={formData.checkInDate || undefined}
+                    onChange={(e) =>
+                      handleInputChange("checkOutDate", e.target.value)
+                    }
                     type="date"
                     value={formData.checkOutDate}
-                    onChange={(e) => handleInputChange("checkOutDate", e.target.value)}
-                    min={formData.checkInDate || undefined}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                   {errors.checkOutDate && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.checkOutDate}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.checkOutDate}
+                    </span>
                   )}
                 </div>
               </div>
@@ -393,14 +434,16 @@ export default function HotelArticleTest() {
                   Dirección
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) => handleInputChange("address", e.target.value)}
+                  placeholder="Dirección del hotel"
                   type="text"
                   value={formData.address}
-                  onChange={(e) => handleInputChange("address", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="Dirección del hotel"
                 />
                 {errors.address && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.address}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.address}
+                  </span>
                 )}
               </div>
 
@@ -410,14 +453,18 @@ export default function HotelArticleTest() {
                   Número de confirmación
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) =>
+                    handleInputChange("confirmationNumber", e.target.value)
+                  }
+                  placeholder="Ej: 4131314"
                   type="text"
                   value={formData.confirmationNumber}
-                  onChange={(e) => handleInputChange("confirmationNumber", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="Ej: 4131314"
                 />
                 {errors.confirmationNumber && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.confirmationNumber}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.confirmationNumber}
+                  </span>
                 )}
               </div>
 
@@ -428,18 +475,20 @@ export default function HotelArticleTest() {
                 </label>
                 <div className="flex gap-6">
                   <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={formData.price}
-                    onChange={(e) => handleInputChange("price", e.target.value)}
                     className="w-36 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    min="0"
+                    onChange={(e) => handleInputChange("price", e.target.value)}
                     placeholder="0.00"
+                    step="0.01"
+                    type="number"
+                    value={formData.price}
                   />
                   <select
-                    value={formData.currency}
-                    onChange={(e) => handleInputChange("currency", e.target.value)}
                     className="w-24 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                    onChange={(e) =>
+                      handleInputChange("currency", e.target.value)
+                    }
+                    value={formData.currency}
                   >
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -448,19 +497,23 @@ export default function HotelArticleTest() {
                   </select>
                 </div>
                 {errors.price && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.price}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.price}
+                  </span>
                 )}
                 {errors.currency && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.currency}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.currency}
+                  </span>
                 )}
               </div>
 
               {/* Botón de guardar */}
               <div className="flex justify-center pt-4">
                 <button
-                  type="submit"
-                  disabled={!isFormValid()}
                   className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                  disabled={!isFormValid()}
+                  type="submit"
                 >
                   <Save size={18} />
                   Guardar

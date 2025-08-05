@@ -21,11 +21,13 @@ export const TravelProvider: React.FC<{ children: React.ReactNode }> = ({
   });
 
   const updateTravelData = (updates: Partial<TravelFormData>) => {
-    setTravelData(prev => ({ ...prev, ...updates }));
+    setTravelData((prev) => ({ ...prev, ...updates }));
   };
 
   return (
-    <TravelContext.Provider value={{ travelData, setTravelData, updateTravelData }}>
+    <TravelContext.Provider
+      value={{ travelData, setTravelData, updateTravelData }}
+    >
       {children}
     </TravelContext.Provider>
   );

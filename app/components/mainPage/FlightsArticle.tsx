@@ -1,35 +1,58 @@
 import {
+  ArrowRight,
   ChevronDown,
   ChevronUp,
   Ellipsis,
   PlaneTakeoff,
-  Trash2,
-  Save,
   Plus,
-  ArrowRight,
+  Save,
+  Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState, useContext } from "react";
-
-import { z } from "zod";
 import { nanoid } from "nanoid";
-import { UserContext } from "~/contexts/UserContext";
+import { useContext, useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 // Esquema de validación con Zod v4
 const flightFormSchema = z.object({
-  airline: z.string().min(1, "La aerolínea es requerida").max(100, "Máximo 100 caracteres"),
-  flightNumber: z.string().min(1, "El número de vuelo es requerido").max(20, "Máximo 20 caracteres"),
-  departureCity: z.string().min(1, "La ciudad de origen es requerida").max(100, "Máximo 100 caracteres"),
-  departureCode: z.string().min(2, "Código de origen requerido").max(5, "Máximo 5 caracteres"),
-  arrivalCity: z.string().min(1, "La ciudad de destino es requerida").max(100, "Máximo 100 caracteres"),
-  arrivalCode: z.string().min(2, "Código de destino requerido").max(5, "Máximo 5 caracteres"),
+  airline: z
+    .string()
+    .min(1, "La aerolínea es requerida")
+    .max(100, "Máximo 100 caracteres"),
+  flightNumber: z
+    .string()
+    .min(1, "El número de vuelo es requerido")
+    .max(20, "Máximo 20 caracteres"),
+  departureCity: z
+    .string()
+    .min(1, "La ciudad de origen es requerida")
+    .max(100, "Máximo 100 caracteres"),
+  departureCode: z
+    .string()
+    .min(2, "Código de origen requerido")
+    .max(5, "Máximo 5 caracteres"),
+  arrivalCity: z
+    .string()
+    .min(1, "La ciudad de destino es requerida")
+    .max(100, "Máximo 100 caracteres"),
+  arrivalCode: z
+    .string()
+    .min(2, "Código de destino requerido")
+    .max(5, "Máximo 5 caracteres"),
   departureDate: z.string().min(1, "La fecha de salida es requerida"),
   departureTime: z.string().min(1, "La hora de salida es requerida"),
   arrivalTime: z.string().min(1, "La hora de llegada es requerida"),
-  confirmationNumber: z.string().min(1, "El número de confirmación es requerido").max(20, "Máximo 20 caracteres"),
+  confirmationNumber: z
+    .string()
+    .min(1, "El número de confirmación es requerido")
+    .max(20, "Máximo 20 caracteres"),
   price: z.string().min(1, "El precio es requerido"),
-  currency: z.string().min(1, "La moneda es requerida").max(3, "Máximo 3 caracteres"),
+  currency: z
+    .string()
+    .min(1, "La moneda es requerida")
+    .max(3, "Máximo 3 caracteres"),
 });
 
 type FlightFormData = z.infer<typeof flightFormSchema>;
@@ -45,7 +68,7 @@ export default function FlightArticle() {
   // Contextos
   const user = useContext(UserContext);
   const { travelData } = useTravel();
-  
+
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -72,14 +95,14 @@ export default function FlightArticle() {
   const handleInputChange = (field: keyof FlightFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
-    
+
     // Validar campo individual
     try {
       flightFormSchema.pick({ [field]: true }).parse({ [field]: value });
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(prev => ({ ...prev, [field]: error.issues[0].message }));
+        setErrors((prev) => ({ ...prev, [field]: error.issues[0].message }));
       }
     }
   };
@@ -87,7 +110,7 @@ export default function FlightArticle() {
   // Función para manejar el envío del formulario
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       const validatedData = flightFormSchema.parse(formData);
       const newFlight: SavedFlight = {
@@ -95,10 +118,10 @@ export default function FlightArticle() {
         id: nanoid(),
         component_type: "flight",
       };
-      
+
       // Añadir el vuelo a la lista de vuelos guardados
-      setSavedFlights(prev => [...prev, newFlight]);
-      
+      setSavedFlights((prev) => [...prev, newFlight]);
+
       // Resetear el formulario
       setFormData({
         airline: "",
@@ -114,11 +137,11 @@ export default function FlightArticle() {
         price: "",
         currency: "USD",
       });
-      
+
       // Ocultar el formulario
       setShowForm(false);
       setErrors({});
-      
+
       console.log("Vuelo guardado:", newFlight);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -145,8 +168,8 @@ export default function FlightArticle() {
 
   // Función para eliminar un vuelo específico
   const handleDeleteFlight = (flightId: string) => {
-    setSavedFlights(prev => {
-      const updatedFlights = prev.filter(flight => flight.id !== flightId);
+    setSavedFlights((prev) => {
+      const updatedFlights = prev.filter((flight) => flight.id !== flightId);
       // Si eliminamos el último vuelo, mostrar el formulario
       if (updatedFlights.length === 0) {
         setShowForm(true);
@@ -160,7 +183,7 @@ export default function FlightArticle() {
     console.log("Artículo eliminado:", {
       user_id: user?.id || "unknown",
       travel_id: travelData?.destiny || "unknown",
-      component_type: "flight"
+      component_type: "flight",
     });
     setVisible(false);
   };
@@ -173,10 +196,10 @@ export default function FlightArticle() {
   // Función para formatear la fecha
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
+    return date.toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 
@@ -215,7 +238,9 @@ export default function FlightArticle() {
         >
           <div className="flex items-center gap-2 mr-auto">
             <PlaneTakeoff />
-            <h2 className="flex gap-2 text-lg font-semibold min-w-10">Flights</h2>
+            <h2 className="flex gap-2 text-lg font-semibold min-w-10">
+              Flights
+            </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>
         </button>
@@ -249,49 +274,58 @@ export default function FlightArticle() {
         <div className="border-t px-4 py-4 space-y-4 text-sm text-gray-700">
           {/* Mostrar vuelos guardados */}
           {savedFlights.map((flight) => (
-            <div key={flight.id} className="bg-gray-50 rounded-lg p-4 mb-4 relative">
+            <div
+              className="bg-gray-50 rounded-lg p-4 mb-4 relative"
+              key={flight.id}
+            >
               {/* Botón eliminar individual - siempre visible */}
               <button
-                onClick={() => handleDeleteFlight(flight.id)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
-                type="button"
+                onClick={() => handleDeleteFlight(flight.id)}
                 title="Eliminar este vuelo"
+                type="button"
               >
                 <X size={16} />
               </button>
-              
+
               <div className="flex items-center justify-between mb-3 pr-8">
                 <div className="flex items-center gap-2">
                   <div className="font-medium text-gray-900">
-                    {flight.departureCode} <ArrowRight size={16} className="inline mx-1" /> {flight.arrivalCode}
+                    {flight.departureCode}{" "}
+                    <ArrowRight className="inline mx-1" size={16} />{" "}
+                    {flight.arrivalCode}
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 font-medium">
                   {flight.airline} {flight.flightNumber}
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <div className="text-gray-500">Salida</div>
                   <div className="font-medium">{flight.departureCity}</div>
                   <div className="text-gray-600">
-                    {formatDate(flight.departureDate)} • {formatTime(flight.departureTime)}
+                    {formatDate(flight.departureDate)} •{" "}
+                    {formatTime(flight.departureTime)}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">Llegada</div>
                   <div className="font-medium">{flight.arrivalCity}</div>
                   <div className="text-gray-600">
-                    {formatDate(flight.departureDate)} • {formatTime(flight.arrivalTime)}
+                    {formatDate(flight.departureDate)} •{" "}
+                    {formatTime(flight.arrivalTime)}
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
                 <div>
                   <span className="text-gray-500">Confirmación: </span>
-                  <span className="font-medium">{flight.confirmationNumber}</span>
+                  <span className="font-medium">
+                    {flight.confirmationNumber}
+                  </span>
                 </div>
                 <div className="font-medium text-emerald-600">
                   {flight.price} {flight.currency}
@@ -303,8 +337,8 @@ export default function FlightArticle() {
           {/* Botón para añadir otro vuelo */}
           {savedFlights.length > 0 && !showForm && (
             <button
-              onClick={handleAddAnotherFlight}
               className="flex items-center justify-center gap-2 w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-emerald-500 hover:text-emerald-600 transition-colors"
+              onClick={handleAddAnotherFlight}
               type="button"
             >
               <Plus size={18} />
@@ -314,7 +348,7 @@ export default function FlightArticle() {
 
           {/* Formulario (solo se muestra si showForm es true) */}
           {showForm && (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Aerolínea y número de vuelo */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -322,14 +356,18 @@ export default function FlightArticle() {
                     Aerolínea
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("airline", e.target.value)
+                    }
+                    placeholder="United Airlines"
                     type="text"
                     value={formData.airline}
-                    onChange={(e) => handleInputChange("airline", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="United Airlines"
                   />
                   {errors.airline && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.airline}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.airline}
+                    </span>
                   )}
                 </div>
                 <div>
@@ -337,14 +375,18 @@ export default function FlightArticle() {
                     Número de vuelo
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("flightNumber", e.target.value)
+                    }
+                    placeholder="UA 295"
                     type="text"
                     value={formData.flightNumber}
-                    onChange={(e) => handleInputChange("flightNumber", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="UA 295"
                   />
                   {errors.flightNumber && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.flightNumber}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.flightNumber}
+                    </span>
                   )}
                 </div>
               </div>
@@ -356,14 +398,18 @@ export default function FlightArticle() {
                     Ciudad origen
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("departureCity", e.target.value)
+                    }
+                    placeholder="San Francisco"
                     type="text"
                     value={formData.departureCity}
-                    onChange={(e) => handleInputChange("departureCity", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="San Francisco"
                   />
                   {errors.departureCity && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.departureCity}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.departureCity}
+                    </span>
                   )}
                 </div>
                 <div>
@@ -371,15 +417,22 @@ export default function FlightArticle() {
                     Código origen
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    maxLength={5}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "departureCode",
+                        e.target.value.toUpperCase(),
+                      )
+                    }
+                    placeholder="SFO"
                     type="text"
                     value={formData.departureCode}
-                    onChange={(e) => handleInputChange("departureCode", e.target.value.toUpperCase())}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="SFO"
-                    maxLength={5}
                   />
                   {errors.departureCode && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.departureCode}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.departureCode}
+                    </span>
                   )}
                 </div>
               </div>
@@ -391,14 +444,18 @@ export default function FlightArticle() {
                     Ciudad destino
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("arrivalCity", e.target.value)
+                    }
+                    placeholder="Newark"
                     type="text"
                     value={formData.arrivalCity}
-                    onChange={(e) => handleInputChange("arrivalCity", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="Newark"
                   />
                   {errors.arrivalCity && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.arrivalCity}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.arrivalCity}
+                    </span>
                   )}
                 </div>
                 <div>
@@ -406,15 +463,22 @@ export default function FlightArticle() {
                     Código destino
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    maxLength={5}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "arrivalCode",
+                        e.target.value.toUpperCase(),
+                      )
+                    }
+                    placeholder="EWR"
                     type="text"
                     value={formData.arrivalCode}
-                    onChange={(e) => handleInputChange("arrivalCode", e.target.value.toUpperCase())}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                    placeholder="EWR"
-                    maxLength={5}
                   />
                   {errors.arrivalCode && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.arrivalCode}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.arrivalCode}
+                    </span>
                   )}
                 </div>
               </div>
@@ -425,13 +489,17 @@ export default function FlightArticle() {
                   Fecha de vuelo
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) =>
+                    handleInputChange("departureDate", e.target.value)
+                  }
                   type="date"
                   value={formData.departureDate}
-                  onChange={(e) => handleInputChange("departureDate", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                 />
                 {errors.departureDate && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.departureDate}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.departureDate}
+                  </span>
                 )}
               </div>
 
@@ -442,13 +510,17 @@ export default function FlightArticle() {
                     Hora salida
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("departureTime", e.target.value)
+                    }
                     type="time"
                     value={formData.departureTime}
-                    onChange={(e) => handleInputChange("departureTime", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                   {errors.departureTime && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.departureTime}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.departureTime}
+                    </span>
                   )}
                 </div>
                 <div>
@@ -456,13 +528,17 @@ export default function FlightArticle() {
                     Hora llegada
                   </label>
                   <input
+                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    onChange={(e) =>
+                      handleInputChange("arrivalTime", e.target.value)
+                    }
                     type="time"
                     value={formData.arrivalTime}
-                    onChange={(e) => handleInputChange("arrivalTime", e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                   {errors.arrivalTime && (
-                    <span className="text-red-500 text-xs mt-1 block">{errors.arrivalTime}</span>
+                    <span className="text-red-500 text-xs mt-1 block">
+                      {errors.arrivalTime}
+                    </span>
                   )}
                 </div>
               </div>
@@ -473,14 +549,18 @@ export default function FlightArticle() {
                   Número de confirmación
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) =>
+                    handleInputChange("confirmationNumber", e.target.value)
+                  }
+                  placeholder="4131314"
                   type="text"
                   value={formData.confirmationNumber}
-                  onChange={(e) => handleInputChange("confirmationNumber", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="4131314"
                 />
                 {errors.confirmationNumber && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.confirmationNumber}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.confirmationNumber}
+                  </span>
                 )}
               </div>
 
@@ -491,18 +571,20 @@ export default function FlightArticle() {
                 </label>
                 <div className="flex gap-6">
                   <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    value={formData.price}
-                    onChange={(e) => handleInputChange("price", e.target.value)}
                     className="w-36 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    min="0"
+                    onChange={(e) => handleInputChange("price", e.target.value)}
                     placeholder="0.00"
+                    step="0.01"
+                    type="number"
+                    value={formData.price}
                   />
                   <select
-                    value={formData.currency}
-                    onChange={(e) => handleInputChange("currency", e.target.value)}
                     className="w-24 border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                    onChange={(e) =>
+                      handleInputChange("currency", e.target.value)
+                    }
+                    value={formData.currency}
                   >
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -511,19 +593,23 @@ export default function FlightArticle() {
                   </select>
                 </div>
                 {errors.price && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.price}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.price}
+                  </span>
                 )}
                 {errors.currency && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.currency}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.currency}
+                  </span>
                 )}
               </div>
 
               {/* Botón de guardar */}
               <div className="flex justify-center pt-4">
                 <button
-                  type="submit"
-                  disabled={!isFormValid()}
                   className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                  disabled={!isFormValid()}
+                  type="submit"
                 >
                   <Save size={18} />
                   Guardar

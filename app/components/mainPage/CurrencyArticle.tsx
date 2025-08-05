@@ -5,15 +5,15 @@ import {
   Ellipsis,
   Trash2,
 } from "lucide-react";
-import { useEffect, useRef, useState, useContext } from "react";
-import { UserContext } from "~/contexts/UserContext";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 export default function CurrencyArticle() {
   // Contextos
   const user = useContext(UserContext);
   const { travelData } = useTravel();
-  
+
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -32,7 +32,18 @@ export default function CurrencyArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const [lastEditedField, setLastEditedField] = useState<"from" | "to">("from");
 
-  const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF", "CNY"];
+  const commonCurrencies = [
+    "USD",
+    "EUR",
+    "MXN",
+    "GBP",
+    "JPY",
+    "CAD",
+    "BRL",
+    "AUD",
+    "CHF",
+    "CNY",
+  ];
 
   // Cerrar el menú si se hace clic fuera
   useEffect(() => {
@@ -128,19 +139,32 @@ export default function CurrencyArticle() {
         } else {
           // Use more comprehensive fallback rates
           const fallbackRates: { [key: string]: number } = {
-            "EUR-USD": 1.08, "USD-EUR": 0.93,
-            "USD-MXN": 17.5, "MXN-USD": 0.057,
-            "EUR-MXN": 18.9, "MXN-EUR": 0.053,
-            "GBP-USD": 1.27, "USD-GBP": 0.79,
-            "EUR-GBP": 0.85, "GBP-EUR": 1.18,
-            "USD-JPY": 149.5, "JPY-USD": 0.0067,
-            "EUR-JPY": 161.5, "JPY-EUR": 0.0062,
-            "USD-CAD": 1.35, "CAD-USD": 0.74,
-            "EUR-CAD": 1.46, "CAD-EUR": 0.68,
-            "USD-AUD": 1.52, "AUD-USD": 0.66,
-            "EUR-AUD": 1.64, "AUD-EUR": 0.61,
-            "USD-CHF": 0.88, "CHF-USD": 1.14,
-            "EUR-CHF": 0.95, "CHF-EUR": 1.05,
+            "EUR-USD": 1.08,
+            "USD-EUR": 0.93,
+            "USD-MXN": 17.5,
+            "MXN-USD": 0.057,
+            "EUR-MXN": 18.9,
+            "MXN-EUR": 0.053,
+            "GBP-USD": 1.27,
+            "USD-GBP": 0.79,
+            "EUR-GBP": 0.85,
+            "GBP-EUR": 1.18,
+            "USD-JPY": 149.5,
+            "JPY-USD": 0.0067,
+            "EUR-JPY": 161.5,
+            "JPY-EUR": 0.0062,
+            "USD-CAD": 1.35,
+            "CAD-USD": 0.74,
+            "EUR-CAD": 1.46,
+            "CAD-EUR": 0.68,
+            "USD-AUD": 1.52,
+            "AUD-USD": 0.66,
+            "EUR-AUD": 1.64,
+            "AUD-EUR": 0.61,
+            "USD-CHF": 0.88,
+            "CHF-USD": 1.14,
+            "EUR-CHF": 0.95,
+            "CHF-EUR": 1.05,
           };
           const rateKey = `${fromCurrency}-${toCurrency}`;
           setExchangeRate(fallbackRates[rateKey] || 1);
@@ -159,9 +183,12 @@ export default function CurrencyArticle() {
       } catch {
         // Silently use fallback rate - this is expected behavior
         const fallbackRates: { [key: string]: number } = {
-          "EUR-USD": 1.08, "USD-EUR": 0.93,
-          "USD-MXN": 17.5, "MXN-USD": 0.057,
-          "EUR-MXN": 18.9, "MXN-EUR": 0.053,
+          "EUR-USD": 1.08,
+          "USD-EUR": 0.93,
+          "USD-MXN": 17.5,
+          "MXN-USD": 0.057,
+          "EUR-MXN": 18.9,
+          "MXN-EUR": 0.053,
         };
         const rateKey = `${fromCurrency}-${toCurrency}`;
         setExchangeRate(fallbackRates[rateKey] || 1);
@@ -208,7 +235,7 @@ export default function CurrencyArticle() {
     console.log("Artículo eliminado:", {
       user_id: user?.id || "unknown",
       travel_id: travelData?.destiny || "unknown",
-      component_type: "currency"
+      component_type: "currency",
     });
     setVisible(false);
   };

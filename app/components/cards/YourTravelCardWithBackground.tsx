@@ -43,7 +43,9 @@ const YourTravelCardWithBackground = ({
               </div>
             </div>
             <div className="flex items-center text-gray-600 text-sm font-medium">
-              <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
+              <span>
+                {participants} participante{participants !== 1 ? "s" : ""}
+              </span>
             </div>
           </div>
         </div>
@@ -77,7 +79,9 @@ const YourTravelCardWithBackground = ({
           </div>
 
           <div className="flex items-center text-gray-600 text-sm font-medium">
-            <span>{participants} participante{participants !== 1 ? 's' : ''}</span>
+            <span>
+              {participants} participante{participants !== 1 ? "s" : ""}
+            </span>
           </div>
         </div>
       </div>

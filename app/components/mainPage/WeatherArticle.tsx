@@ -3,19 +3,22 @@ import {
   ChevronUp,
   Cloud,
   Ellipsis,
-  Trash2,
   Save,
+  Trash2,
 } from "lucide-react";
-import { useEffect, useRef, useState, useContext } from "react";
+import { nanoid } from "nanoid";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Form } from "react-router";
 import { z } from "zod";
-import { nanoid } from "nanoid";
-import { UserContext } from "~/contexts/UserContext";
 import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
 
 // Esquema de validación con Zod v4
 const weatherFormSchema = z.object({
-  city: z.string().min(1, "La ciudad es requerida").max(100, "Máximo 100 caracteres"),
+  city: z
+    .string()
+    .min(1, "La ciudad es requerida")
+    .max(100, "Máximo 100 caracteres"),
 });
 
 type WeatherFormData = z.infer<typeof weatherFormSchema>;
@@ -25,7 +28,7 @@ export default function WeatherArticle() {
   // Contextos
   const user = useContext(UserContext);
   const { travelData } = useTravel();
-  
+
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -42,14 +45,14 @@ export default function WeatherArticle() {
   const handleInputChange = (field: keyof WeatherFormData, value: string) => {
     const newFormData = { ...formData, [field]: value };
     setFormData(newFormData);
-    
+
     // Validar campo individual
     try {
       weatherFormSchema.pick({ [field]: true }).parse({ [field]: value });
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(prev => ({ ...prev, [field]: error.issues[0].message }));
+        setErrors((prev) => ({ ...prev, [field]: error.issues[0].message }));
       }
     }
   };
@@ -59,9 +62,9 @@ export default function WeatherArticle() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=metric&lang=es`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY&units=metric&lang=es`,
       );
-      
+
       if (response.ok) {
         const data = await response.json();
         setWeatherData(data);
@@ -71,7 +74,7 @@ export default function WeatherArticle() {
           name: city,
           main: { temp: 22, feels_like: 24, humidity: 65 },
           weather: [{ main: "Clear", description: "cielo claro", icon: "01d" }],
-          wind: { speed: 3.5 }
+          wind: { speed: 3.5 },
         });
       }
     } catch (error) {
@@ -81,7 +84,7 @@ export default function WeatherArticle() {
         name: city,
         main: { temp: 22, feels_like: 24, humidity: 65 },
         weather: [{ main: "Clear", description: "cielo claro", icon: "01d" }],
-        wind: { speed: 3.5 }
+        wind: { speed: 3.5 },
       });
     } finally {
       setIsLoading(false);
@@ -91,7 +94,7 @@ export default function WeatherArticle() {
   // Función para manejar el envío del formulario
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       const validatedData = weatherFormSchema.parse(formData);
       const submissionData = {
@@ -99,7 +102,7 @@ export default function WeatherArticle() {
         component_id: nanoid(),
         component_type: "weather",
       };
-      
+
       console.log("Datos del formulario de clima:", submissionData);
       fetchWeather(validatedData.city);
       setIsEditing(false);
@@ -132,7 +135,7 @@ export default function WeatherArticle() {
     console.log("Artículo eliminado:", {
       user_id: user?.id || "unknown",
       travel_id: travelData?.destiny || "unknown",
-      component_type: "weather"
+      component_type: "weather",
     });
     setVisible(false);
   };
@@ -200,30 +203,32 @@ export default function WeatherArticle() {
       {open && (
         <div className="border-t px-4 py-4 space-y-4 text-sm text-gray-700">
           {!weatherData ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Campo de ciudad */}
               <div>
                 <label className="block text-sm text-gray-500 mb-2">
                   Ciudad
                 </label>
                 <input
+                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  onChange={(e) => handleInputChange("city", e.target.value)}
+                  placeholder="Ingresa el nombre de la ciudad"
                   type="text"
                   value={formData.city}
-                  onChange={(e) => handleInputChange("city", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                  placeholder="Ingresa el nombre de la ciudad"
                 />
                 {errors.city && (
-                  <span className="text-red-500 text-xs mt-1 block">{errors.city}</span>
+                  <span className="text-red-500 text-xs mt-1 block">
+                    {errors.city}
+                  </span>
                 )}
               </div>
 
               {/* Botón de buscar */}
               <div className="flex justify-center pt-4">
                 <button
-                  type="submit"
-                  disabled={!isFormValid() || isLoading}
                   className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                  disabled={!isFormValid() || isLoading}
+                  type="submit"
                 >
                   <Save size={18} />
                   {isLoading ? "Buscando..." : "Buscar Clima"}
@@ -249,31 +254,39 @@ export default function WeatherArticle() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-light-secondary-100 rounded-lg p-3 text-center">
                   <div className="text-sm text-gray-500">Sensación térmica</div>
-                  <div className="text-lg font-semibold">{Math.round(weatherData.main.feels_like)}°C</div>
+                  <div className="text-lg font-semibold">
+                    {Math.round(weatherData.main.feels_like)}°C
+                  </div>
                 </div>
                 <div className="bg-light-secondary-100 rounded-lg p-3 text-center">
                   <div className="text-sm text-gray-500">Humedad</div>
-                  <div className="text-lg font-semibold">{weatherData.main.humidity}%</div>
+                  <div className="text-lg font-semibold">
+                    {weatherData.main.humidity}%
+                  </div>
                 </div>
                 <div className="bg-light-secondary-100 rounded-lg p-3 text-center">
                   <div className="text-sm text-gray-500">Viento</div>
-                  <div className="text-lg font-semibold">{weatherData.wind.speed} m/s</div>
+                  <div className="text-lg font-semibold">
+                    {weatherData.wind.speed} m/s
+                  </div>
                 </div>
                 <div className="bg-light-secondary-100 rounded-lg p-3 text-center">
                   <div className="text-sm text-gray-500">Estado</div>
-                  <div className="text-lg font-semibold">{weatherData.weather[0].main}</div>
+                  <div className="text-lg font-semibold">
+                    {weatherData.weather[0].main}
+                  </div>
                 </div>
               </div>
 
               {/* Botón para buscar otra ciudad */}
               <div className="flex justify-center pt-4">
                 <button
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors"
                   onClick={() => {
                     setWeatherData(null);
                     setFormData({ city: "" });
                     setIsEditing(true);
                   }}
-                  className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   Buscar otra ciudad
                 </button>

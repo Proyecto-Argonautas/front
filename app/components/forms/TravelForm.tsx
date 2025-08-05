@@ -18,17 +18,22 @@ const travelFormSchema = z
       "La fecha de inicio debe ser anterior o igual a la fecha de finalización",
     path: ["endDate"],
   })
-  .refine((data) => {
-    // Si hay companions, todos deben tener nombre (no vacíos)
-    if (data.companions && data.companions.length > 0) {
-      const filledNames = data.companions.filter(name => name.trim() !== "");
-      return filledNames.length === data.companions.length;
-    }
-    return true;
-  }, {
-    message: "Debes poner nombre al acompañante",
-    path: ["companions"],
-  });
+  .refine(
+    (data) => {
+      // Si hay companions, todos deben tener nombre (no vacíos)
+      if (data.companions && data.companions.length > 0) {
+        const filledNames = data.companions.filter(
+          (name) => name.trim() !== "",
+        );
+        return filledNames.length === data.companions.length;
+      }
+      return true;
+    },
+    {
+      message: "Debes poner nombre al acompañante",
+      path: ["companions"],
+    },
+  );
 
 export type TravelFormData = z.infer<typeof travelFormSchema>;
 
@@ -36,12 +41,12 @@ type TravelFormProps = {
   defaultValues?: Partial<TravelFormData>;
 };
 
-export const TravelForm: React.FC<TravelFormProps> = ({
-  defaultValues,
-}) => {
+export const TravelForm: React.FC<TravelFormProps> = ({ defaultValues }) => {
   const [numberOfMembers, setNumberOfMembers] = useState(0);
-  const [companions, setCompanions] = useState<string[]>(defaultValues?.companions || []);
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [companions, setCompanions] = useState<string[]>(
+    defaultValues?.companions || [],
+  );
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [startDate, setStartDate] = useState(defaultValues?.startDate || "");
   const [endDate, setEndDate] = useState(defaultValues?.endDate || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,9 +68,11 @@ export const TravelForm: React.FC<TravelFormProps> = ({
     const updatedNames = [...companions];
     updatedNames[index] = name;
     setCompanions(updatedNames);
-    
+
     // Validar si todos los miembros tienen nombre
-    const filledNames = updatedNames.filter(memberName => memberName.trim() !== "");
+    const filledNames = updatedNames.filter(
+      (memberName) => memberName.trim() !== "",
+    );
     if (numberOfMembers > 0 && filledNames.length === numberOfMembers) {
       // Si todos los miembros tienen nombre, quitar el error
       const newErrors = { ...errors };
@@ -74,14 +81,18 @@ export const TravelForm: React.FC<TravelFormProps> = ({
     }
   };
 
-  const validateField = (field: string, value: string, additionalData?: any) => {
+  const validateField = (
+    field: string,
+    value: string,
+    additionalData?: any,
+  ) => {
     try {
-      if (field === 'destiny') {
+      if (field === "destiny") {
         z.string().min(1, "Este campo está vacío").parse(value);
         const newErrors = { ...errors };
         delete newErrors.destiny;
         setErrors(newErrors);
-      } else if (field === 'startDate') {
+      } else if (field === "startDate") {
         z.string().min(1, "Este campo está vacío").parse(value);
         const newErrors = { ...errors };
         delete newErrors.startDate;
@@ -92,7 +103,7 @@ export const TravelForm: React.FC<TravelFormProps> = ({
           }
         }
         setErrors(newErrors);
-      } else if (field === 'endDate') {
+      } else if (field === "endDate") {
         z.string().min(1, "Este campo está vacío").parse(value);
         const newErrors = { ...errors };
         delete newErrors.endDate;
@@ -101,7 +112,8 @@ export const TravelForm: React.FC<TravelFormProps> = ({
           if (new Date(additionalData.startDate) <= new Date(value)) {
             delete newErrors.endDate;
           } else {
-            newErrors.endDate = "La fecha de inicio debe ser anterior o igual a la fecha de finalización";
+            newErrors.endDate =
+              "La fecha de inicio debe ser anterior o igual a la fecha de finalización";
           }
         }
         setErrors(newErrors);
@@ -114,9 +126,11 @@ export const TravelForm: React.FC<TravelFormProps> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-    
+
     const data = {
-      destiny: (event.currentTarget.elements.namedItem("destiny") as HTMLInputElement)?.value || "",
+      destiny:
+        (event.currentTarget.elements.namedItem("destiny") as HTMLInputElement)
+          ?.value || "",
       startDate: startDate,
       endDate: endDate,
       companions: companions, // Enviar todos los nombres, incluidos los vacíos para validación
@@ -127,22 +141,26 @@ export const TravelForm: React.FC<TravelFormProps> = ({
       // Filtrar nombres vacíos solo después de la validación exitosa
       const finalData = {
         ...validatedData,
-        companions: validatedData.companions?.filter(name => name.trim() !== "") || [],
-        userId: user?.id
+        companions:
+          validatedData.companions?.filter((name) => name.trim() !== "") || [],
+        userId: user?.id,
       };
-      
+
       console.log("Datos del formulario:", finalData);
       setErrors({});
-      
+
       // Realizar petición POST al backend
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_BASE_URL}/travel/create`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          `${import.meta.env.VITE_BACK_BASE_URL}/travel/create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(finalData),
           },
-          body: JSON.stringify(finalData),
-        });
+        );
 
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);
@@ -151,20 +169,18 @@ export const TravelForm: React.FC<TravelFormProps> = ({
         const result = await response.json();
         console.log("Respuesta del servidor:", result);
         toast.success("Viaje creado correctamente");
-        
+
         // Opcional: limpiar el formulario después del éxito
         // resetForm();
-        
       } catch (fetchError) {
         console.error("Error al enviar al backend:", fetchError);
         toast.error("Error al crear el viaje. Intenta de nuevo.");
       }
-      
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const newErrors: {[key: string]: string} = {};
+        const newErrors: { [key: string]: string } = {};
         let hasEmptyFields = false;
-        
+
         error.issues.forEach((issue) => {
           if (issue.path.length > 0) {
             newErrors[issue.path[0] as string] = issue.message;
@@ -173,10 +189,10 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             }
           }
         });
-        
+
         setErrors(newErrors);
         console.error("Errores de validación:", newErrors);
-        
+
         if (hasEmptyFields) {
           toast.error("Por favor, completa todos los campos requeridos");
         } else if (newErrors.companions) {
@@ -191,7 +207,6 @@ export const TravelForm: React.FC<TravelFormProps> = ({
   };
 
   return (
-
     <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
       <div className="border border-gray-300 rounded-lg p-3 mb-4">
         {/* Destination Form */}
@@ -206,18 +221,16 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             </span>
           </label>
           <input
-            name="destiny"
             className="mt-2 w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            defaultValue={defaultValues?.destiny || ""}
             id="destiny-input"
+            name="destiny"
+            onChange={(e) => validateField("destiny", e.target.value)}
             placeholder="Ingresa un destino"
             type="text"
-            defaultValue={defaultValues?.destiny || ""}
-            onChange={(e) => validateField('destiny', e.target.value)}
           />
           {errors.destiny && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.destiny}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.destiny}</p>
           )}
         </div>
 
@@ -247,16 +260,18 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 />
               </svg>
               <input
-                name="startDate"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="start-date"
+                name="startDate"
+                onChange={(e) => {
+                  setStartDate(e.target.value);
+                  validateField("startDate", e.target.value, {
+                    endDate: endDate,
+                  });
+                }}
                 placeholder="Fecha de inicio"
                 type="date"
                 value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                  validateField('startDate', e.target.value, { endDate: endDate });
-                }}
               />
             </div>
 
@@ -278,28 +293,26 @@ export const TravelForm: React.FC<TravelFormProps> = ({
                 />
               </svg>
               <input
-                name="endDate"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                min={startDate || undefined}
+                name="endDate"
+                onChange={(e) => {
+                  setEndDate(e.target.value);
+                  validateField("endDate", e.target.value, {
+                    startDate: startDate,
+                  });
+                }}
                 placeholder="Fecha de finalización"
                 type="date"
                 value={endDate}
-                min={startDate || undefined}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                  validateField('endDate', e.target.value, { startDate: startDate });
-                }}
               />
             </div>
           </div>
           {errors.startDate && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.startDate}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>
           )}
           {errors.endDate && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.endDate}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>
           )}
         </div>
       </div>
@@ -366,18 +379,16 @@ export const TravelForm: React.FC<TravelFormProps> = ({
             ))}
           </div>
           {errors.companions && (
-            <p className="text-red-500 text-sm mt-2">
-              {errors.companions}
-            </p>
+            <p className="text-red-500 text-sm mt-2">{errors.companions}</p>
           )}
         </div>
       </div>
 
       {/* Submit Button */}
       <button
-        type="submit"
-        disabled={isSubmitting}
         className="mt-4 w-full bg-cold-light-400 text-white py-2 px-4 rounded-md hover:bg-cold-light-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isSubmitting}
+        type="submit"
       >
         {isSubmitting ? "Creando viaje..." : "Enviar"}
       </button>

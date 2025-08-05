@@ -1,7 +1,13 @@
 import type { ReactNode } from "react";
 import React, { createContext, useContext, useState } from "react";
 
-type SectionType = "note" | "flight" | "hotel" | "currency" | "weather" | "translate";
+type SectionType =
+  | "note"
+  | "flight"
+  | "hotel"
+  | "currency"
+  | "weather"
+  | "translate";
 
 interface Section {
   id: number;

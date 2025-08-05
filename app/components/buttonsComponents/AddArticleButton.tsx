@@ -1,13 +1,13 @@
 import {
   BedDouble,
+  Cloud,
   DollarSign,
+  Languages,
   NotebookPen,
   PlaneTakeoff,
   Plus,
-  Cloud,
-  Languages,
 } from "lucide-react";
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useSections } from "~/contexts/SectionsContext";
 import { useTravel } from "~/contexts/TravelContext";
 import { UserContext } from "~/contexts/UserContext";
@@ -18,13 +18,15 @@ const AddArticleButton = () => {
   const { travelData } = useTravel();
   const user = useContext(UserContext);
 
-  const handleAddSection = (type: "note" | "flight" | "hotel" | "currency" | "weather" | "translate") => {
+  const handleAddSection = (
+    type: "note" | "flight" | "hotel" | "currency" | "weather" | "translate",
+  ) => {
     console.log("Nuevo artículo creado:", {
       component_type: type,
       travel_id: travelData.destiny || "No travel ID",
-      user_id: user?.id || "No user ID"
+      user_id: user?.id || "No user ID",
     });
-    
+
     addSection(type);
     setShowMenu(false);
   };

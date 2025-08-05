@@ -1,7 +1,7 @@
-import { ChevronDown, ChevronUp, Trash2, Ellipsis } from "lucide-react";
+import { ChevronDown, ChevronUp, Ellipsis, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type React from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type PackingItem = {
   id: string; // ID interno para React keys
@@ -16,10 +16,10 @@ interface PackListCardProps {
   onDelete?: () => void;
 }
 
-const PackListCard: React.FC<PackListCardProps> = ({ 
-  listId = "default", 
+const PackListCard: React.FC<PackListCardProps> = ({
+  listId = "default",
   title = "Lista de equipaje",
-  onDelete 
+  onDelete,
 }) => {
   // ID único para este componente
   const [componentId] = useState(() => nanoid());
@@ -33,7 +33,7 @@ const PackListCard: React.FC<PackListCardProps> = ({
   useEffect(() => {
     console.log("Nueva PackList creada:", {
       component_type: "list",
-      component_id: componentId
+      component_id: componentId,
     });
   }, [componentId]);
 
@@ -76,14 +76,14 @@ const PackListCard: React.FC<PackListCardProps> = ({
       };
       setPackingList([...packingList, item]);
       setNewItem("");
-      
+
       // Simulación de petición al backend
       console.log("🆕 CREATE ITEM - Backend Request:", {
         action: "create_item",
         list_id: listId,
         item_id: item.item_id,
         text: item.text,
-        packed: item.packed
+        packed: item.packed,
       });
     }
   };
@@ -93,37 +93,37 @@ const PackListCard: React.FC<PackListCardProps> = ({
       prev.map((item) => {
         if (item.id === id) {
           const updatedItem = { ...item, packed: !item.packed };
-          
+
           // Simulación de petición al backend
           console.log("✅ UPDATE ITEM - Backend Request:", {
             action: "update_item",
             list_id: listId,
             item_id: item.item_id,
             packed: updatedItem.packed,
-            text: item.text
+            text: item.text,
           });
-          
+
           return updatedItem;
         }
         return item;
-      })
+      }),
     );
   };
 
   const removeItem = (id: string) => {
     // Encontrar el item antes de eliminarlo para obtener el item_id
-    const itemToDelete = packingList.find(item => item.id === id);
-    
+    const itemToDelete = packingList.find((item) => item.id === id);
+
     if (itemToDelete) {
       // Simulación de petición al backend
       console.log("🗑️ DELETE ITEM - Backend Request:", {
         action: "delete_item",
         list_id: listId,
         item_id: itemToDelete.item_id,
-        text: itemToDelete.text
+        text: itemToDelete.text,
       });
     }
-    
+
     setPackingList((prev) => prev.filter((item) => item.id !== id));
   };
 
@@ -131,7 +131,7 @@ const PackListCard: React.FC<PackListCardProps> = ({
   const handleDeleteList = () => {
     console.log("PackList eliminada:", {
       component_type: "list",
-      component_id: componentId
+      component_id: componentId,
     });
     if (onDelete) {
       onDelete();
@@ -150,9 +150,7 @@ const PackListCard: React.FC<PackListCardProps> = ({
         <div className="flex-1">
           {isExpanded ? (
             <>
-              <div className="text-gray-600 text-sm mb-1">
-                {title}
-              </div>
+              <div className="text-gray-600 text-sm mb-1">{title}</div>
               <div className="text-[1.35rem] font-semibold text-black mb-2">
                 {packingList.length > 0
                   ? `${packingList.filter((item) => item.packed).length}/${packingList.length} Items`
@@ -168,17 +166,17 @@ const PackListCard: React.FC<PackListCardProps> = ({
             <div className="text-lg font-semibold text-gray-700">{title}</div>
           )}
         </div>
-        
+
         {/* Menú de opciones con 3 puntos (solo si hay función onDelete) */}
         {onDelete && (
           <div className="absolute top-4 right-12" ref={optionsRef}>
             <button
+              className="p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
               onClick={(e) => {
                 e.stopPropagation(); // Evita expandir/colapsar la lista
                 setShowOptions((prev) => !prev);
               }}
               type="button"
-              className="p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
             >
               <Ellipsis className="w-5 h-5 text-gray-600" />
             </button>
@@ -196,7 +194,7 @@ const PackListCard: React.FC<PackListCardProps> = ({
             )}
           </div>
         )}
-        
+
         {/* Botón de expandir/colapsar */}
         <button
           aria-label={isExpanded ? "Colapsar equipaje" : "Expandir equipaje"}
