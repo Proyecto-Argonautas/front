@@ -6,10 +6,12 @@ import {
   Trash2,
   Save,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Form } from "react-router";
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 // Esquema de validación con Zod v4
 const weatherFormSchema = z.object({
@@ -20,8 +22,10 @@ type WeatherFormData = z.infer<typeof weatherFormSchema>;
 type FormErrors = Partial<Record<keyof WeatherFormData, string>>;
 
 export default function WeatherArticle() {
-  // ID único para este artículo
-  const [articleId] = useState(() => nanoid());
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -33,6 +37,15 @@ export default function WeatherArticle() {
   const [weatherData, setWeatherData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "weather"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof WeatherFormData, value: string) => {
@@ -126,8 +139,9 @@ export default function WeatherArticle() {
   // Función para eliminar el artículo completo
   const handleDeleteArticle = () => {
     console.log("Artículo eliminado:", {
-      component_type: "weather",
-      component_id: articleId
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "weather"
     });
     setVisible(false);
   };

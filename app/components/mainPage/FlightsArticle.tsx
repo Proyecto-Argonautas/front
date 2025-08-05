@@ -9,10 +9,12 @@ import {
   ArrowRight,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 
 import { z } from "zod";
 import { nanoid } from "nanoid";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 // Esquema de validación con Zod v4
 const flightFormSchema = z.object({
@@ -40,8 +42,10 @@ interface SavedFlight extends FlightFormData {
 }
 
 export default function FlightArticle() {
-  // ID único para este artículo
-  const [articleId] = useState(() => nanoid());
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -63,6 +67,15 @@ export default function FlightArticle() {
     currency: "USD",
   });
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "flight"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Función para manejar cambios en los inputs
   const handleInputChange = (field: keyof FlightFormData, value: string) => {
@@ -154,8 +167,9 @@ export default function FlightArticle() {
   // Función para eliminar el artículo completo
   const handleDeleteArticle = () => {
     console.log("Artículo eliminado:", {
-      component_type: "flight",
-      component_id: articleId
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "flight"
     });
     setVisible(false);
   };

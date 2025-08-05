@@ -5,12 +5,15 @@ import {
   Ellipsis,
   Trash2,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { nanoid } from "nanoid";
+import { useEffect, useRef, useState, useContext } from "react";
+import { UserContext } from "~/contexts/UserContext";
+import { useTravel } from "~/contexts/TravelContext";
 
 export default function CurrencyArticle() {
-  // ID único para este artículo
-  const [articleId] = useState(() => nanoid());
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+  
   const [open, setOpen] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -30,6 +33,15 @@ export default function CurrencyArticle() {
   const [lastEditedField, setLastEditedField] = useState<"from" | "to">("from");
 
   const commonCurrencies = ["USD", "EUR", "MXN", "GBP", "JPY", "CAD", "BRL", "AUD", "CHF", "CNY"];
+
+  // Log cuando se crea el artículo
+  useEffect(() => {
+    console.log("Artículo creado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown", // Usando destiny como travel_id temporalmente
+      component_type: "currency"
+    });
+  }, [user?.id, travelData?.destiny]);
 
   // Cerrar el menú si se hace clic fuera
   useEffect(() => {
@@ -203,8 +215,9 @@ export default function CurrencyArticle() {
   // Función para eliminar el artículo completo
   const handleDeleteArticle = () => {
     console.log("Artículo eliminado:", {
-      component_type: "currency",
-      component_id: articleId
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "currency"
     });
     setVisible(false);
   };
