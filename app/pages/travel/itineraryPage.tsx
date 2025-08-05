@@ -75,6 +75,30 @@ export default function ItineraryPage() {
     return `${dayName}. ${day}/${month}`;
   };
 
+  // Función para determinar el estado del día
+  const getDayStatus = (date: Date) => {
+    const today = new Date();
+    const dayDate = new Date(date);
+    
+    // Normalizar las fechas para comparar solo día/mes/año
+    today.setHours(0, 0, 0, 0);
+    dayDate.setHours(0, 0, 0, 0);
+    
+    if (dayDate < today) return 'past';
+    if (dayDate.getTime() === today.getTime()) return 'today';
+    return 'future';
+  };
+
+  // Función para obtener la clase CSS del punto según el estado
+  const getDayStatusColor = (status: string) => {
+    switch (status) {
+      case 'past': return 'bg-orange-400';
+      case 'today': return 'bg-blue-400';
+      case 'future': return 'bg-emerald-400';
+      default: return 'bg-emerald-500';
+    }
+  };
+
   // Función para toggle de expandir/contraer día
   const toggleDay = (dayIndex: number) => {
     setExpandedDays((prev) =>
@@ -281,7 +305,7 @@ export default function ItineraryPage() {
                 onClick={() => toggleDay(index)}
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                  <div className={`w-3 h-3 ${getDayStatusColor(getDayStatus(day))} rounded-full`}></div>
                   <span className="text-xl font-semibold text-gray-800">
                     {formatDate(day)}
                   </span>

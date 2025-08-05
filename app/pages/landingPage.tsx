@@ -42,10 +42,10 @@ export default function LandingPage() {
             to="/travel/1/resume"
           >
             <DestinationCard
-              endDate="2024/08/10"
+              endDate="2025/08/05"
               image="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              members={2}
-              startDate="2024/08/01"
+              members={3}
+              startDate="2025/08/22"
               title="Iceland"
             />
           </Link>

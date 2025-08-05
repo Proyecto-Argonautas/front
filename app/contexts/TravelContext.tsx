@@ -13,11 +13,10 @@ export const TravelProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [travelData, setTravelData] = useState<Partial<TravelFormData>>({
-    destination: "Islandia",
-    startDate: "2025-07-15",
-    endDate: "2025-07-31",
-    numberOfMembers: 2,
-    memberNames: ["Maria", "Juan"],
+    destiny: "Islandia",
+    startDate: "2025-08-05",
+    endDate: "2025-08-22",
+    companions: ["Maria", "Juan"],
   });
 
   const updateTravelData = (updates: Partial<TravelFormData>) => {
