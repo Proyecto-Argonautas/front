@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, useLocation, useMatches } from "react-router";
 
 import MenuBar from "~/components/bars/MenuBar";
+import MenuHeader from "~/components/bars/MenuHeader";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
@@ -68,7 +69,7 @@ function MainLayoutContent() {
                       })
                     : "31/7"
                 }
-                participants={(travelData.numberOfMembers || 0) + 1}
+                participants={((travelData.companions?.length ?? 0) + 1)}
                 startDate={
                   travelData.startDate
                     ? new Date(travelData.startDate).toLocaleDateString(
@@ -78,8 +79,8 @@ function MainLayoutContent() {
                     : "15/7"
                 }
                 title={
-                  travelData.destination
-                    ? `Viaje a ${travelData.destination}`
+                  travelData.destiny
+                    ? `Viaje a ${travelData.destiny}`
                     : "Viaje a Islandia"
                 }
               />

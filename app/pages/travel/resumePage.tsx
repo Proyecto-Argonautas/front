@@ -1,6 +1,5 @@
 import WidgetBudget from "~/components/budget/WidgetBudget";
 import SectionsRenderer from "~/components/sections/SectionsRenderer";
-import NewArticleButton from "~/components/buttonsComponents/NewArticleButton";
 import { useBudget } from "~/hooks/useBudget";
 import type { handlePages } from "~/types/navigationButtons";
 
