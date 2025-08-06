@@ -1,11 +1,12 @@
 import { Minus, Plus } from "lucide-react";
 import type React from "react";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { UserContext } from "~/contexts/UserContext";
 
-// Esquema validacion Zod
+// Esquema validación Zod
 const travelFormSchema = z
   .object({
     destiny: z.string().min(1, "Este campo está vacío"),
@@ -51,6 +52,7 @@ export const TravelForm: React.FC<TravelFormProps> = ({ defaultValues }) => {
   const [endDate, setEndDate] = useState(defaultValues?.endDate || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const user = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleNumberChange = (num: number) => {
     setNumberOfMembers(num);
@@ -119,7 +121,7 @@ export const TravelForm: React.FC<TravelFormProps> = ({ defaultValues }) => {
         setErrors(newErrors);
       }
     } catch {
-      // Si hay error en la validación, mantener el error existente
+      // Sí hay error en la validación, mantener el error existente
     }
   };
 
@@ -172,6 +174,8 @@ export const TravelForm: React.FC<TravelFormProps> = ({ defaultValues }) => {
 
         // Opcional: limpiar el formulario después del éxito
         // resetForm();
+        navigate(-1)
+
       } catch (fetchError) {
         console.error("Error al enviar al backend:", fetchError);
         toast.error("Error al crear el viaje. Intenta de nuevo.");

@@ -1,17 +1,18 @@
-import type { Travel } from "~/types/travel";
+import type { AllTravels } from "~/types/travel";
 
 export async function getTravels(
   userId: string | undefined,
-): Promise<Travel[]> {
+): Promise<AllTravels> {
   const BACK_BASE_URL =
     import.meta.env.VITE_BACK_BASE_URL || "http://localhost:3000";
+  const error_return = { latest_edited: null, nexts_travels: [], previus_travels: [] };
 
   if (!userId) {
-    return [];
+    return  error_return;
   }
 
-  const urlRequest = `${BACK_BASE_URL}/travel/all/${userId}`;
-  // const urlRequest = `${BACK_BASE_URL}/travel/all/filtered/${userId}`;
+  // const urlRequest = `${BACK_BASE_URL}/travel/all/${userId}`;
+  const urlRequest = `${BACK_BASE_URL}/travel/all/filtered/${userId}`;
 
 
   try {
@@ -19,16 +20,15 @@ export async function getTravels(
       // `fetch` usa 'GET' por defecto, pero lo hacemos explícito para mayor claridad.
       method: "GET",
     });
-    const data: Travel[] = await response.json();
-    console.log(data);
+    // console.log(data);
 
     // // Ordenar los viajes por fecha de inicio ascendente (los más próximos primero)
     // data.sort(
     //   (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
     // );
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error fetching travels:", error);
-    return [];
+    return  error_return;
   }
 }

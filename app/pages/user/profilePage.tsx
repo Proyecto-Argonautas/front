@@ -14,7 +14,7 @@ export function meta() {
 
 export const handle: handlePages = {
   hideHeader: true,
-  buttons: ["home","profile"],
+  buttons: ["home","return", "profile"],
 };
 
 export async function clientLoader() {
