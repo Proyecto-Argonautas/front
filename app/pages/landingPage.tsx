@@ -40,19 +40,6 @@ export default function LandingPage() {
       setIsLoading(true);
       getTravels(user.id)
         .then((allTravels: AllTravels) => {
-          // // Medida de seguridad: asegurarse de que allTravels es un array
-          // if (Array.isArray(allTravels)) {
-          //   const now = new Date();
-          //   const upcoming = allTravels.filter(
-          //     (t) => new Date(t.endDate) >= now,
-          //   );
-          //   const past = allTravels.filter((t) => new Date(t.endDate) < now);
-          //
-          //   setUpcomingTravels(upcoming);
-          //   setPastTravels(past);
-          // }
-          console.log(allTravels);
-
           setActualtravel(allTravels.latest_edited);
           setUpcomingTravels(allTravels.nexts_travels);
           setPastTravels(allTravels.previus_travels);
@@ -72,36 +59,36 @@ export default function LandingPage() {
         />
       </div>
       <div className="flex flex-col gap-5 w-full">
-        <h2 className="font-bold text-xl text-center">ULTIMO VIAJE EDITADO</h2>
-        <div className="flex flex-row gap-4 items-center w-full">
-          {/*<h2 className="font-bold text-xl text-center">TUS VIAJES</h2>*/}
+        {/*<h2 className="font-bold text-xl text-center">ULTIMO VIAJE EDITADO</h2>*/}
+        {/*<div className="flex flex-row gap-4 items-center justify-center w-full">*/}
+        {/*  /!*<h2 className="font-bold text-xl text-center">TUS VIAJES</h2>*!/*/}
 
-          {isLoading ? (
-            <p className="text-gray-500">Cargando viajes...</p>
-          ) : actualtravel ? (
+        {/*  {isLoading ? (*/}
+        {/*    <p className="text-gray-500">Cargando viajes...</p>*/}
+        {/*  ) : actualtravel ? (*/}
 
-              <Link
-                className="w-full min-w-2xs"
-                key={actualtravel.id}
-                style={{ cursor: "pointer" }}
-                to={`/travel/${actualtravel.id}/resume`}
-              >
-                <DestinationCard
-                  endDate={actualtravel.endDate}
-                  image={actualtravel.image ?? travelImage}
-                  members={actualtravel.companions.length + 1}
-                  startDate={actualtravel.startDate}
-                  title={actualtravel.destiny}
-                />
-              </Link>
+        {/*      <Link*/}
+        {/*        className="w-full min-w-2xs"*/}
+        {/*        key={actualtravel.id}*/}
+        {/*        style={{ cursor: "pointer" }}*/}
+        {/*        to={`/travel/${actualtravel.id}/resume`}*/}
+        {/*      >*/}
+        {/*        <DestinationCard*/}
+        {/*          endDate={actualtravel.endDate}*/}
+        {/*          image={actualtravel.image ?? travelImage}*/}
+        {/*          members={actualtravel.companions.length + 1}*/}
+        {/*          startDate={actualtravel.startDate}*/}
+        {/*          title={actualtravel.destiny}*/}
+        {/*        />*/}
+        {/*      </Link>*/}
 
-          ) : (
-            // <p className="text-gray-500">No tienes próximos viajes.</p>
-            <p className="text-gray-500">No tienes viajes.</p>
-          )}
-        </div>
+        {/*  ) : (*/}
+        {/*    // <p className="text-gray-500">No tienes próximos viajes.</p>*/}
+        {/*    <p className="text-gray-500">No tienes viajes.</p>*/}
+        {/*  )}*/}
+        {/*</div>*/}
         <h2 className="font-bold text-xl text-center">PRÓXIMOS VIAJES</h2>
-        <div className="flex flex-row gap-4 items-center w-full">
+        <div className="flex flex-row gap-4 items-center justify-center w-full">
           {/*<h2 className="font-bold text-xl text-center">TUS VIAJES</h2>*/}
 
           {isLoading ? (
@@ -129,7 +116,7 @@ export default function LandingPage() {
           )}
         </div>
         <h2 className="font-bold text-xl text-center">VIAJES ANTERIORES</h2>
-        <div className="flex flex-row gap-4 items-center w-full">
+        <div className="flex flex-row gap-4 items-center justify-center w-full">
           {isLoading ? (
             <p className="text-gray-500">Cargando viajes...</p>
           ) : pastTravels.length > 0 ? (
