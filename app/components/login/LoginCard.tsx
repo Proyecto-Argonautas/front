@@ -1,6 +1,6 @@
 // import { Loader2 } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router";
+
+import React from "react";
 import { signIn } from "~/utils/auth-client";
 
 const LoginCard: React.FC = () => {
