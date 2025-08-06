@@ -59,7 +59,7 @@ const LoginCard: React.FC = () => {
           onClick={async () => {
             await signIn.social({
               provider: "google",
-              callbackURL: "http://localhost:5173/user/profile",
+              callbackURL: "/user/profile",
             });
           }}
           type="button"
