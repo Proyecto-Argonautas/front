@@ -92,7 +92,7 @@ export default function ItineraryPage() {
   // Función para obtener la clase CSS del punto según el estado
   const getDayStatusColor = (status: string) => {
     switch (status) {
-      case 'past': return 'bg-orange-400';
+      case 'past': return 'bg-red-400';
       case 'today': return 'bg-blue-400';
       case 'future': return 'bg-emerald-400';
       default: return 'bg-emerald-500';
