@@ -34,7 +34,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   async function handleDeleteUser() {
     await authClient.deleteUser({
       fetchOptions: {
-        onSuccess: (data: any) => {
+        onSuccess: () => {
           toast.success("Viaje creado correctamente");
           navigate("/user/login"); // redirige tras eliminar la cuenta de usuario
         },

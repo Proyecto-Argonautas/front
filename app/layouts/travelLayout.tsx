@@ -1,7 +1,6 @@
 import { type LoaderFunctionArgs, Outlet, redirect } from "react-router";
 import { getTravels } from "~/services/getTravel";
 import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
-import { toast } from "react-toastify";
 
 export async function clientLoader({ params }: LoaderFunctionArgs) {
   const travelId = params.travelId;
