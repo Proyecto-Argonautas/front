@@ -13,7 +13,7 @@ const LoginCard: React.FC = () => {
   // TODO Hacer que los botones tengan un loader hasta que la petición se complete
 
   return (
-    <div className="flex flex-col items-center bg-light-secondary-100 px-6 pt-6 md:pt-2">
+    <div className="flex flex-col h-full items-center bg-light-secondary-100 px-6 pt-6 md:pt-2">
       <div>
         <img
           alt="logo WonderPocket"
