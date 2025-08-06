@@ -1,14 +1,26 @@
-import { Outlet, redirect } from "react-router";
-import { isUserAuthenticated } from "~/services/getUser";
+import { type LoaderFunctionArgs, Outlet, redirect } from "react-router";
+import { getTravels } from "~/services/getTravel";
+import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
+import { toast } from "react-toastify";
 
-export async function clientLoader() {
-  // Comprueba si el usuario está autenticado
+export async function clientLoader({ params }: LoaderFunctionArgs) {
+  const travelId = params.travelId;
+
   if (!(await isUserAuthenticated())) {
-    // Si no está autenticado, redirige a la página de inicio de sesión
     return redirect("/user/login");
   }
-  // Si está autenticado, no hagas nada y permite que la ruta se cargue
-  return null;
+
+  const user = await getUserAsync(); // Fetch the user
+  const userId = user?.id; // Get the user ID
+  const travels = await getTravels(userId); // Fetch travels using the user ID\
+
+  const travelExists = travels?.some(
+    (travel) => travel.id === travelId,
+  );
+
+  if (!travelExists) {
+    return redirect("/"); // Redirect to root if no travels exist
+  }
 }
 
 export default function TravelLayout() {

@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link, redirect } from "react-router";
 import DestinationCard from "~/components/cards/DestinationCard";
 import { UserContext } from "~/contexts/UserContext";
-import { getTravels } from "~/services/getTravel";
+import { getFilteredTravels } from "~/services/getTravel";
 import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
-import type { AllTravels, Travel } from "~/types/travel";
+import type { AllTravelsFilered, Travel } from "~/types/travel";
 
 export function meta() {
   return [{ title: "Travels" }, { name: "resume", content: "Travels" }];
@@ -38,8 +38,8 @@ export default function LandingPage() {
   useEffect(() => {
     if (user?.id) {
       setIsLoading(true);
-      getTravels(user.id)
-        .then((allTravels: AllTravels) => {
+      getFilteredTravels(user.id)
+        .then((allTravels: AllTravelsFilered) => {
           setActualtravel(allTravels.latest_edited);
           setUpcomingTravels(allTravels.nexts_travels);
           setPastTravels(allTravels.previus_travels);
