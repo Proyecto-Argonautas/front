@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { authClient } from "~/utils/auth-client";
+import { toast } from "react-toastify";
+import { authClient } from "~/utils/auth-client"; // Assuming authClient has a deleteUser method
 
 interface ProfileCardProps {
   name: string;
@@ -16,19 +17,40 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   viajesCount,
 }) => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   async function handleSignOut() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          toast.success("La sesión ha sido cerrada correctamente");
           navigate("/user/login"); // redirige tras cerrar sesión
         },
       },
     });
   }
 
+  // Assuming authClient has a deleteUser method
+  async function handleDeleteUser() {
+    await authClient.deleteUser({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Viaje creado correctamente");
+          navigate("/user/login"); // redirige tras eliminar la cuenta de usuario
+        },
+      },
+    });
+  }
+
   return (
-    <div className="bg-cold-light-200 h-full flex pt-30 justify-center items-center md:pt-8">
+    <div className="bg-cold-light-200 h-full flex flex-col pt-30 items-center md:pt-8">
+      <div>
+        <img
+          alt="logo WonderPocket"
+          className="w-40 h-40"
+          src="/images/WonderPocket.svg"
+        />
+      </div>
       <div className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
         {/* Imagen de perfil */}
         <div className="absolute -top-16 md:static md:mb-4">
@@ -72,7 +94,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           </p>
         </div>
 
-        <div>
+        <div className="flex items-center">
           <button
             className="text-center w-full p-2 m-2 bg-cold-light-400 text-black font-medium rounded-md hover:bg-cold-light-200 transition"
             onClick={handleSignOut}
@@ -81,7 +103,40 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             Cerrar sessión
           </button>
         </div>
+        <div className="flex items-center">
+          <button
+            className="text-center w-full p-2 m-2 bg-red-700 text-white font-medium rounded-md hover:bg-red-400 hover:text-black transition"
+            onClick={() => setShowModal(true)}
+            type="button"
+          >
+            ⚠️ BORRAR CUENTA ⚠️
+          </button>
+        </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center backdrop-filter backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-lg shadow-lg backdrop-filter backdrop-blur-sm">
+            <p className="text-center mb-4">
+              ¿Estás seguro de que quieres borrar tu cuenta? Esta acción es
+              irreversible.
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                onClick={handleDeleteUser}
+              >
+                ⚠️ Confirmar ⚠️
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -10,12 +10,13 @@ export interface Travel {
   updatedAt: string;
 }
 
-export interface AllTravels {
+export interface AllTravelsFilered {
   latest_edited: Travel | null,
   nexts_travels: Travel[] | [],
   previus_travels: Travel[] | []
 
 }
+
 // {
 //   "latest_edited": {
 //   "id": "c245be48-e9cf-4cd4-b88c-36fc8ff351c8",

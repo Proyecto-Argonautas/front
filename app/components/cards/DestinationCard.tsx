@@ -2,6 +2,16 @@ import { User } from "lucide-react";
 import React from "react";
 
 interface DestinationCardProps {
+}
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+interface DestinationCardProps {
   image: string;
   title: string;
   members: number;
@@ -42,7 +52,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
 
         <div className="mt-2 text-sm text-gray-500">
           <span>
-            {startDate} - {endDate}
+            {formatDate(startDate)} - {formatDate(endDate)}
           </span>
         </div>
       </div>

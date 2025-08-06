@@ -1,6 +1,6 @@
 // import { Loader2 } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router";
+
+import React from "react";
 import { signIn } from "~/utils/auth-client";
 
 const LoginCard: React.FC = () => {
@@ -13,7 +13,14 @@ const LoginCard: React.FC = () => {
   // TODO Hacer que los botones tengan un loader hasta que la petición se complete
 
   return (
-    <div className="flex flex-col items-center bg-light-secondary-100 px-6 pt-6 md:pt-2">
+    <div className="flex flex-col h-full items-center bg-light-secondary-100 px-6 pt-6 md:pt-2">
+      <div>
+        <img
+          alt="logo WonderPocket"
+          className="w-40 h-40"
+          src="/images/WonderPocket.svg"
+        />
+      </div>
       <h2 className="bg-cold-light-400 rounded-lg text-xl font-semibold my-10 md:my-6 p-3">
         Iniciar Sesión
       </h2>

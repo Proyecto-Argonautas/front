@@ -1,8 +1,8 @@
-import type { AllTravels } from "~/types/travel";
+import type { AllTravelsFilered, Travel } from "~/types/travel";
 
-export async function getTravels(
+export async function getFilteredTravels(
   userId: string | undefined,
-): Promise<AllTravels> {
+): Promise<AllTravelsFilered> {
   const BACK_BASE_URL =
     import.meta.env.VITE_BACK_BASE_URL || "http://localhost:3000";
   const error_return = { latest_edited: null, nexts_travels: [], previus_travels: [] };
@@ -11,8 +11,30 @@ export async function getTravels(
     return  error_return;
   }
 
-  // const urlRequest = `${BACK_BASE_URL}/travel/all/${userId}`;
   const urlRequest = `${BACK_BASE_URL}/travel/all/filtered/${userId}`;
+
+
+  try {
+    const response = await fetch(urlRequest, { method: "GET" });
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching travels:", error);
+    return  error_return;
+  }
+}
+
+export async function getTravels(
+  userId: string | undefined,
+): Promise<Travel[]> {
+  const BACK_BASE_URL =
+    import.meta.env.VITE_BACK_BASE_URL || "http://localhost:3000";
+  const error_return: Travel[] | PromiseLike<Travel[]> = [];
+
+  if (!userId) {
+    return  error_return;
+  }
+
+  const urlRequest = `${BACK_BASE_URL}/travel/all/${userId}`;
 
 
   try {
