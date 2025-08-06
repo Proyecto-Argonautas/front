@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import { authClient } from "~/utils/auth-client";
+import { toast } from "react-toastify";
 
 interface ProfileCardProps {
   name: string;
@@ -9,27 +10,47 @@ interface ProfileCardProps {
   viajesCount: number;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({
+const ProfileCard: React.FC<ProfileCardProps> = ( {
   name,
   email,
   profileImageUrl,
   viajesCount,
-}) => {
+} ) => {
   const navigate = useNavigate();
 
   async function handleSignOut() {
-    await authClient.signOut({
+    await authClient.signOut( {
       fetchOptions: {
         onSuccess: () => {
-          navigate("/user/login"); // redirige tras cerrar sesión
+          toast.success( "La sesión ha sido cerrada correctamente" );
+          navigate( "/user/login" ); // redirige tras cerrar sesión
         },
       },
-    });
+    } );
+  }
+
+  async function handleDeleteUser() {
+    await authClient.deleteUser( {
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success( "Viaje creado correctamente" );
+          navigate( "/user/login" ); // redirige tras eliminar la cuenta de usuario
+        },
+      },
+    } );
   }
 
   return (
-    <div className="bg-cold-light-200 h-full flex pt-30 justify-center items-center md:pt-8">
-      <div className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
+    <div className="bg-cold-light-200 h-full flex flex-col pt-30 items-center md:pt-8">
+      <div>
+        <img
+          alt="logo WonderPocket"
+          className="w-40 h-40"
+          src="/images/WonderPocket.svg"
+        />
+      </div>
+      <div
+        className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
         {/* Imagen de perfil */}
         <div className="absolute -top-16 md:static md:mb-4">
           <div className="relative">
@@ -45,7 +66,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                 viewBox="0 0 20 20"
               >
                 <title>Edit profile</title>
-                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM6 12v2h2l7.293-7.293-2-2L6 12z" />
+                <path
+                  d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM6 12v2h2l7.293-7.293-2-2L6 12z"/>
                 <path
                   clipRule="evenodd"
                   d="M4 4a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4a1 1 0 112 0v4a4 4 0 01-4 4H4a4 4 0 01-4-4V6a4 4 0 014-4h4a1 1 0 110 2H4z"
@@ -72,13 +94,22 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           </p>
         </div>
 
-        <div>
+        <div className="flex items-center">
           <button
             className="text-center w-full p-2 m-2 bg-cold-light-400 text-black font-medium rounded-md hover:bg-cold-light-200 transition"
             onClick={handleSignOut}
             type="button"
           >
             Cerrar sessión
+          </button>
+        </div>
+        <div className="flex items-center">
+          <button
+            className="text-center w-full p-2 m-2 bg-red-700 text-white font-medium rounded-md hover:bg-red-400 hover:text-black transition"
+            onClick={handleDeleteUser}
+            type="button"
+          >
+            ⚠️ BORRAR CUENTA ⚠️
           </button>
         </div>
       </div>
