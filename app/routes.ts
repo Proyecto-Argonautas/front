@@ -15,7 +15,7 @@ export default [
     // Agrupa rutas bajo el prefijo "/travel"
     ...prefix("travel", [
       // Agrupa rutas bajo "/travel/1"
-      ...prefix("1", [
+      ...prefix(":userId", [
         // Define un layout para todas las rutas hijas bajo "/travel/1"
         layout("layouts/travelLayout.tsx", [
           // Ruta "/travel/1" muestra la descripción del viaje

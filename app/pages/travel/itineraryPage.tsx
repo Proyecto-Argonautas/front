@@ -26,8 +26,8 @@ export const handle: handlePages = {
 export default function ItineraryPage() {
   const { travelData } = useTravel();
   const [expandedDays, setExpandedDays] = useState<number[]>([]);
-  const [dayPlaces, setDayPlaces] = useState<{ 
-    [dayIndex: number]: { id: string; content: string }[] 
+  const [dayPlaces, setDayPlaces] = useState<{
+    [dayIndex: number]: { id: string; content: string }[];
   }>({});
   const [addingPlace, setAddingPlace] = useState<{
     [dayIndex: number]: boolean;
@@ -39,8 +39,8 @@ export default function ItineraryPage() {
   const [editPlaceText, setEditPlaceText] = useState<{ [key: string]: string }>(
     {},
   );
-  const [dayNotes, setDayNotes] = useState<{ 
-    [dayIndex: number]: { id: string; content: string } | null 
+  const [dayNotes, setDayNotes] = useState<{
+    [dayIndex: number]: { id: string; content: string } | null;
   }>({});
   const [editingNotes, setEditingNotes] = useState<{
     [dayIndex: number]: boolean;
@@ -79,11 +79,11 @@ export default function ItineraryPage() {
   const getDayStatus = (date: Date) => {
     const today = new Date();
     const dayDate = new Date(date);
-    
+
     // Normalizar las fechas para comparar solo día/mes/año
     today.setHours(0, 0, 0, 0);
     dayDate.setHours(0, 0, 0, 0);
-    
+
     if (dayDate < today) return 'past';
     if (dayDate.getTime() === today.getTime()) return 'today';
     return 'future';
@@ -114,13 +114,13 @@ export default function ItineraryPage() {
     if (place) {
       // Generar ID único de 36 caracteres
       const id = nanoid(36);
-      
+
       // Console log para el nuevo lugar
       console.log({
         id,
         travel_id: "1",
         type: "location" as const,
-        content: place
+        content: place,
       });
 
       setDayPlaces((prev) => ({
@@ -139,7 +139,7 @@ export default function ItineraryPage() {
       // Console log para DELETE
       console.log({
         action: "DELETE",
-        id: placeToDelete.id
+        id: placeToDelete.id,
       });
     }
 
@@ -174,14 +174,14 @@ export default function ItineraryPage() {
         id: placeToUpdate.id,
         travel_id: "1",
         type: "location" as const,
-        content: newText
+        content: newText,
       });
 
       setDayPlaces((prev) => ({
         ...prev,
         [dayIndex]:
           prev[dayIndex]?.map((place, index) =>
-            index === placeIndex ? { ...place, content: newText } : place
+            index === placeIndex ? { ...place, content: newText } : place,
           ) || [],
       }));
     }
@@ -224,7 +224,7 @@ export default function ItineraryPage() {
   const saveNotes = (dayIndex: number, notes: string) => {
     const trimmedNotes = notes.trim();
     const existingNote = dayNotes[dayIndex];
-    
+
     if (trimmedNotes) {
       if (existingNote) {
         // UPDATE nota existente
@@ -233,11 +233,11 @@ export default function ItineraryPage() {
           id: existingNote.id,
           travel_id: "1",
           type: "note" as const,
-          content: trimmedNotes
+          content: trimmedNotes,
         });
-        setDayNotes((prev) => ({ 
-          ...prev, 
-          [dayIndex]: { ...existingNote, content: trimmedNotes } 
+        setDayNotes((prev) => ({
+          ...prev,
+          [dayIndex]: { ...existingNote, content: trimmedNotes },
         }));
       } else {
         // CREATE nueva nota
@@ -246,15 +246,15 @@ export default function ItineraryPage() {
           id,
           travel_id: "1",
           type: "note" as const,
-          content: trimmedNotes
+          content: trimmedNotes,
         });
-        setDayNotes((prev) => ({ 
-          ...prev, 
-          [dayIndex]: { id, content: trimmedNotes } 
+        setDayNotes((prev) => ({
+          ...prev,
+          [dayIndex]: { id, content: trimmedNotes },
         }));
       }
     }
-    
+
     setEditingNotes((prev) => ({ ...prev, [dayIndex]: false }));
   };
 
@@ -270,7 +270,7 @@ export default function ItineraryPage() {
       // Console log para DELETE
       console.log({
         action: "DELETE",
-        id: noteToDelete.id
+        id: noteToDelete.id,
       });
     }
     setDayNotes((prev) => ({ ...prev, [dayIndex]: null }));
@@ -296,8 +296,8 @@ export default function ItineraryPage() {
             return (
               <div
                 className="bg-white rounded-2xl shadow-md overflow-hidden"
+                id={day.toISOString().slice(0, 19).replace("T", " ")}
                 key={index}
-                id={day.toISOString().slice(0, 19).replace('T', ' ')}
               >
               {/* Header del día */}
               <button
@@ -319,266 +319,269 @@ export default function ItineraryPage() {
                 </div>
               </button>
 
-              {/* Contenido expandible */}
-              {expandedDays.includes(index) && (
-                <div className="border-t bg-gray-50 p-4">
-                  {/* Lista de lugares añadidos */}
-                  {dayPlaces[index] && dayPlaces[index].length > 0 && (
-                    <div className="space-y-2 mb-4">
-                      {dayPlaces[index].map((place, placeIndex) => {
-                        const key = `${index}-${placeIndex}`;
-                        const isEditing = editingPlace[key];
+                {/* Contenido expandible */}
+                {expandedDays.includes(index) && (
+                  <div className="border-t bg-gray-50 p-4">
+                    {/* Lista de lugares añadidos */}
+                    {dayPlaces[index] && dayPlaces[index].length > 0 && (
+                      <div className="space-y-2 mb-4">
+                        {dayPlaces[index].map((place, placeIndex) => {
+                          const key = `${index}-${placeIndex}`;
+                          const isEditing = editingPlace[key];
 
-                        return (
-                          <div
-                            className="bg-white rounded-lg p-3 shadow-sm"
-                            key={place.id}
-                          >
-                            {isEditing ? (
-                              /* Modo edición */
-                              <div className="flex gap-1.5">
-                                <div className="flex-1 min-w-0 flex items-center gap-2 p-2 border-2 border-emerald-500 rounded-lg">
-                                  <MapPin className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                                  <input
-                                    autoFocus
-                                    className="flex-1 min-w-0 outline-none text-gray-800 text-sm"
-                                    onChange={(e) =>
-                                      setEditPlaceText((prev) => ({
-                                        ...prev,
-                                        [key]: e.target.value,
-                                      }))
-                                    }
-                                    onKeyPress={(e) => {
-                                      if (e.key === "Enter") {
-                                        saveEditPlace(index, placeIndex);
+                          return (
+                            <div
+                              className="bg-white rounded-lg p-3 shadow-sm"
+                              key={place.id}
+                            >
+                              {isEditing ? (
+                                /* Modo edición */
+                                <div className="flex gap-1.5">
+                                  <div className="flex-1 min-w-0 flex items-center gap-2 p-2 border-2 border-emerald-500 rounded-lg">
+                                    <MapPin className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                                    <input
+                                      autoFocus
+                                      className="flex-1 min-w-0 outline-none text-gray-800 text-sm"
+                                      onChange={(e) =>
+                                        setEditPlaceText((prev) => ({
+                                          ...prev,
+                                          [key]: e.target.value,
+                                        }))
                                       }
-                                    }}
-                                    type="text"
-                                    value={editPlaceText[key] || ""}
-                                  />
-                                </div>
-                                <button
-                                  className="px-2 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex-shrink-0"
-                                  disabled={!editPlaceText[key]?.trim()}
-                                  onClick={() =>
-                                    saveEditPlace(index, placeIndex)
-                                  }
-                                >
-                                  <Plus className="w-4 h-4" />
-                                </button>
-                                <button
-                                  className="px-2 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex-shrink-0"
-                                  onClick={() =>
-                                    cancelEditPlace(index, placeIndex)
-                                  }
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </div>
-                            ) : (
-                              /* Modo visualización */
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3 flex-1">
-                                  <MapPin className="w-4 h-4 text-emerald-500" />
-                                  <span className="text-gray-800">{place.content}</span>
-                                </div>
-                                <div className="flex items-center gap-2 ml-2">
+                                      onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                          saveEditPlace(index, placeIndex);
+                                        }
+                                      }}
+                                      type="text"
+                                      value={editPlaceText[key] || ""}
+                                    />
+                                  </div>
                                   <button
-                                    className="text-gray-400 hover:text-emerald-500 transition-colors"
+                                    className="px-2 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+                                    disabled={!editPlaceText[key]?.trim()}
                                     onClick={() =>
-                                      startEditingPlace(
-                                        index,
-                                        placeIndex,
-                                        place.content,
-                                      )
+                                      saveEditPlace(index, placeIndex)
                                     }
-                                    title="Editar lugar"
                                   >
-                                    <Pencil className="w-4 h-4" />
+                                    <Plus className="w-4 h-4" />
                                   </button>
                                   <button
-                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                    className="px-2 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex-shrink-0"
                                     onClick={() =>
-                                      removePlace(index, placeIndex)
+                                      cancelEditPlace(index, placeIndex)
                                     }
-                                    title="Eliminar lugar"
                                   >
                                     <X className="w-4 h-4" />
                                   </button>
                                 </div>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                              ) : (
+                                /* Modo visualización */
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3 flex-1">
+                                    <MapPin className="w-4 h-4 text-emerald-500" />
+                                    <span className="text-gray-800">
+                                      {place.content}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-2 ml-2">
+                                    <button
+                                      className="text-gray-400 hover:text-emerald-500 transition-colors"
+                                      onClick={() =>
+                                        startEditingPlace(
+                                          index,
+                                          placeIndex,
+                                          place.content,
+                                        )
+                                      }
+                                      title="Editar lugar"
+                                    >
+                                      <Pencil className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                      className="text-gray-400 hover:text-red-500 transition-colors"
+                                      onClick={() =>
+                                        removePlace(index, placeIndex)
+                                      }
+                                      title="Eliminar lugar"
+                                    >
+                                      <X className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
 
-                  {/* Mostrar notas guardadas */}
-                  {dayNotes[index] && !editingNotes[index] && (
-                    <div className="mb-4 bg-white rounded-lg p-3 shadow-sm">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start gap-3 flex-1">
-                          <NotebookPen className="w-4 h-4 text-blue-500 mt-1" />
-                          <div className="flex-1">
-                            <p className="text-gray-800 whitespace-pre-wrap">
-                              {dayNotes[index]?.content}
-                            </p>
+                    {/* Mostrar notas guardadas */}
+                    {dayNotes[index] && !editingNotes[index] && (
+                      <div className="mb-4 bg-white rounded-lg p-3 shadow-sm">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start gap-3 flex-1">
+                            <NotebookPen className="w-4 h-4 text-blue-500 mt-1" />
+                            <div className="flex-1">
+                              <p className="text-gray-800 whitespace-pre-wrap">
+                                {dayNotes[index]?.content}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-2 ml-2">
-                          <button
-                            className="text-gray-400 hover:text-blue-500 transition-colors"
-                            onClick={() => startEditingNotes(index)}
-                            title="Editar notas"
-                          >
-                            <Pencil className="w-4 h-4" />
-                          </button>
-                          <button
-                            className="text-gray-400 hover:text-red-500 transition-colors"
-                            onClick={() => removeNotes(index)}
-                            title="Eliminar notas"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
+                          <div className="flex items-center gap-2 ml-2">
+                            <button
+                              className="text-gray-400 hover:text-blue-500 transition-colors"
+                              onClick={() => startEditingNotes(index)}
+                              title="Editar notas"
+                            >
+                              <Pencil className="w-4 h-4" />
+                            </button>
+                            <button
+                              className="text-gray-400 hover:text-red-500 transition-colors"
+                              onClick={() => removeNotes(index)}
+                              title="Eliminar notas"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Input para añadir lugares (solo si está en modo de añadir lugar) */}
-                  {addingPlace[index] && (
-                    <div className="flex gap-1.5 mb-4">
-                      <div className="flex-1 min-w-0 flex items-center gap-2 p-2 bg-white rounded-lg border-2 border-emerald-500">
-                        <MapPin className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                        <input
-                          autoFocus
-                          className="flex-1 min-w-0 outline-none text-gray-800 text-sm"
-                          onChange={(e) =>
-                            setNewPlace((prev) => ({
-                              ...prev,
-                              [index]: e.target.value,
-                            }))
-                          }
-                          onKeyPress={(e) => handleKeyPress(e, index)}
-                          placeholder="Escribe un lugar..."
-                          type="text"
-                          value={newPlace[index] || ""}
-                        />
-                      </div>
-                      <button
-                        className="px-2 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex-shrink-0"
-                        disabled={!newPlace[index]?.trim()}
-                        onClick={() => addPlace(index)}
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="px-2 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex-shrink-0"
-                        onClick={() => cancelAddingPlace(index)}
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Textarea para editar notas */}
-                  {editingNotes[index] && (
-                    <div className="mb-4">
-                      <div className="bg-white rounded-lg border-2 border-blue-500 p-3">
-                        <div className="flex items-center gap-2 mb-2">
-                          <NotebookPen className="w-4 h-4 text-blue-500 flex-shrink-0" />
-                          <span className="text-sm text-gray-600">
-                            Notas del día
-                          </span>
-                        </div>
-                        <textarea
-                          autoFocus
-                          className="w-full h-20 outline-none text-gray-800 resize-none text-sm"
-                          defaultValue={dayNotes[index]?.content || ""}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter" && e.ctrlKey) {
-                              const target = e.target as HTMLTextAreaElement;
-                              saveNotes(index, target.value);
+                    {/* Input para añadir lugares (solo si está en modo de añadir lugar) */}
+                    {addingPlace[index] && (
+                      <div className="flex gap-1.5 mb-4">
+                        <div className="flex-1 min-w-0 flex items-center gap-2 p-2 bg-white rounded-lg border-2 border-emerald-500">
+                          <MapPin className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+                          <input
+                            autoFocus
+                            className="flex-1 min-w-0 outline-none text-gray-800 text-sm"
+                            onChange={(e) =>
+                              setNewPlace((prev) => ({
+                                ...prev,
+                                [index]: e.target.value,
+                              }))
                             }
-                          }}
-                          placeholder="Escribe tus notas para este día..."
-                        />
-                        <div className="flex gap-2 mt-2">
-                          <button
-                            className="px-3 py-1.5 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
-                            onClick={(e) => {
-                              const textarea =
-                                e.currentTarget.parentElement?.parentElement?.querySelector(
-                                  "textarea",
-                                ) as HTMLTextAreaElement;
-                              saveNotes(index, textarea?.value || "");
+                            onKeyPress={(e) => handleKeyPress(e, index)}
+                            placeholder="Escribe un lugar..."
+                            type="text"
+                            value={newPlace[index] || ""}
+                          />
+                        </div>
+                        <button
+                          className="px-2 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex-shrink-0"
+                          disabled={!newPlace[index]?.trim()}
+                          onClick={() => addPlace(index)}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                        <button
+                          className="px-2 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex-shrink-0"
+                          onClick={() => cancelAddingPlace(index)}
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Textarea para editar notas */}
+                    {editingNotes[index] && (
+                      <div className="mb-4">
+                        <div className="bg-white rounded-lg border-2 border-blue-500 p-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <NotebookPen className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                            <span className="text-sm text-gray-600">
+                              Notas del día
+                            </span>
+                          </div>
+                          <textarea
+                            autoFocus
+                            className="w-full h-20 outline-none text-gray-800 resize-none text-sm"
+                            defaultValue={dayNotes[index]?.content || ""}
+                            onKeyPress={(e) => {
+                              if (e.key === "Enter" && e.ctrlKey) {
+                                const target = e.target as HTMLTextAreaElement;
+                                saveNotes(index, target.value);
+                              }
                             }}
-                          >
-                            Guardar
-                          </button>
-                          <button
-                            className="px-3 py-1.5 bg-gray-500 text-white rounded text-sm hover:bg-gray-600 transition-colors"
-                            onClick={() => cancelEditingNotes(index)}
-                          >
-                            Cancelar
-                          </button>
+                            placeholder="Escribe tus notas para este día..."
+                          />
+                          <div className="flex gap-2 mt-2">
+                            <button
+                              className="px-3 py-1.5 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
+                              onClick={(e) => {
+                                const textarea =
+                                  e.currentTarget.parentElement?.parentElement?.querySelector(
+                                    "textarea",
+                                  ) as HTMLTextAreaElement;
+                                saveNotes(index, textarea?.value || "");
+                              }}
+                            >
+                              Guardar
+                            </button>
+                            <button
+                              className="px-3 py-1.5 bg-gray-500 text-white rounded text-sm hover:bg-gray-600 transition-colors"
+                              onClick={() => cancelEditingNotes(index)}
+                            >
+                              Cancelar
+                            </button>
+                          </div>
                         </div>
                       </div>
+                    )}
+
+                    {/* Botones principales: Añadir lugar y Notas (siempre visibles si no está en modo edición) */}
+                    {!addingPlace[index] && !editingNotes[index] && (
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        {/* Botón Añadir lugar */}
+                        <button
+                          className="flex items-center justify-center gap-2 p-2.5 bg-white rounded-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 hover:bg-emerald-50 transition-colors cursor-pointer"
+                          onClick={() => startAddingPlace(index)}
+                        >
+                          <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <span className="text-gray-500 text-sm">
+                            Añadir un lugar
+                          </span>
+                        </button>
+
+                        {/* Botón Notas */}
+                        <button
+                          className="flex items-center justify-center gap-2 p-2.5 bg-white rounded-lg border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
+                          onClick={() => startEditingNotes(index)}
+                        >
+                          <NotebookPen className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <span className="text-gray-500 text-sm">Notas</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Info del día */}
+                    <div className="text-sm text-gray-600">
+                      <p>Día {index + 1} de tu viaje</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {(() => {
+                          const placesCount = dayPlaces[index]?.length || 0;
+                          const hasNotes =
+                            !!dayNotes[index]?.content &&
+                            dayNotes[index]?.content.trim().length > 0;
+
+                          if (placesCount > 0 && hasNotes) {
+                            return `${placesCount} lugar${placesCount > 1 ? "es" : ""} y notas añadidas`;
+                          } else if (placesCount > 0) {
+                            return `${placesCount} lugar${placesCount > 1 ? "es" : ""} añadido${placesCount > 1 ? "s" : ""}`;
+                          } else if (hasNotes) {
+                            return "Notas añadidas";
+                          } else {
+                            return "Planifica tus actividades para este día";
+                          }
+                        })()}
+                      </p>
                     </div>
-                  )}
-
-                  {/* Botones principales: Añadir lugar y Notas (siempre visibles si no está en modo edición) */}
-                  {!addingPlace[index] && !editingNotes[index] && (
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      {/* Botón Añadir lugar */}
-                      <button
-                        className="flex items-center justify-center gap-2 p-2.5 bg-white rounded-lg border-2 border-dashed border-gray-300 hover:border-emerald-500 hover:bg-emerald-50 transition-colors cursor-pointer"
-                        onClick={() => startAddingPlace(index)}
-                      >
-                        <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        <span className="text-gray-500 text-sm">
-                          Añadir un lugar
-                        </span>
-                      </button>
-
-                      {/* Botón Notas */}
-                      <button
-                        className="flex items-center justify-center gap-2 p-2.5 bg-white rounded-lg border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer"
-                        onClick={() => startEditingNotes(index)}
-                      >
-                        <NotebookPen className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        <span className="text-gray-500 text-sm">Notas</span>
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Info del día */}
-                  <div className="text-sm text-gray-600">
-                    <p>Día {index + 1} de tu viaje</p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {(() => {
-                        const placesCount = dayPlaces[index]?.length || 0;
-                        const hasNotes = !!dayNotes[index]?.content && dayNotes[index]?.content.trim().length > 0;
-
-                        if (placesCount > 0 && hasNotes) {
-                          return `${placesCount} lugar${placesCount > 1 ? "es" : ""} y notas añadidas`;
-                        } else if (placesCount > 0) {
-                          return `${placesCount} lugar${placesCount > 1 ? "es" : ""} añadido${placesCount > 1 ? "s" : ""}`;
-                        } else if (hasNotes) {
-                          return "Notas añadidas";
-                        } else {
-                          return "Planifica tus actividades para este día";
-                        }
-                      })()}
-                    </p>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
             );
           })}
-          
         </div>
 
         {/* Mensaje si no hay fechas */}
