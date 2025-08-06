@@ -6,6 +6,8 @@ import { signIn } from "~/utils/auth-client";
 const LoginCard: React.FC = () => {
   // const [email, setEmail] = useState("");
   // const [loading, setLoading] = useState(false);
+  const FRONT_BASE_URL =
+    import.meta.env.VITE_FRONT_BASE_URL || "http://localhost:5173";
 
   // TODO mostrar errores por pantalla y que se mande el correo
   // TODO Hacer que los botones tengan un loader hasta que la petición se complete
@@ -59,7 +61,7 @@ const LoginCard: React.FC = () => {
           onClick={async () => {
             await signIn.social({
               provider: "google",
-              callbackURL: "/user/profile",
+              callbackURL: `${FRONT_BASE_URL}/user/profile`,
             });
           }}
           type="button"
