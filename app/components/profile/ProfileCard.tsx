@@ -1,19 +1,35 @@
+import React from "react";
+import { useNavigate } from "react-router";
+import { authClient } from "~/utils/auth-client";
+
 interface ProfileCardProps {
   name: string;
-  username: string;
+  email: string;
   profileImageUrl: string;
   viajesCount: number;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
   name,
-  username,
+  email,
   profileImageUrl,
   viajesCount,
 }) => {
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          navigate("/user/login"); // redirige tras cerrar sesión
+        },
+      },
+    });
+  }
+
   return (
-    <div className="bg-emerald-200 min-h-screen flex pt-30 justify-center md:justify-center md:items-start md:pt-8">
-      <div className="relative w-full md:w-96 md:max-w-md bg-gray-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
+    <div className="bg-cold-light-200 h-full flex pt-30 justify-center items-center md:pt-8">
+      <div className="relative w-full md:w-96 md:max-w-md bg-light-secondary-50 rounded-t-3xl md:rounded-3xl pt-20 md:pt-8 flex flex-col items-center shadow-md md:shadow-lg">
         {/* Imagen de perfil */}
         <div className="absolute -top-16 md:static md:mb-4">
           <div className="relative">
@@ -22,7 +38,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white object-cover"
               src={profileImageUrl}
             />
-            <div className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow-md">
+            <div className="absolute bottom-0 right-0 bg-light-primary rounded-full p-1 shadow-md">
               <svg
                 className="w-5 h-5 md:w-6 md:h-6 text-gray-600"
                 fill="currentColor"
@@ -43,7 +59,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         {/* Información */}
         <div className="mt-4 md:mt-0 text-center">
           <h1 className="text-lg md:text-xl font-bold text-gray-800">{name}</h1>
-          <p className="text-gray-500 text-sm md:text-base">@{username}</p>
+          <p className="text-gray-500 text-sm md:text-base">e{email}</p>
         </div>
 
         {/* Estadísticas */}
@@ -54,6 +70,16 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <p className="text-sm md:text-base font-medium text-gray-600">
             TUS VIAJES
           </p>
+        </div>
+
+        <div>
+          <button
+            className="text-center w-full p-2 m-2 bg-cold-light-400 text-black font-medium rounded-md hover:bg-cold-light-200 transition"
+            onClick={handleSignOut}
+            type="button"
+          >
+            Cerrar sessión
+          </button>
         </div>
       </div>
     </div>

@@ -112,7 +112,7 @@ const PackList: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
+    <div className="w-full bg-light-secondary-100 flex items-start justify-center py-6 md:py-2 px-2 sm:px-0 pb-25 md:pb-32">
       <div className="w-full max-w-md lg:max-w-6xl">
         <h1 className="text-2xl sm:text-3xl md:text-2xl font-bold mb-6 md:mb-4 text-center text-gray-800">
           🌍 Planificador de Equipaje
@@ -121,7 +121,7 @@ const PackList: React.FC = () => {
         <div className="lg:flex lg:gap-6 lg:items-start">
           {/* Sección de lista de equipaje */}
           <div className="lg:w-1/2 mb-6 lg:mb-0">
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
+            <div className="bg-light-primary rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
               <h2 className="text-xl font-semibold mb-4 lg:mb-3">
                 🧳 Lista de Equipaje
               </h2>
@@ -151,7 +151,7 @@ const PackList: React.FC = () => {
                 <ul className="space-y-2">
                   {packingList.map((item) => (
                     <li
-                      className="flex items-center justify-between p-2 border rounded bg-gray-100"
+                      className="flex items-center justify-between p-2 border rounded bg-light-secondary-100"
                       key={item.id}
                     >
                       <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ const PackList: React.FC = () => {
 
           {/* Sección de destino y clima */}
           <div className="lg:w-1/2">
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
+            <div className="bg-light-primary rounded-xl shadow-lg p-4 sm:p-6 md:p-6">
               <h2 className="text-xl font-semibold mb-4 lg:mb-3">
                 🌤️ Información del Clima
               </h2>

@@ -6,7 +6,7 @@ const HomeButton = () => {
   return (
     <Link to="/">
       <button
-        className="bg-emerald-400 text-white rounded-full p-4 shadow-lg -mt-8 "
+        className="bg-cold-light-400 text-white rounded-full p-4 shadow-lg -mt-8 "
         type="button"
       >
         <House className="w-6 h-6" />

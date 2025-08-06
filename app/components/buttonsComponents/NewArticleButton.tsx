@@ -49,7 +49,7 @@ export default function NewArticleButton({
 
       <div className="relative w-full max-w-md">
         <button
-          className="w-full mt-3 py-2 px-4 bg-emerald-400 hover:bg-emerald-700 text-white rounded-2xl shadow font-semibold transition"
+          className="w-full mt-3 py-2 px-4 bg-cold-light-400 hover:bg-cold-light-700 text-white rounded-2xl shadow font-semibold transition"
           onClick={() => setShowMenu((prev) => !prev)}
           type="button"
         >
@@ -57,30 +57,30 @@ export default function NewArticleButton({
         </button>
 
         {showMenu && (
-          <div className="absolute z-10 w-full bg-white p-3 mt-2 rounded-2xl shadow-lg flex flex-col md:flex-row md:overflow-hidden">
+          <div className="absolute z-10 w-full bg-light-primary p-3 mt-2 rounded-2xl shadow-lg flex flex-col md:flex-row md:overflow-hidden">
             <button
-              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-light-secondary-100 text-sm"
               onClick={() => addSection("note")}
               type="button"
             >
               <NotebookPen /> Nota
             </button>
             <button
-              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-light-secondary-100 text-sm"
               onClick={() => addSection("flight")}
               type="button"
             >
               <PlaneTakeoff /> Vuelo
             </button>
             <button
-              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-light-secondary-100 text-sm"
               onClick={() => addSection("hotel")}
               type="button"
             >
               <BedDouble /> Hotel
             </button>
             <button
-              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              className="flex gap-1 w-full text-left px-4 py-2 hover:bg-light-secondary-100 text-sm"
               onClick={() => addSection("currency")}
               type="button"
             >

@@ -1,131 +1,208 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Ellipsis, Trash2 } from "lucide-react";
 import { nanoid } from "nanoid";
 import type React from "react";
-import { useEffect, useState } from "react";
-
-const API_KEY = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
-
-type WeatherData = {
-  temp: number;
-  resume: string;
-  icon: string;
-  main: string;
-};
+import { useEffect, useRef, useState } from "react";
 
 type PackingItem = {
-  id: string;
+  id: string; // ID interno para React keys
+  item_id: string; // ID único para backend con nanoid
   text: string;
   packed: boolean;
 };
 
-const PackListCard: React.FC = () => {
-  const [destination, setDestination] = useState<string>("");
-  const [weather, setWeather] = useState<WeatherData | null>(null);
+interface PackListCardProps {
+  listId?: string;
+  title?: string;
+  onDelete?: () => void;
+}
+
+const PackListCard: React.FC<PackListCardProps> = ({
+  listId = "default",
+  title = "Lista de equipaje",
+  onDelete,
+}) => {
+  // ID único para este componente
+  const [componentId] = useState(() => nanoid());
   const [packingList, setPackingList] = useState<PackingItem[]>([]);
   const [newItem, setNewItem] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
+  const optionsRef = useRef<HTMLDivElement>(null);
 
-  // Load from localStorage with unique key
+  // Log cuando se crea un nuevo PackList
   useEffect(() => {
-    const saved = localStorage.getItem("packingList");
+    console.log("Nueva PackList creada:", {
+      component_type: "list",
+      component_id: componentId,
+    });
+  }, [componentId]);
+
+  // Load from localStorage with unique key per list
+  useEffect(() => {
+    const saved = localStorage.getItem(`packingList-${listId}`);
     if (saved) {
       setPackingList(JSON.parse(saved));
     }
-  }, []);
+  }, [listId]);
 
-  // Save to localStorage with unique key
+  // Save to localStorage with unique key per list
   useEffect(() => {
-    localStorage.setItem("packingList", JSON.stringify(packingList));
-  }, [packingList]);
+    localStorage.setItem(`packingList-${listId}`, JSON.stringify(packingList));
+  }, [packingList, listId]);
 
-  const fetchWeather = async () => {
-    if (!destination.trim()) return;
-    setLoading(true);
-    setError(null);
-    setWeather(null);
-    try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${destination.trim()}&units=metric&appid=${API_KEY}&lang=es`,
-      );
-      const data = await res.json();
-      if (data.cod === 200) {
-        const weatherInfo: WeatherData = {
-          temp: data.main.temp,
-          resume: data.weather[0].resume,
-          icon: data.weather[0].icon,
-          main: data.weather[0].main,
-        };
-        setWeather(weatherInfo);
-        suggestItems(weatherInfo.main);
-      } else {
-        setError(`Clima no disponible para "${destination}"`);
+  // Cerrar menú si se hace clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
       }
-    } catch (error) {
-      console.error("Error al obtener el clima:", error);
-      setError("Error al obtener el clima");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const suggestItems = (condition: string) => {
-    const suggestionsMap: Record<string, string[]> = {
-      Rain: ["Paraguas", "Impermeable"],
-      Snow: ["Guantes", "Botas de nieve"],
-      Clear: ["Gafas de sol", "Protector solar"],
-      Clouds: ["Chaqueta ligera"],
-      Thunderstorm: ["Ropa impermeable", "Zapatos cerrados"],
     };
-
-    const suggestions = suggestionsMap[condition] || [];
-    const existing = packingList.map((item) => item.text.toLowerCase());
-
-    const newSuggestions = suggestions
-      .filter((text) => !existing.includes(text.toLowerCase()))
-      .map((text) => ({ id: nanoid(), text, packed: false }));
-
-    setPackingList((prev) => [...prev, ...newSuggestions]);
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const addItem = () => {
     if (newItem.trim()) {
       const item: PackingItem = {
-        id: nanoid(),
+        id: nanoid(), // ID interno para React
+        item_id: nanoid(), // ID único para backend
         text: newItem.trim(),
         packed: false,
       };
       setPackingList([...packingList, item]);
       setNewItem("");
+
+      // Simulación de petición al backend
+      console.log("🆕 CREATE ITEM - Backend Request:", {
+        action: "create_item",
+        list_id: listId,
+        item_id: item.item_id,
+        text: item.text,
+        packed: item.packed,
+      });
     }
   };
 
   const togglePacked = (id: string) => {
     setPackingList((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, packed: !item.packed } : item,
-      ),
+      prev.map((item) => {
+        if (item.id === id) {
+          const updatedItem = { ...item, packed: !item.packed };
+
+          // Simulación de petición al backend
+          console.log("✅ UPDATE ITEM - Backend Request:", {
+            action: "update_item",
+            list_id: listId,
+            item_id: item.item_id,
+            packed: updatedItem.packed,
+            text: item.text,
+          });
+
+          return updatedItem;
+        }
+        return item;
+      }),
     );
   };
 
   const removeItem = (id: string) => {
+    // Encontrar el item antes de eliminarlo para obtener el item_id
+    const itemToDelete = packingList.find((item) => item.id === id);
+
+    if (itemToDelete) {
+      // Simulación de petición al backend
+      console.log("🗑️ DELETE ITEM - Backend Request:", {
+        action: "delete_item",
+        list_id: listId,
+        item_id: itemToDelete.item_id,
+        text: itemToDelete.text,
+      });
+    }
+
     setPackingList((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // Función para manejar la eliminación de la lista completa
+  const handleDeleteList = () => {
+    console.log("PackList eliminada:", {
+      component_type: "list",
+      component_id: componentId,
+    });
+    if (onDelete) {
+      onDelete();
+    }
+    setShowOptions(false);
+  };
+
   return (
-    <div className={`bg-white rounded-xl shadow-lg w-full h-fit ${isExpanded ? 'p-4 sm:p-6' : 'p-4'}`}>
-      <div className="relative">
-        <h2 className={`text-center text-gray-800 pr-12 ${isExpanded ? 'text-xl sm:text-2xl font-bold mb-4 sm:mb-6' : 'text-lg font-semibold text-gray-700 mb-1'}`}>
-          {isExpanded ? "🧳 Planificador de Equipaje" : "Equipaje"}
-        </h2>
-        
+    <div
+      className={`w-full bg-light-primary rounded-2xl shadow-lg p-4 relative flex flex-col transition-all duration-300`}
+    >
+      <div
+        className={`flex items-start justify-between cursor-pointer ${onDelete ? "pr-20" : "pr-12"} ${isExpanded ? "mb-4" : "mb-1"}`}
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex-1">
+          {isExpanded ? (
+            <>
+              <div className="text-gray-600 text-sm mb-1">{title}</div>
+              <div className="text-[1.35rem] font-semibold text-black mb-2">
+                {packingList.length > 0
+                  ? `${packingList.filter((item) => item.packed).length}/${packingList.length} Items`
+                  : "Lista vacía"}
+              </div>
+              <div className="text-gray-400 text-sm mb-4">
+                {packingList.length > 0
+                  ? "Organiza tu equipaje"
+                  : "Añade elementos a tu lista"}
+              </div>
+            </>
+          ) : (
+            <div className="text-lg font-semibold text-gray-700">{title}</div>
+          )}
+        </div>
+
+        {/* Menú de opciones con 3 puntos (solo si hay función onDelete) */}
+        {onDelete && (
+          <div className="absolute top-4 right-12" ref={optionsRef}>
+            <button
+              className="p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
+              onClick={(e) => {
+                e.stopPropagation(); // Evita expandir/colapsar la lista
+                setShowOptions((prev) => !prev);
+              }}
+              type="button"
+            >
+              <Ellipsis className="w-5 h-5 text-gray-600" />
+            </button>
+            {showOptions && (
+              <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-md z-10">
+                <button
+                  className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
+                  onClick={handleDeleteList}
+                  type="button"
+                >
+                  <Trash2 size={16} />
+                  Eliminar
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Botón de expandir/colapsar */}
         <button
-          aria-label={
-            isExpanded ? "Colapsar planificador" : "Expandir planificador"
-          }
-          className="absolute top-0 right-0 p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          onClick={() => setIsExpanded(!isExpanded)}
+          aria-label={isExpanded ? "Colapsar equipaje" : "Expandir equipaje"}
+          className="absolute top-4 right-4 p-2 hover:bg-light-secondary-100 rounded-lg transition-colors"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsExpanded(!isExpanded);
+          }}
         >
           {isExpanded ? (
             <ChevronUp className="w-5 h-5 text-gray-600" />
@@ -136,143 +213,80 @@ const PackListCard: React.FC = () => {
       </div>
 
       {isExpanded && (
-        <div className="space-y-4 sm:space-y-6">
-          {/* Sección de destino y clima */}
-          <div className="w-full">
-            <div className="bg-gradient-to-br from-blue-50 to-sky-50 rounded-lg p-4 border border-blue-100">
-              <h3 className="text-lg font-semibold mb-4 text-blue-800 flex items-center gap-2">
-                🌤️ Información del Clima
-              </h3>
-
-              {/* Buscar destino */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <input
-                  className="flex-1 px-3 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all"
-                  onChange={(e) => setDestination(e.target.value)}
-                  placeholder="Buscar destino (ej. Madrid)"
-                  type="text"
-                  value={destination}
-                />
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-200 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed min-w-[100px]"
-                  disabled={loading}
-                  onClick={fetchWeather}
-                  type="button"
-                >
-                  {loading ? "🔍" : "Buscar"}
-                </button>
-              </div>
-
-              {error && (
-                <div className="bg-red-100 border border-red-200 text-red-700 px-3 py-2 rounded-lg mb-4 text-sm">
-                  {error}
-                </div>
-              )}
-
-              {/* Mostrar información del clima */}
-              {weather ? (
-                <div className="bg-white rounded-lg p-4 text-center border border-blue-200 shadow-sm">
-                  <h4 className="text-lg font-semibold mb-3 text-gray-800">
-                    📍 {destination}
-                  </h4>
-                  <div className="flex items-center justify-center mb-3">
-                    <img
-                      alt="icono clima"
-                      className="w-16 h-16"
-                      src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-2xl font-bold text-gray-800">
-                      {Math.round(weather.temp)}°C
-                    </p>
-                    <p className="capitalize text-gray-600 text-sm">
-                      {weather.resume}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-6 text-gray-500">
-                  <p className="text-sm">🌍 Busca un destino</p>
-                  <p className="text-xs">para obtener recomendaciones de equipaje</p>
-                </div>
-              )}
-            </div>
+        <div className="space-y-2">
+          {/* Añadir ítem */}
+          <div className="flex flex-col">
+            <label className="text-xs text-gray-500 mb-1">Nuevo elemento</label>
+            <input
+              className="border border-gray-300 rounded-md p-2 text-xs w-full focus:outline-none focus:border-green-500 focus:ring-0 "
+              onChange={(e) => setNewItem(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") addItem();
+              }}
+              placeholder="Añadir ítem al equipaje..."
+              type="text"
+              value={newItem}
+            />
           </div>
 
-          {/* Sección de lista de equipaje */}
-          <div className="w-full">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 border border-green-100">
-              <h3 className="text-lg font-semibold mb-4 text-green-800 flex items-center gap-2">
-                📝 Lista de Equipaje
-              </h3>
+          {/* Botón añadir */}
+          <button
+            className="w-full bg-green-600 text-white py-2 px-4 rounded-md text-xs hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            disabled={!newItem.trim()}
+            onClick={addItem}
+            type="button"
+          >
+            Añadir elemento
+          </button>
 
-              {/* Añadir ítem */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <input
-                  className="flex-1 px-3 py-2 border border-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
-                  onChange={(e) => setNewItem(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") addItem();
-                  }}
-                  placeholder="Añadir ítem al equipaje..."
-                  type="text"
-                  value={newItem}
-                />
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-200 font-medium shadow-sm min-w-[80px]"
-                  onClick={addItem}
-                  type="button"
-                >
-                  Añadir
-                </button>
+          {/* Lista de ítems */}
+          <div>
+            {packingList.length === 0 ? (
+              <div className="text-center py-4 text-gray-500">
+                <p className="text-xs">No hay elementos en tu lista</p>
+                <p className="text-xs">¡Añade algunos para empezar!</p>
               </div>
-
-              {/* Lista de ítems */}
-              <div className="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-200">
-                {packingList.length === 0 ? (
-                  <div className="text-center py-6 text-gray-500">
-                    <p className="text-sm">No hay ítems en tu lista</p>
-                    <p className="text-xs">¡Añade algunos elementos para empezar!</p>
-                  </div>
-                ) : (
-                  <ul className="space-y-2">
-                    {packingList.map((item) => (
-                      <li
-                        className="flex items-center justify-between p-3 border border-green-100 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
-                        key={item.id}
+            ) : (
+              <div className="space-y-2">
+                {packingList.map((item) => (
+                  <div
+                    className="flex items-center justify-between p-2 border border-gray-200 rounded-md bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
+                    key={item.id}
+                    onClick={() => togglePacked(item.id)}
+                  >
+                    <div className="flex items-center gap-2 flex-1 pointer-events-none min-w-0">
+                      <input
+                        checked={item.packed}
+                        className="w-3 h-3 text-green-600 bg-white border-gray-300 rounded focus:ring-green-500 focus:ring-1 flex-shrink-0"
+                        readOnly
+                        type="checkbox"
+                      />
+                      <span
+                        className={`text-xs transition-all duration-300 truncate ${
+                          item.packed
+                            ? "line-through text-gray-500 opacity-75"
+                            : "text-gray-700"
+                        }`}
+                        title={item.text}
                       >
-                        <div className="flex items-center gap-3 flex-1">
-                          <input
-                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
-                            checked={item.packed}
-                            onChange={() => togglePacked(item.id)}
-                            type="checkbox"
-                          />
-                          <span
-                            className={`transition-all duration-200 ${
-                              item.packed 
-                                ? "line-through text-gray-500 opacity-75" 
-                                : "text-gray-700"
-                            }`}
-                          >
-                            {item.text}
-                          </span>
-                        </div>
-                        <button
-                          aria-label="Eliminar"
-                          className="text-red-400 hover:text-red-600 p-1 rounded transition-colors duration-200 hover:bg-red-50"
-                          onClick={() => removeItem(item.id)}
-                          type="button"
-                        >
-                          🗑️
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                        {item.text}
+                      </span>
+                    </div>
+                    <button
+                      aria-label="Eliminar"
+                      className="text-red-400 hover:text-red-600 p-1 rounded transition-colors text-xs pointer-events-auto"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeItem(item.id);
+                      }}
+                      type="button"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

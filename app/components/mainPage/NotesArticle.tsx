@@ -3,9 +3,26 @@ import {
   ChevronUp,
   Ellipsis,
   NotebookPen,
+  Save,
   Trash2,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { nanoid } from "nanoid";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Form } from "react-router";
+import { z } from "zod";
+import { useTravel } from "~/contexts/TravelContext";
+import { UserContext } from "~/contexts/UserContext";
+
+// Esquema de validación con Zod v4
+const notesFormSchema = z.object({
+  noteText: z
+    .string()
+    .min(1, "El texto de la nota es requerido")
+    .max(1000, "Máximo 1000 caracteres"),
+});
+
+type NotesFormData = z.infer<typeof notesFormSchema>;
+type FormErrors = Partial<Record<keyof NotesFormData, string>>;
 
 interface NotesArticleProps {
   defaultOpen?: boolean;
@@ -16,11 +33,83 @@ export default function NotesArticle({
   defaultOpen = false,
   alignment = "center",
 }: NotesArticleProps) {
+  // Contextos
+  const user = useContext(UserContext);
+  const { travelData } = useTravel();
+
   const [open, setOpen] = useState(defaultOpen);
-  const [note, setNote] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [isEditing, setIsEditing] = useState(true);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [formData, setFormData] = useState<NotesFormData>({
+    noteText: "",
+  });
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  // Función para manejar cambios en los inputs
+  const handleInputChange = (field: keyof NotesFormData, value: string) => {
+    const newFormData = { ...formData, [field]: value };
+    setFormData(newFormData);
+
+    // Validar campo individual
+    try {
+      notesFormSchema.pick({ [field]: true }).parse({ [field]: value });
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({ ...prev, [field]: error.issues[0].message }));
+      }
+    }
+  };
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const validatedData = notesFormSchema.parse(formData);
+      const submissionData = {
+        ...validatedData,
+        component_id: nanoid(),
+        component_type: "notes",
+      };
+
+      console.log("Datos del formulario de notas:", submissionData);
+      setIsEditing(false);
+      setErrors({});
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: FormErrors = {};
+        error.issues.forEach((issue) => {
+          if (issue.path[0]) {
+            newErrors[issue.path[0] as keyof NotesFormData] = issue.message;
+          }
+        });
+        setErrors(newErrors);
+      }
+    }
+  };
+
+  // Verificar si el formulario es válido
+  const isFormValid = () => {
+    try {
+      notesFormSchema.parse(formData);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  // Función para eliminar el artículo completo
+  const handleDeleteArticle = () => {
+    console.log("Artículo eliminado:", {
+      user_id: user?.id || "unknown",
+      travel_id: travelData?.destiny || "unknown",
+      component_type: "note",
+    });
+    setVisible(false);
+  };
 
   const getAlignmentClass = () => {
     switch (alignment) {
@@ -54,7 +143,7 @@ export default function NotesArticle({
 
   return (
     <article
-      className={`relative w-full ${getAlignmentClass()} mt-5 bg-white rounded-2xl shadow-md`}
+      className={`relative w-full ${getAlignmentClass()} mt-2 bg-light-primary rounded-2xl shadow-md`}
     >
       <button
         aria-controls="notes-article-content"
@@ -79,10 +168,10 @@ export default function NotesArticle({
           <Ellipsis />
         </button>
         {showOptions && (
-          <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+          <div className="absolute right-0 mt-2 w-32 bg-light-primary border rounded-lg shadow-lg z-10">
             <button
-              className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-              onClick={() => setVisible(false)}
+              className="flex items-center w-full gap-2 px-4 py-2 text-sm text-red-600 hover:bg-light-secondary-100"
+              onClick={handleDeleteArticle}
               type="button"
             >
               <Trash2 size={16} />
@@ -93,13 +182,39 @@ export default function NotesArticle({
       </div>
 
       {open && (
-        <div className="border-t px-4 py-4" id="notes-article-content">
-          <textarea
-            className="w-full h-32 p-3 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Escribe tus notas aquí..."
-            value={note}
-          />
+        <div
+          className="border-t px-4 py-4 space-y-4 text-sm text-gray-700"
+          id="notes-article-content"
+        >
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Campo de texto para notas */}
+            <div>
+              <label className="block text-sm text-gray-500 mb-2">Notas</label>
+              <textarea
+                className="w-full h-48 p-3 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                onChange={(e) => handleInputChange("noteText", e.target.value)}
+                placeholder="Escribe tus notas aquí..."
+                value={formData.noteText}
+              />
+              {errors.noteText && (
+                <span className="text-red-500 text-xs mt-1 block">
+                  {errors.noteText}
+                </span>
+              )}
+            </div>
+
+            {/* Botón de guardar */}
+            <div className="flex justify-center pt-4">
+              <button
+                className="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg text-base font-medium transition-colors w-full max-w-xs"
+                disabled={!isFormValid()}
+                type="submit"
+              >
+                <Save size={18} />
+                Guardar
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </article>

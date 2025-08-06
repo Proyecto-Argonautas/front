@@ -1,4 +1,5 @@
 import { User } from "lucide-react";
+import React from "react";
 
 interface DestinationCardProps {
   image: string;
@@ -16,14 +17,15 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
   endDate,
 }) => {
   return (
-    <div className="w-64 sm:w-56 rounded-xl overflow-hidden shadow-md bg-white">
+    <div className="mx-auto rounded-xl shadow-md bg-light-primary overflow-hidden">
       <img
+        // TODO hacer que se vea bien la imagen
         alt={title}
-        className="w-full h-32 sm:h-30 object-cover"
+        className="object-cover object-center w-full h-40"
         src={image}
       />
 
-      <div className="p-4 sm:p-3.5 text-center">
+      <div className="p-4 text-center">
         <div className="flex">
           <User className="w-5 h-5 text-gray-600" />
 
@@ -31,11 +33,11 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
             {members} {members !== 1 ? "" : ""}
           </span>
 
-          <h2 className="mx-auto text-lg sm:text-lg font-semibold text-gray-800">
+          <h2 className="mx-auto text-lg font-semibold text-gray-800">
             {title}
           </h2>
 
-          <span className="sm:text-sm">12 d</span>
+          <span>12 d</span>
         </div>
 
         <div className="mt-2 text-sm text-gray-500">
