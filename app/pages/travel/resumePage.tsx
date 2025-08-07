@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs, redirect } from "react-router";
 import SectionsRenderer from "~/components/sections/SectionsRenderer";
 import { useMenu } from "~/contexts/MenuContext";
 import { useSections } from "~/contexts/SectionsContext";
+import { useTravel } from "~/contexts/TravelContext";
 import { getTravels } from "~/services/getTravel";
 import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
@@ -39,8 +40,13 @@ export async function clientLoader({ params }: LoaderFunctionArgs) {
 }
 
 export default function ResumePage() {
+  const { travelData } = useTravel();
   const { sections } = useSections();
   const { isAddArticleMenuOpen } = useMenu();
+
+  console.log(travelData);
+
+
 
   return (
     <div className="p-4 space-y-4 relative">

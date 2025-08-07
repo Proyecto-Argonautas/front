@@ -53,7 +53,7 @@ const YourTravelNavBar = () => {
               <NavLink
                 className={`pt-6 pb-4 sm:pt-7 sm:pb-5 font-semibold text-sm sm:text-base transition-all duration-300 whitespace-nowrap flex items-center ${
                   activeTab === tab
-                    ? "text-emerald-400 border-b-2 border-emerald-400"
+                    ? "text-emerald-400 border-b-4 border-emerald-400"
                     : "text-gray-600"
                 } ${index === 0 ? "ml-2 sm:ml-0" : ""}`}
                 key={tab}

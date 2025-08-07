@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, redirect } from "react-router";
 import DestinationCard from "~/components/cards/DestinationCard";
+import { useTravel } from "~/contexts/TravelContext";
 import { UserContext } from "~/contexts/UserContext";
 import { getFilteredTravels } from "~/services/getTravel";
 import { isUserAuthenticated } from "~/services/getUser";
@@ -31,6 +32,7 @@ export default function LandingPage() {
     "https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
   const user = useContext(UserContext);
   const [actualtravel, setActualtravel] = useState<Travel | null>();
+  const { setTravelData } = useTravel();
   const [upcomingTravels, setUpcomingTravels] = useState<Travel[] | []>([]);
   const [pastTravels, setPastTravels] = useState<Travel[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -98,6 +100,7 @@ export default function LandingPage() {
               <Link
                 className="w-full min-w-2xs"
                 key={travel.id}
+                onClick={() => setTravelData(travel)}
                 style={{ cursor: "pointer" }}
                 to={`/travel/${travel.id}/resume`}
               >
@@ -124,6 +127,7 @@ export default function LandingPage() {
               <Link
                 className="w-full min-w-2xs"
                 key={travel.id}
+                onClick={() => setTravelData(travel)}
                 style={{ cursor: "pointer" }}
                 to={`/travel/${travel.id}/resume`}
               >
