@@ -39,7 +39,7 @@ function ProfilePage() {
         email={user?.email || "example@example.com"}
         name={user?.name || "Default"}
         profileImageUrl={userImage}
-        viajesCount={5}
+        // viajesCount={5}
       />
     </>
   );
