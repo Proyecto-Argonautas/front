@@ -51,7 +51,66 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading App...</p>;
+  return (
+    <div
+ style={{
+ display: "flex",
+ justifyContent: "center",
+ alignItems: "center",
+ flexDirection: "column",
+ height: "100vh",
+      }}
+    >
+ <p
+ style={{
+ marginBottom: "20px", // Adjust spacing as needed
+ }}
+ >Loading App...</p>
+ <div className="dots-loader">
+        <span className="dot" />
+        <span className="dot" />
+        <span className="dot" />
+ </div>
+ <style
+       dangerouslySetInnerHTML={{
+         __html: `
+ .dots-loader {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+          }
+
+ .dot {
+ display: inline-block;
+ width: 10px;
+ height: 10px;
+ background-color: #333; /* Or your preferred dot color */
+ border-radius: 50%;
+ margin: 0 5px;
+ animation: dot-pulse 1.5s infinite ease-in-out;
+          }
+
+ .dot:nth-child(2) {
+ animation-delay: 0.3s;
+          }
+
+ .dot:nth-child(3) {
+ animation-delay: 0.6s;
+          }
+
+ @keyframes dot-pulse {
+ 0%, 80%, 100% {
+ opacity: 0;
+            }
+ 40% {
+ opacity: 1;
+            }
+          }
+ `,
+ }}
+      />
+ </div>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
