@@ -154,7 +154,7 @@ export default function NotesArticle({
       >
         <div className="flex items-center gap-2 mr-auto">
           <NotebookPen />
-          <h2 className="flex gap-2 text-lg font-semibold min-w-10">Notes </h2>
+          <h2 className="flex gap-2 text-lg font-semibold min-w-10">Notas </h2>
           {open ? <ChevronUp /> : <ChevronDown />}
         </div>
       </button>

@@ -256,7 +256,7 @@ export default function HotelArticleTest() {
           <div className="flex items-center gap-2 mr-auto">
             <BedDouble />
             <h2 className="flex gap-2 text-lg font-semibold min-w-10">
-              Alojamiento
+              Alojamientos
             </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>

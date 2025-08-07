@@ -1,4 +1,6 @@
+import { redirect } from "react-router";
 import TravelForm from "~/components/forms/TravelForm";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -12,6 +14,14 @@ export const handle: handlePages = {
   hideHeader: true,
   buttons: ["home", "profile"],
 };
+
+
+export async function clientLoader() {
+
+  if (!(await isUserAuthenticated())) {
+    return redirect("/user/login");
+  }
+}
 
 export default function CreateTravelPage() {
   return (

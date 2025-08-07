@@ -6,8 +6,8 @@ import MenuHeader from "~/components/bars/MenuHeader";
 import YourTravelNavBar from "~/components/bars/YourTravelNavBar";
 import YourTravelCardWithBackground from "~/components/cards/YourTravelCardWithBackground";
 import LayoutTransition from "~/components/transitions/LayoutTransition";
-import { SectionsProvider } from "~/contexts/SectionsContext";
 import { MenuProvider } from "~/contexts/MenuContext";
+import { SectionsProvider } from "~/contexts/SectionsContext";
 import { TravelProvider, useTravel } from "~/contexts/TravelContext";
 import {
   type handlePages,
@@ -65,16 +65,16 @@ function MainLayoutContent() {
                 backgroundImage="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 compact={isCompactMode}
                 endDate={
-                  travelData.endDate
+                  travelData?.endDate
                     ? new Date(travelData.endDate).toLocaleDateString("es-ES", {
                         day: "2-digit",
                         month: "2-digit",
                       })
                     : "31/7"
                 }
-                participants={(travelData.companions?.length ?? 0) + 1}
+                participants={(travelData?.companions?.length ?? 0) + 1}
                 startDate={
-                  travelData.startDate
+                  travelData?.startDate
                     ? new Date(travelData.startDate).toLocaleDateString(
                         "es-ES",
                         { day: "2-digit", month: "2-digit" },
@@ -82,7 +82,7 @@ function MainLayoutContent() {
                     : "15/7"
                 }
                 title={
-                  travelData.destiny
+                  travelData?.destiny
                     ? `Viaje a ${travelData.destiny}`
                     : "Viaje a Islandia"
                 }

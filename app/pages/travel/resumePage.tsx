@@ -1,6 +1,8 @@
+import { redirect } from "react-router";
 import SectionsRenderer from "~/components/sections/SectionsRenderer";
-import { useSections } from "~/contexts/SectionsContext";
 import { useMenu } from "~/contexts/MenuContext";
+import { useSections } from "~/contexts/SectionsContext";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -14,9 +16,18 @@ export const handle: handlePages = {
   buttons: ["home", "addArticle", "profile"],
 };
 
+
+export async function clientLoader() {
+  if (!(await isUserAuthenticated())) {
+    return redirect("/user/login");
+  }
+}
+
 export default function ResumePage() {
   const { sections } = useSections();
   const { isAddArticleMenuOpen } = useMenu();
+
+
 
   return (
     <div className="p-4 space-y-4 relative">

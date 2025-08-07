@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { nanoid } from "nanoid";
+import { useState } from "react";
 
 interface Expense {
   id: number;
@@ -19,12 +19,9 @@ export const useBudget = () => {
   const [amount, setAmount] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
   const [groupMembers] = useState<string[]>([
-    "Albert",
-    "María",
-    "Carlos",
-    "Ana",
-    "Luis",
-    "Sofía",
+    "Andrea",
+    "Alex",
+    
   ]);
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 

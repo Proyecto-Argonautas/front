@@ -9,7 +9,9 @@ import {
 } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { redirect } from "react-router";
 import { useTravel } from "~/contexts/TravelContext";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -17,6 +19,14 @@ export function meta() {
     { title: "Travels - nombre viaje" },
     { name: "resume", content: "Nombre viaje" },
   ];
+}
+
+
+export async function clientLoader() {
+
+  if (!(await isUserAuthenticated())) {
+    return redirect("/user/login");
+  }
 }
 
 export const handle: handlePages = {
@@ -48,12 +58,12 @@ export default function ItineraryPage() {
 
   // Función para generar los días del viaje
   const generateTravelDays = () => {
-    if (!travelData.startDate || !travelData.endDate) {
+    if (!travelData?.startDate || !travelData?.endDate) {
       return [];
     }
 
-    const startDate = new Date(travelData.startDate);
-    const endDate = new Date(travelData.endDate);
+    const startDate = new Date(travelData?.startDate);
+    const endDate = new Date(travelData?.endDate);
     const days = [];
 
     const currentDate = new Date(startDate);
@@ -284,7 +294,7 @@ export default function ItineraryPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Itinerario - {travelData.destiny || "Tu destino"} 📍
+            Itinerario - {travelData?.destiny || "Tu destino"} 📍
           </h1>
           <p className="text-gray-600">{travelDays.length} días de viaje</p>
         </div>

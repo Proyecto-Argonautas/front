@@ -1,7 +1,9 @@
 import { Plus } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { redirect } from "react-router";
 import PackListCard from "~/components/cards/PackListCard";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -9,6 +11,14 @@ export function meta() {
     { title: "Travels - Equipaje" },
     { name: "equipaje", content: "Lista de equipaje" },
   ];
+}
+
+
+export async function clientLoader() {
+
+  if (!(await isUserAuthenticated())) {
+    return redirect("/user/login");
+  }
 }
 
 export const handle: handlePages = {

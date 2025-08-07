@@ -9,8 +9,8 @@ import {
   Plus,
 } from "lucide-react";
 import { useContext, useState } from "react";
-import { useSections } from "~/contexts/SectionsContext";
 import { useMenu } from "~/contexts/MenuContext";
+import { useSections } from "~/contexts/SectionsContext";
 import { useTravel } from "~/contexts/TravelContext";
 import { UserContext } from "~/contexts/UserContext";
 
@@ -31,7 +31,7 @@ const AddArticleButton = () => {
   ) => {
     console.log("Nuevo artículo creado:", {
       component_type: type,
-      travel_id: travelData.destiny || "No travel ID",
+      travel_id: travelData?.destiny || "No travel ID",
       user_id: user?.id || "No user ID",
     });
 
@@ -63,21 +63,21 @@ const AddArticleButton = () => {
             onClick={() => handleAddSection("flight")}
             type="button"
           >
-            <PlaneTakeoff className="w-4 h-4" /> Vuelo
+            <PlaneTakeoff className="w-4 h-4" /> Vuelos
           </button>
           <button
             className="flex items-center gap-2 w-full justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("hotel")}
             type="button"
           >
-            <BedDouble className="w-4 h-4" /> Alojamiento
+            <BedDouble className="w-4 h-4" /> Alojamientos
           </button>
           <button
             className="flex items-center gap-2 w-full justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
             onClick={() => handleAddSection("currency")}
             type="button"
           >
-            <DollarSign className="w-4 h-4" /> Moneda
+            <DollarSign className="w-4 h-4" /> Divisa
           </button>
           <button
             className="flex items-center gap-2 w-full justify-start px-4 py-2 hover:bg-light-secondary-100 text-sm whitespace-nowrap rounded-lg"
