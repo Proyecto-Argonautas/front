@@ -1,7 +1,6 @@
-import { type LoaderFunctionArgs, redirect } from "react-router";
+import { redirect } from "react-router";
 import TravelForm from "~/components/forms/TravelForm";
-import { getTravels } from "~/services/getTravel";
-import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -17,21 +16,10 @@ export const handle: handlePages = {
 };
 
 
-export async function clientLoader({ params }: LoaderFunctionArgs) {
-  const travelId = params.travelId;
+export async function clientLoader() {
 
   if (!(await isUserAuthenticated())) {
     return redirect("/user/login");
-  }
-
-  const user = await getUserAsync(); // Fetch the user
-  const userId = user?.id; // Get the user ID
-  const travels = await getTravels(userId); // Fetch travels using the user ID\
-
-  const travelExists = travels?.some((travel) => travel.id === travelId);
-
-  if (!travelExists) {
-    return redirect("/"); // Redirect to root if no travels exist
   }
 }
 

@@ -9,10 +9,9 @@ import {
 } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
-import { type LoaderFunctionArgs, redirect } from "react-router";
+import { redirect } from "react-router";
 import { useTravel } from "~/contexts/TravelContext";
-import { getTravels } from "~/services/getTravel";
-import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
+import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -23,23 +22,10 @@ export function meta() {
 }
 
 
-export async function clientLoader({ params }: LoaderFunctionArgs) {
-  const travelId = params.travelId;
+export async function clientLoader() {
 
   if (!(await isUserAuthenticated())) {
     return redirect("/user/login");
-  }
-
-  const user = await getUserAsync(); // Fetch the user
-  const userId = user?.id; // Get the user ID
-  const travels = await getTravels(userId); // Fetch travels using the user ID\
-
-  const travelExists = travels?.some(
-    (travel) => travel.id === travelId,
-  );
-
-  if (!travelExists) {
-    return redirect("/"); // Redirect to root if no travels exist
   }
 }
 
@@ -72,12 +58,12 @@ export default function ItineraryPage() {
 
   // Función para generar los días del viaje
   const generateTravelDays = () => {
-    if (!travelData.startDate || !travelData.endDate) {
+    if (!travelData?.startDate || !travelData?.endDate) {
       return [];
     }
 
-    const startDate = new Date(travelData.startDate);
-    const endDate = new Date(travelData.endDate);
+    const startDate = new Date(travelData?.startDate);
+    const endDate = new Date(travelData?.endDate);
     const days = [];
 
     const currentDate = new Date(startDate);
@@ -308,7 +294,7 @@ export default function ItineraryPage() {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            Itinerario - {travelData.destiny || "Tu destino"} 📍
+            Itinerario - {travelData?.destiny || "Tu destino"} 📍
           </h1>
           <p className="text-gray-600">{travelDays.length} días de viaje</p>
         </div>

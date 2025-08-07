@@ -9,12 +9,12 @@ import type { TravelFormData } from "~/components/forms/TravelForm";
 import type { Travel } from "~/types/travel";
 
 type TravelContextType = {
-  travelData: Travel | Partial<TravelFormData> | undefined;
+  travelData: Partial<Travel>| undefined;
   setTravelData: Dispatch<
-    SetStateAction<Travel | Partial<TravelFormData> | undefined>
+    SetStateAction<Partial<Travel>| undefined>
   >;
   updateTravelData: (
-    updates: Partial<TravelFormData> | Partial<Travel>,
+    updates: Partial<Travel>,
   ) => void;
 };
 
@@ -24,17 +24,18 @@ export const TravelProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [travelData, setTravelData] = useState<
-    Travel | Partial<TravelFormData> | undefined
+    Partial<Travel>| undefined
   >({
+    id: "1",
     destiny: "Islandia",
     startDate: "2025-08-05",
     endDate: "2025-08-22",
     companions: ["Maria", "Juan"],
   });
 
-  const updateTravelData = (updates: Partial<TravelFormData>) => {
+  const updateTravelData = (updates: Partial<Travel>) => {
     setTravelData((prev) => {
-      // This assumes prev is Partial<TravelFormData> or Travel.
+      // This assumes prev is Partial<Travel> or Travel.
       // You might need more robust merging logic if combining different structures.
       return { ...(prev as any), ...updates };
     });
