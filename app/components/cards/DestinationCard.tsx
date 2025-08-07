@@ -2,6 +2,11 @@ import { User } from "lucide-react";
 import React from "react";
 
 interface DestinationCardProps {
+  image: string;
+  title: string;
+  members: number;
+  startDate: string;
+  endDate: string;
 }
 
 function formatDate(dateString: string) {
@@ -11,12 +16,13 @@ function formatDate(dateString: string) {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
-interface DestinationCardProps {
-  image: string;
-  title: string;
-  members: number;
-  startDate: string;
-  endDate: string;
+
+function calculateDays(startDate: string, endDate: string): number {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const diffTime = Math.abs(end.getTime() - start.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 para incluir ambos días
+  return diffDays;
 }
 
 const DestinationCard: React.FC<DestinationCardProps> = ({
@@ -26,6 +32,9 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
   startDate,
   endDate,
 }) => {
+  // Acceso al contexto disponible para componentes hijos si es necesario
+  const days = calculateDays(startDate, endDate);
+
   return (
     <div className="mx-auto rounded-xl shadow-md bg-light-primary overflow-hidden">
       <img
@@ -47,7 +56,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({
             {title}
           </h2>
 
-          <span>12 d</span>
+          <span>{days} d</span>
         </div>
 
         <div className="mt-2 text-sm text-gray-500">

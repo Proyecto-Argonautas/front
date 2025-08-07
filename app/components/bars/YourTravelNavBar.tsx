@@ -23,10 +23,7 @@ const YourTravelNavBar = () => {
 
   // Determinar qué tab está activo basado en la URL
   const getActiveTabFromLocation = () => {
-    if (
-      location.pathname.includes("/resume") ||
-      location.pathname.match(/\/travel\/\d+\/?$/)
-    ) {
+    if (isResumeMode) {
       return "Resumen";
     } else if (location.pathname.includes("/itinerary")) {
       return "Itinerario";
@@ -45,21 +42,12 @@ const YourTravelNavBar = () => {
 
   return (
     <>
-      <style>{`
-				.hide-scrollbar {
-					-ms-overflow-style: none;  /* Internet Explorer 10+ */
-					scrollbar-width: none;  /* Firefox */
-				}
-				.hide-scrollbar::-webkit-scrollbar {
-					display: none;  /* Safari and Chrome */
-				}
-			`}</style>
       <div
         className={`bg-light-primary shadow-sm -mt-3 -mb-2 ${
           isResumeMode ? "rounded-xl" : "rounded-t-xl"
         }`}
       >
-        <div className="overflow-x-auto px-2 sm:px-4 hide-scrollbar">
+        <div className="overflow-x-auto px-2 sm:px-4 scrollbar-hide">
           <div className="flex space-x-5 min-w-max items-center sm:min-w-0 sm:justify-center sm:space-x-24">
             {tabs.map((tab, index) => (
               <NavLink

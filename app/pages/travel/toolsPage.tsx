@@ -1,7 +1,10 @@
 import { Plus } from "lucide-react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { type LoaderFunctionArgs, redirect } from "react-router";
 import PackListCard from "~/components/cards/PackListCard";
+import { getTravels } from "~/services/getTravel";
+import { getUserAsync, isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
 
 export function meta() {
@@ -9,6 +12,27 @@ export function meta() {
     { title: "Travels - Equipaje" },
     { name: "equipaje", content: "Lista de equipaje" },
   ];
+}
+
+
+export async function clientLoader({ params }: LoaderFunctionArgs) {
+  const travelId = params.travelId;
+
+  if (!(await isUserAuthenticated())) {
+    return redirect("/user/login");
+  }
+
+  const user = await getUserAsync(); // Fetch the user
+  const userId = user?.id; // Get the user ID
+  const travels = await getTravels(userId); // Fetch travels using the user ID\
+
+  const travelExists = travels?.some(
+    (travel) => travel.id === travelId,
+  );
+
+  if (!travelExists) {
+    return redirect("/"); // Redirect to root if no travels exist
+  }
 }
 
 export const handle: handlePages = {

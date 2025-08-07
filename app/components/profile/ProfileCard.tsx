@@ -35,7 +35,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     await authClient.deleteUser({
       fetchOptions: {
         onSuccess: () => {
-          toast.success("Viaje creado correctamente");
+          toast.success("Cuenta eliminada correctamente");
           navigate("/user/login"); // redirige tras eliminar la cuenta de usuario
         },
       },
@@ -43,7 +43,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   }
 
   return (
-    <div className="bg-cold-light-200 h-full flex flex-col pt-30 items-center md:pt-8">
+    <div className="bg-cold-light-200 h-full flex flex-col items-center">
       <div>
         <img
           alt="logo WonderPocket"
