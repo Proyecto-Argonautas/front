@@ -177,7 +177,6 @@ function LandingPageContent() {
             <p className="text-gray-500">No tienes viajes anteriores.</p>
           )}
         </div>
-        *
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
 } from "react-router";
 import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import type { Route } from "./+types/root";
 import "./app.css";
