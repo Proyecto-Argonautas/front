@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, redirect } from "react-router";
 import DestinationCard from "~/components/cards/DestinationCard";
-import { useTravels } from "~/contexts/TravelsContext";
-import { TravelsProvider } from "~/contexts/TravelsProvider";
 import { UserContext } from "~/contexts/UserContext";
-import { getTravels } from "~/services/getTravel";
+import { getFilteredTravels } from "~/services/getTravel";
 import { isUserAuthenticated } from "~/services/getUser";
 import type { handlePages } from "~/types/navigationButtons";
-import type { Travel } from "~/types/travel";
+import type { AllTravelsFilered, Travel } from "~/types/travel";
 
 export function meta() {
   return [{ title: "Travels" }, { name: "resume", content: "Travels" }];
@@ -29,57 +27,22 @@ export async function clientLoader() {
 }
 
 export default function LandingPage() {
-  return (
-    <TravelsProvider>
-      <LandingPageContent />
-    </TravelsProvider>
-  );
-}
-
-function LandingPageContent() {
   const travelImage =
     "https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
   const user = useContext(UserContext);
-  const { travels, setTravels, isLoading, setIsLoading } = useTravels();
-  const [upcomingTravels, setUpcomingTravels] = useState<Travel[]>([]);
-  const [pastTravels, setPastTravels] = useState<Travel[]>([]);
-
-  // Función para clasificar viajes por fecha
-  const classifyTravels = (allTravels: Travel[]) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const upcoming: Travel[] = [];
-    const past: Travel[] = [];
-
-    allTravels.forEach((travel) => {
-      const startDate = new Date(travel.startDate);
-      startDate.setHours(0, 0, 0, 0);
-
-      if (startDate >= today) {
-        upcoming.push(travel);
-      } else {
-        past.push(travel);
-      }
-    });
-
-    // Ordenar upcoming por fecha ascendente (más próximos primero)
-    upcoming.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    
-    // Ordenar past por fecha descendente (más recientes primero)
-    past.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-
-    setUpcomingTravels(upcoming);
-    setPastTravels(past);
-  };
+  const [actualtravel, setActualtravel] = useState<Travel | null>();
+  const [upcomingTravels, setUpcomingTravels] = useState<Travel[] | []>([]);
+  const [pastTravels, setPastTravels] = useState<Travel[] | []>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (user?.id) {
       setIsLoading(true);
-      getTravels(user.id)
-        .then((allTravels: Travel[]) => {
-          setTravels(allTravels);
-          classifyTravels(allTravels);
+      getFilteredTravels(user.id)
+        .then((allTravels: AllTravelsFilered) => {
+          setActualtravel(allTravels.latest_edited);
+          setUpcomingTravels(allTravels.nexts_travels);
+          setPastTravels(allTravels.previus_travels);
         })
         .catch((err) => console.error("Error fetching travels:", err))
         .finally(() => setIsLoading(false));
