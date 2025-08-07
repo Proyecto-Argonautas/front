@@ -7,14 +7,14 @@ interface ProfileCardProps {
   name: string;
   email: string;
   profileImageUrl: string;
-  viajesCount: number;
+  // viajesCount: number;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
   name,
   email,
   profileImageUrl,
-  viajesCount,
+  // viajesCount,
 }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -85,14 +85,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         </div>
 
         {/* Estadísticas */}
-        <div className="mt-4 md:mt-6 mb-0 md:mb-6 text-center">
-          <p className="text-xl md:text-2xl font-bold text-gray-800">
+        {/* <div className="mt-4 md:mt-6 mb-0 md:mb-6 text-center"> */}
+          {/* <p className="text-xl md:text-2xl font-bold text-gray-800">
             {viajesCount}
-          </p>
-          <p className="text-sm md:text-base font-medium text-gray-600">
+          </p> */}
+          {/* <p className="text-sm md:text-base font-medium text-gray-600">
             TUS VIAJES
-          </p>
-        </div>
+          </p> */}
+        {/* </div> */}
 
         <div className="flex items-center">
           <button
