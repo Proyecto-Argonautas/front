@@ -278,7 +278,7 @@ export default function CurrencyArticle() {
         >
           <DollarSign />
           <h2 className="flex gap-2 text-lg font-semibold min-w-10">
-            Currency
+            Divisas
           </h2>
           {open ? <ChevronUp /> : <ChevronDown />}
         </button>

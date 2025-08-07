@@ -239,7 +239,7 @@ export default function FlightArticle() {
           <div className="flex items-center gap-2 mr-auto">
             <PlaneTakeoff />
             <h2 className="flex gap-2 text-lg font-semibold min-w-10">
-              Flights
+              Vuelos
             </h2>
             {open ? <ChevronUp /> : <ChevronDown />}
           </div>
